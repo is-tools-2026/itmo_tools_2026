@@ -13,7 +13,7 @@
 
 ### **Дано:**
 
-Библиотека, написанная на Python: [https://github.com/E5capada/itmo\_tools\_2026.git](https://github.com/E5capada/itmo_tools_2026.git)
+Библиотека, написанная на Python: [https://github.com/is-tools-2026/itmo_tools_2026.git](https://github.com/is-tools-2026/itmo_tools_2026.git)
 
 # Подготовка:
 
@@ -40,7 +40,7 @@
 
 1. Клонирование репозитория
 
-* Выполните команду git clone:  [https://github.com/E5capada/itmo\_tools\_2026.git](https://github.com/E5capada/itmo_tools_2026.git)  
+* Выполните команду git clone:  [https://github.com/is-tools-2026/itmo_tools_2026.git](https://github.com/is-tools-2026/itmo_tools_2026.git)  
 2. Создание ветки  
 * Создать новую ветку с названием **main\_features\_\<ваш ID ISU\>**  
 * Переключитесь на нее.  
@@ -196,7 +196,7 @@ def main():
 
 # Полезные ссылки
 
-- Репозиторий [https://github.com/E5capada/itmo\_tools\_2026.git](https://github.com/E5capada/itmo_tools_2026.git)  
+- Репозиторий [https://github.com/is-tools-2026/itmo_tools_2026.git](https://github.com/is-tools-2026/itmo_tools_2026.git)  
 - https://git-scm.com/ \- git tool  
 - [https://git-scm.com/book/ru/v2](https://git-scm.com/book/ru/v2) или [https://drive.google.com/file/d/1CM5ostn3uYdLcPvTgCdC9jLs9OkkgERb/view?usp=sharing](https://drive.google.com/file/d/1CM5ostn3uYdLcPvTgCdC9jLs9OkkgERb/view?usp=sharing) \- книга  
 - https://initialcommit.com/cluster/git-commands-git-cheat-sheets \- команды  
