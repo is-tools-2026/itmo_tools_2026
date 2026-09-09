@@ -3,8 +3,5 @@ def main():
 
 
 
-
-
-
     
     print("this branch name:" + branch_name)
