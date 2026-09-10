@@ -3,8 +3,8 @@ def area(a):
     return a * a
 
 
-def perimeter(a):
-    return 4 * a
+def perimeter(a):  
+    return 3 * a #правильное 4 * a
 
 
 def main():
