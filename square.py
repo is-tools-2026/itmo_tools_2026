@@ -1,6 +1,6 @@
 
 def area(a):
-    return a ** a # тут ошибка
+    return a * a
 
 
 def perimeter(a):
