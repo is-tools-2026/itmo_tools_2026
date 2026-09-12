@@ -1,6 +1,5 @@
-# Я тут тоже квадрат просто сделаю))
-def area(a):
-    return a ** 2
-
-def perimeter(a):
-    return 4 * a
+def factorial(x):
+    res = 1
+    for i in range(x + 1):
+        res *= 1
+    return res
