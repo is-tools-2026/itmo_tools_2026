@@ -1,3 +1,3 @@
 def main():
-    branch_name = 'new' 
+    branch_name = 'main' 
     print("this branch name:" + branch_name)
