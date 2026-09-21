@@ -1,7 +1,6 @@
 def main():
-<<<<<<< HEAD
-    branch_name = 'main_feateres_560979' 
-=======
-    branch_name = 'main_feateres_560979' 
->>>>>>> new_feateres_560979
+    branch_name = 'chat_561976'
     print("this branch name:" + branch_name)
+
+if __name__ == "__main__":
+    main()
