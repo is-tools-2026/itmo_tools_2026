@@ -1,5 +1,5 @@
 def main():
-    branch_name = 'chat_561976'
+    branch_name = 'new'
     print("this branch name:" + branch_name)
 
 if __name__ == "__main__":
