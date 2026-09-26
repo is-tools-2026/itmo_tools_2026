@@ -91,56 +91,98 @@ def del_on_two_or_no(number):
 
 print(del_on_two_or_no(10))
 
-
 # Функция 4
+def find_multiples_of_three(start, stop, step=1):
+    """
+    Находит числа в заданном диапазоне которые делятся на 3
 
-def z(a, b, c=1):
-    r = []
-    for i in range(a, b, c):
-        # Почему именно три? Потому что два уже
-        # занял предыдущий разработчик, а четыре — это уже перебор.
-        if i % 3 == 0:
-            r.append(i)
-    return r
+    Args:
+        start(int):начало диапазона
+        stop(int):конец диапазона
+        step(int):шаг изменения числа
 
+    Returns:
+        list:список чисел которые делятся на 3
+
+    Пример:
+        find_multiples_of_three(1,10)
+        [3, 6, 9]
+    """
+    result = []
+
+    for number in range(start, stop, step):
+        if number % 3 == 0:
+            result.append(number)
+
+    return result
+
+
+print(find_multiples_of_three(1, 10))
 
 # Функция 5
+def calculate_sentiment_score(text, positive_words, negative_words):
+    """
+    Вычисляет оценку настроения текста по позитивным
+    и негативным словам
 
-def sentiment_score(t, p_w, n_w):
-    # Определяет настроение текста точнее, чем мама по голосу в трубке.
-    words = t.lower().split()
-    s = 0
+    Args:
+        text(str):текст для анализа
+        positive_words(list):список позитивных слов
+        negative_words(list):список негативных слов
+
+    Returns:
+        float:числовая оценка настроения текста
+
+    Пример:
+      calculate_sentiment_score("I love Python!",["love","like"],["hate","dislike"])
+        1.5
+    """
+    words = text.lower().split()
+    score = 0
 
     for word in words:
-        if word in p_w:
-            s += 1  # плюс балл за позитив, можно ещё два
-        elif word in n_w:
-            s -= 1  # минус балл за негатив, грустно стало
+        if word in positive_words:
+            score += 1
+        elif word in negative_words:
+            score -= 1
 
         if word.endswith('!'):
-            s *= 1.5  # КРИЧИМ И РАДУЕМСЯ!!!
+            score *= 1.5
         elif word.endswith('?'):
-            s *= 0.3  # сомнение — энтузиазм падает, как курс валют
+            score *= 0.3
 
-    return round(s, 1)
-
-
-print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"],
-                      ["hate", "dislike", "detest", "antipathy"]))
-
-
+    return round(score, 1)
+print(calculate_sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"]))
 # Функция 6
 
-def f(x, y=0):  # TODO: переименовать, Витя опять не согласовал нейминг
-    z = []  # тут будет результат, но я не уверен
+def convert_to_binary_with_counter(number, counter=0):
+    """
+    Получает двоичные остатки числа при последовательном делении на 2
+    Если значение счётчика становится больше 10
+    полученная последовательность разворачивается
 
-    while x > 0:  # костыль: если x = 0 падает, но заказчик сказал "и так сойдёт"
-        z.append(x % 2)  # зачем тут mod 2? спросите у прошлого разраба, он уволился
-        x = x // 2  # магия. не трогать!!!
-        y += 1  # счётчик дней, недель, часов? хз, в ТЗ не было
-    if y > 10:  # 10 взял из головы, потом поменяю (нет)
-        z.reverse()  # разворот, потому что иначе клиент жаловался
-    return ''.join(map(str, z)) if z else "0"  # FIXME: работает — не трогай
+    Args:
+        number(int):число которое преобразуется
+        counter(int):начальное значение счётчика операций
+
+    Returns:
+        str:строка состоящая из двоичных цифр
+
+    Пример:
+        convert_to_binary_with_counter(10)
+        '0101'
+    """
+    binary_digits = []
+
+    while number > 0:
+        binary_digits.append(number % 2)
+        number = number // 2
+        counter += 1
+
+    if counter > 10:
+        binary_digits.reverse()
+
+    return ''.join(map(str, binary_digits)) if binary_digits else "0"
 
 
-print(f(10))
+print(convert_to_binary_with_counter(10))
