@@ -23,10 +23,24 @@ print(make_tea(200, 2))
 # Функция 1
 
 def buy_products(money, price_per_item, items_count):
-    # Выдаёт сдачу. Налоги не включены: их никто не любит, даже эта функция.
+    """
+    Считает остаток денег после покупки товаров.
+        Args:
+            money (int): сумма денег у покупателя
+            price_per_item (int): цена одного товара
+            items_count (int): количество товаров
+
+         Returns:
+            int: остаток денег, если хватило
+            str: сообщение "Недостаточно денег", если суммы не хватает
+        Пример:
+        >>> buy_products(100, 10, 5)
+        50
+        """
     total = price_per_item * items_count
     if total > money:
-        # "Денег нет, но вы держитесь" — философская позиция функции.
+        total = price_per_item * items_count
+    if total > money:
         return "Недостаточно денег"
     return money - total
 
