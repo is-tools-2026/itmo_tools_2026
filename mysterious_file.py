@@ -23,10 +23,25 @@ print(make_tea(200, 2))
 # Функция 1
 
 def buy_products(money, price_per_item, items_count):
-    # Выдаёт сдачу. Налоги не включены: их никто не любит, даже эта функция.
+    """
+    Считает итоговую сумму за покупку товаров и остаток после покупки
+
+    Args:
+        money(int): кол-во имеющихся денег денег
+        price_per_item(int): цена за единицу товара
+        items_count(int): кол-во товаров
+
+    Returns:
+        str: если не хватает денег на покупку "Недостаточно денег"
+        int: если денег хватает, считает сколько останется после покупки
+
+    Пример:
+        buy_products(100, 10, 5) #50
+
+    """
     total = price_per_item * items_count
+
     if total > money:
-        # "Денег нет, но вы держитесь" — философская позиция функции.
         return "Недостаточно денег"
     return money - total
 
@@ -34,62 +49,131 @@ print(buy_products(100, 10, 5))
 
 # Функция 2
 
-def check(d):
-    # Надо подать прошение на включение Пятницы. 
-    return d.lower() in ["сб", "вс", "суббота", "воскресенье"]
+def check(day): 
+    """
+    Проверяет находится ли переданное в прогармму слово(аббривеатура слова) в списке
 
-print(check("Суббота"))
+     Args:
+        day(str): слово или аббривеатура дня недели
+
+    Returns: 
+        bool: значение,которое отвечает на вопрос:принадлежит ли слово списку?
+
+    Пример: 
+        print(check("понедельник")) #False
+        print(check("воскресенье")) #True
+
+    """
+    return day.lower() in ["сб", "вс", "суббота", "воскресенье"]
+
+print(check("понедельник"))
 
 # Функция 3
 
-def h(x):
-    return x % 2 == 0
+def check_even(num):
+    """
+    Проверяет,является ли число чётным
+
+    Args:
+        num(int): число, которое необходимо проверить
+
+    Returns:
+        bool: значение,которое отвечает на вопрос:является ли число четным?
+
+    Пример:
+        print(check_even(4))  #True
+        print(check_even(7))  #False
+
+    """
+    return num % 2 == 0
 
 # Функция 4
 
-def z(a, b, c=1):
-    r = []
-    for i in range(a, b, c):
-        # Почему именно три? Потому что два уже
-        # занял предыдущий разработчик, а четыре — это уже перебор.
+def div3_in_range(start, end, step=1):
+    """
+    Возвращает числа,которые делятся на 3 без остатка, в заданном диапазоне
+
+    Args:
+        start(int): начало диапазона
+        end(int): конец диапазона(не включается)
+        step(int): шаг с которым идем по диапазону(установлен по умолчанию)
+
+    Returns:
+        list: список чисел кратных 3
+    
+    Пример:
+        print(div3_in_range(2,15)) #[3, 6, 9, 12]
+
+    """
+    lst3 = []
+    for i in range(start, end, step):
         if i % 3 == 0:
-            r.append(i)
-    return r
+            lst3.append(i)
+    return lst3
 
 # Функция 5
 
-def sentiment_score(t, p_w, n_w):
-    # Определяет настроение текста точнее, чем мама по голосу в трубке.
-    words = t.lower().split()
-    s = 0
+def emotional_scale(text, positive, negative):
+    """
+    Вычисляет эмоциональную оценку текста на основе положительных и отрицательных слов
+    
+    Args: 
+        text(str): текст тональность которого необходимо определить
+        positive(list): список положительных слов
+        negative(list): список отрицательных слов
+
+    Returns:
+        float: оценка эмоциональности текста,округлённая до десятых
+
+    Пример:
+        print(sentiment_score( "I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"] )) #1.5
+        
+    """
+    words = text.lower().split()
+    scale = 0
     
     for word in words:
-        if word in p_w:
-            s += 1  # плюс балл за позитив, можно ещё два
-        elif word in n_w:
-            s -= 1  # минус балл за негатив, грустно стало
+        if word in positive:
+            scale += 1  
+        elif word in negative:
+            scale -= 1  
         
         if word.endswith('!'):
-            s *= 1.5  # КРИЧИМ И РАДУЕМСЯ!!!
+            scale *= 1.5  
         elif word.endswith('?'):
-            s *= 0.3  # сомнение — энтузиазм падает, как курс валют
+            scale *= 0.3  
     
-    return round(s, 1)
+    return round(scale, 1)
 
 
-print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"]))
+print(emotional_scale("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"]))
 
 # Функция 6
 
-def f(x, y=0):  # TODO: переименовать, Витя опять не согласовал нейминг
-    z = []  # тут будет результат, но я не уверен
-    
-    while x > 0:  # костыль: если x = 0 падает, но заказчик сказал "и так сойдёт"
-        z.append(x % 2)  # зачем тут mod 2? спросите у прошлого разраба, он уволился
-        x = x // 2  # магия. не трогать!!!
-        y += 1  # счётчик дней, недель, часов? хз, в ТЗ не было
-    if y > 10:  # 10 взял из головы, потом поменяю (нет)
-        z.reverse()  # разворот, потому что иначе клиент жаловался
-    return ''.join(map(str, z)) if z else "0"  # FIXME: работает — не трогай
+def translation_into_binary(num, count=0):
+    """ 
+    Переводит число в двоичную систему счисления
+    Если количество итераций больше 10, для корректного результата переворачивает полученный список цифр
 
-print(f(10))
+    Args: 
+        num (int): число которое необходимо перевести
+        count (int): счётчик количества итераций(установлен по умолчанию)
+        
+    Returns: 
+        str: строка с числом в двоичной системе
+        
+    Пример: 
+        print(f(10)) #0101
+
+    """
+    binary = []  
+    
+    while num > 0:
+        binary.append(num % 2) 
+        num = num // 2
+        count += 1  
+    if count > 10:
+        binary.reverse() 
+    return ''.join(map(str, binary)) if binary else "0"
+
+print(translation_into_binary(10))
