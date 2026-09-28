@@ -39,8 +39,6 @@ def buy_products(money, price_per_item, items_count):
         """
     total = price_per_item * items_count
     if total > money:
-        total = price_per_item * items_count
-    if total > money:
         return "Недостаточно денег"
     return money - total
 
