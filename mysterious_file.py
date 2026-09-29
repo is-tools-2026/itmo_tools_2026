@@ -15,46 +15,88 @@ def make_tea(water_ml, sugar_spoons):
         >>> make_tea(200, 2)
         'Чай: 200 мл воды, 2 ложки сахара'
     """
-    # Рецепт одобрен диетологами, которых никто не спрашивал.
     return f"Чай: {water_ml} мл воды, {sugar_spoons} ложки сахара"
 
 print(make_tea(200, 2))
 
 # Функция 1
 
-def buy_products(money, price_per_item, items_count):
-    # Выдаёт сдачу. Налоги не включены: их никто не любит, даже эта функция.
-    total = price_per_item * items_count
-    if total > money:
-        # "Денег нет, но вы держитесь" — философская позиция функции.
-        return "Недостаточно денег"
-    return money - total
+def give_change(payment, price_per_item, items_count):
+    """
+    считает и выдает сдачу к покупке.
+    args:
+        payment (int) - сумма к оплате 
+        price_per_item(int) - цена за один товар 
+        items_count(int) - кол-во товаров
+    returns:
+        str: "недостаточно средств" 
+        int: сумма сдачи 
+    example:
+        give_change100,10,5)
 
-print(buy_products(100, 10, 5))
+    """
+    price_total = price_per_item * items_count
+    if price_total > payment:
+        
+        return "Недостаточно средств"
+    return payment - price_total
+print(give_change(100, 10, 5))
+
+
+
 
 # Функция 2
 
-def check(d):
-    # Надо подать прошение на включение Пятницы. 
+def check_is_day_weekend(d):
+    """
+    функция проверяет, является ли день выходным
+    args:
+        d (str) - день недели 
+    return:
+        bool: true/false 
+    example :
+        check_is_day_weekend("пятница")
+    """
+    
     return d.lower() in ["сб", "вс", "суббота", "воскресенье"]
 
-print(check("Суббота"))
+print(check_is_day_weekend("Суббота"))
 
 # Функция 3
 
-def h(x):
+def chetnost(x):
+    """
+    функция проверяет число на четность
+    args: 
+        x (int) - входное число
+    returns:
+        bool - true/false 
+    example:
+        chetnost(4)
+
+    """
     return x % 2 == 0
 
 # Функция 4
 
-def z(a, b, c=1):
-    r = []
-    for i in range(a, b, c):
-        # Почему именно три? Потому что два уже
-        # занял предыдущий разработчик, а четыре — это уже перебор.
+def tolko_kratnye_3(a, b, c=1):
+   """
+   функция проееряет какие числа в диапозоне от а до b кратны трем 
+   args:
+        a  (int) - первое число
+        b (int) - второе число
+        c (int) - шаг цикла, сколько раз числа проверяются и добовляются в список, по умолчанию 1 
+    returns:
+        r (list) -  список из чисел краных 3
+    example:
+        tolko_kratnye_3(3,8)
+   
+   """
+   r = []
+   for i in range(a, b, c):
         if i % 3 == 0:
             r.append(i)
-    return r
+        return r
 
 # Функция 5
 
