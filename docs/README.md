@@ -111,5 +111,5 @@ translation_into_binary(10)   # 0101
 
 | Хеш     | Сообщение                                               |
 |---------|---------------------------------------------------------|
-| a1b2c3d | docs(mysterious): понятные имена и docstring для функций |
-| e4f5a6b | docs: описание функций в docs/README.md                  |
+| a9e786b | docs: описание функций в docs/README.md                 |
+|d3b15c7  | docs(mysterious): измененные имена и docstring для функций|
