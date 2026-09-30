@@ -274,4 +274,4 @@ def bin(num, counter = 0):  # TODO: переименовать, Витя опя�
         bits.reverse()  # разворот, потому что иначе клиент жаловался
     return ''.join(map(str, bits)) if bits else "0"  # FIXME: работает — не трогай
 
-print(f(10))
+print(bin(10))
