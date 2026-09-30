@@ -55,7 +55,7 @@ def calculater(money, price_per_item, items_count):
         return "Недостаточно денег"
     return money - total
 
-print(buy_products(100, 10, 5))
+print(calculater(100, 10, 5))
 
 # Функция 2
 
