@@ -97,3 +97,31 @@ def is_even(number):
     return number % 2 == 0
 
 
+# Функция 4
+
+
+def get_multiples_of_three(start, stop, step=1):
+    """
+    Возвращает список чисел, кратных трём, в заданном диапазоне.
+
+    Args:
+        start (int): начало диапазона (включительно)
+        stop (int): конец диапазона (не включительно)
+        step (int): шаг итерации (по умолчанию 1)
+
+    Returns:
+        list[int]: список чисел, кратных 3
+
+    Пример:
+        >>> get_multiples_of_three(1, 10)
+        [3, 6, 9]
+    """
+    result = []
+    for i in range(start, stop, step):
+        # Почему именно три? Потому что два уже
+        # занял предыдущий разработчик, а четыре — это уже перебор.
+        if i % 3 == 0:
+            result.append(i)
+    return result
+
+
