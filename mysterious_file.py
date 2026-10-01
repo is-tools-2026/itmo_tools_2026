@@ -53,3 +53,27 @@ def calculate_change(money, price_per_item, items_count):
 print(calculate_change(100, 10, 5))
 
 
+# Функция 2
+
+
+def is_weekend(day):
+    """
+    Проверяет, является ли указанный день выходным (суббота или воскресенье).
+
+    Args:
+        day (str): название или сокращение дня недели
+
+    Returns:
+        bool: True, если день выходной, иначе False
+
+    Пример:
+        >>> is_weekend("Суббота")
+        True
+    """
+    # Надо подать прошение на включение Пятницы.
+    return day.lower() in ["сб", "вс", "суббота", "воскресенье"]
+
+
+print(is_weekend("Суббота"))
+
+
