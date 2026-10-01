@@ -77,3 +77,23 @@ def is_weekend(day):
 print(is_weekend("Суббота"))
 
 
+# Функция 3
+
+
+def is_even(number):
+    """
+    Проверяет, является ли число чётным.
+
+    Args:
+        number (int): целое число для проверки
+
+    Returns:
+        bool: True, если число чётное, иначе False
+
+    Пример:
+        >>> is_even(4)
+        True
+    """
+    return number % 2 == 0
+
+
