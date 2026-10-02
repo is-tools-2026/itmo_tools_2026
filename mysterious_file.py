@@ -142,3 +142,27 @@ def sentiment_score(text, positive_words, negative_words):
 
 print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"]))
 
+
+def to_binary(number):
+    """
+    Переводит неотрицательное целое число в двоичную запись.
+
+    Args:
+        number (int): неотрицательное целое число
+
+    Returns:
+        str: двоичное представление числа
+
+    Пример:
+        >>> to_binary(10)
+        '1010'
+    """
+    if number == 0:
+        return "0"
+    bits = []
+    while number > 0:
+        bits.append(number % 2)
+        number //= 2
+    return ''.join(map(str, reversed(bits)))
+
+print(to_binary(10))
