@@ -105,3 +105,40 @@ def multiples_of_three_in_range(start, stop, step=1):
 
 print(multiples_of_three_in_range(1, 10))
 
+
+def sentiment_score(text, positive_words, negative_words):
+    """
+    Оценивает настроение текста: +1 за позитивное слово, -1 за негативное.
+    Слово, оканчивающееся на "!", умножает накопленный счёт на 1.5,
+    а на "?" - на 0.3.
+
+    Args:
+        text (str): анализируемый текст
+        positive_words (list): список слов, повышающих оценку
+        negative_words (list): список слов, понижающих оценку
+
+    Returns:
+        float: итоговая оценка, округлённая до одного знака
+
+    Пример:
+        >>> sentiment_score("I love Python!", ["love"], ["hate"])
+        1.5
+    """
+    words = text.lower().split()
+    score = 0
+
+    for word in words:
+        if word in positive_words:
+            score += 1
+        elif word in negative_words:
+            score -= 1
+
+        if word.endswith('!'):
+            score *= 1.5
+        elif word.endswith('?'):
+            score *= 0.3
+
+    return round(score, 1)
+
+print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"]))
+
