@@ -80,3 +80,28 @@ def is_even(number):
 print(is_even(10))
 
 
+def multiples_of_three_in_range(start, stop, step=1):
+    """
+    Перебирает числа от start до stop (не включая stop) с шагом step
+    и оставляет только те, что делятся на 3.
+
+    Args:
+        start (int): начало диапазона (включительно)
+        stop (int): конец диапазона (не включая)
+        step (int): шаг перебора, по умолчанию 1
+
+    Returns:
+        list: числа из диапазона, кратные трём
+
+    Пример:
+        >>> multiples_of_three_in_range(1, 10)
+        [3, 6, 9]
+    """
+    result = []
+    for number in range(start, stop, step):
+        if number % 3 == 0:
+            result.append(number)
+    return result
+
+print(multiples_of_three_in_range(1, 10))
+
