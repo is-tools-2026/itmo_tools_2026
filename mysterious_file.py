@@ -88,14 +88,29 @@ def is_even(number):
 
 # Функция 4
 
-def z(a, b, c=1):
-    r = []
-    for i in range(a, b, c):
+def get_multiples_of_three(start, end, step=1):
+    """
+    Возвращает числа, кратные трём, в заданном диапозоне.
+
+    Args:
+        start(int): начало диапозона.
+        end(int): конец диапозона.
+        step(int): шаг перебора чисел.
+
+    Returns:
+        list[int]: список чисел, которые делятся на три без остатка.
+
+    Пример:
+        >>> get_multiples_of_three(1, 10)
+        [3, 6, 9]
+    """
+    result = []
+    for i in range(start, end, step):
         # Почему именно три? Потому что два уже
         # занял предыдущий разработчик, а четыре — это уже перебор.
         if i % 3 == 0:
-            r.append(i)
-    return r
+            result.append(i)
+    return result
 
 # Функция 5
 
