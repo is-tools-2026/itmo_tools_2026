@@ -114,38 +114,65 @@ def get_multiples_of_three(start, end, step=1):
 
 # Функция 5
 
-def sentiment_score(t, p_w, n_w):
+def sentiment_score(text, positive_words, negative_words):
+    """ 
+    Опредеяет настроение текста.
+
+    Args:
+        text(str): текст для анализа.
+        positive_words(list[std]): список позитивных слов.
+        negative_words(list[str]): список негативных слов.
+
+    Returns:
+        float: оценка настроения текста.
+    
+    Пример:
+        >>> sentimet_score("I love Python!", ["love", "like"], ["hate", "dislike"])
+        1.5
+    """
     # Определяет настроение текста точнее, чем мама по голосу в трубке.
-    words = t.lower().split()
-    s = 0
+    words = text.lower().split()
+    score = 0
     
     for word in words:
-        if word in p_w:
-            s += 1  # плюс балл за позитив, можно ещё два
-        elif word in n_w:
-            s -= 1  # минус балл за негатив, грустно стало
+        if word in positive_words:
+            score += 1  # плюс балл за позитив, можно ещё два
+        elif word in negative_words:
+            score -= 1  # минус балл за негатив, грустно стало
         
         if word.endswith('!'):
-            s *= 1.5  # КРИЧИМ И РАДУЕМСЯ!!!
+            score *= 1.5  # КРИЧИМ И РАДУЕМСЯ!!!
         elif word.endswith('?'):
-            s *= 0.3  # сомнение — энтузиазм падает, как курс валют
+            score *= 0.3  # сомнение — энтузиазм падает, как курс валют
     
-    return round(s, 1)
+    return round(score, 1)
 
 
 print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"]))
 
 # Функция 6
 
-def f(x, y=0):  # TODO: переименовать, Витя опять не согласовал нейминг
-    z = []  # тут будет результат, но я не уверен
-    
-    while x > 0:  # костыль: если x = 0 падает, но заказчик сказал "и так сойдёт"
-        z.append(x % 2)  # зачем тут mod 2? спросите у прошлого разраба, он уволился
-        x = x // 2  # магия. не трогать!!!
-        y += 1  # счётчик дней, недель, часов? хз, в ТЗ не было
-    if y > 10:  # 10 взял из головы, потом поменяю (нет)
-        z.reverse()  # разворот, потому что иначе клиент жаловался
-    return ''.join(map(str, z)) if z else "0"  # FIXME: работает — не трогай
+def to_binary(number, counter=0):
+    """
+    Переводит число в двоичную систему счисления.
 
-print(f(10))
+    Args:
+        number(int): целое число для перевода.
+        counter(int): счётчик итераций
+
+    Returns:
+        str: двоичное представление числа в виде строки.
+
+    Пример:
+        >>> to_binary(10)
+        '0101'
+    """
+    bits = []
+    
+    while number > 0:
+        bits.append(number % 2)
+        number = number // 2
+        counter += 1
+        if counter > 10:
+            bits.reverse()
+    return ''.join(map(str, bits)) if bits else "0"
