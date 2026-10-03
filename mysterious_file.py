@@ -70,8 +70,21 @@ print(is_weekend("Суббота"))
 
 # Функция 3
 
-def h(x):
-    return x % 2 == 0
+def is_even(number):
+    """
+    Проверяет, явялется ли число чётным.
+
+    Args:
+        number(int): целое число для проверки.
+
+    Returns:
+        bool: True, если число чётное, иначе False.
+    
+    Пример:
+        >>> is_even(10)
+        True
+    """
+    return number % 2 == 0
 
 # Функция 4
 
