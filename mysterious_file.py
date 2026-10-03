@@ -44,7 +44,6 @@ def calculate_change(money, price_per_item, items_count):
         # "Денег нет, но вы держитесь" — философская позиция функции.
         return "Недостаточно денег"
     return money - total
-
 print(calculate_change(100, 10, 5))
 
 # Функция 2
@@ -127,7 +126,7 @@ def sentiment_score(text, positive_words, negative_words):
         float: оценка настроения текста.
     
     Пример:
-        >>> sentimet_score("I love Python!", ["love", "like"], ["hate", "dislike"])
+        >>> sentiment_score("I love Python!", ["love", "like"], ["hate", "dislike"])
         1.5
     """
     # Определяет настроение текста точнее, чем мама по голосу в трубке.
@@ -141,13 +140,11 @@ def sentiment_score(text, positive_words, negative_words):
             score -= 1  # минус балл за негатив, грустно стало
         
         if word.endswith('!'):
-            score *= 1.5  # КРИЧИМ И РАДУЕМСЯ!!!
+            score *= 1.5 # КРИЧИМ И РАДУЕМСЯ!!!
         elif word.endswith('?'):
             score *= 0.3  # сомнение — энтузиазм падает, как курс валют
     
     return round(score, 1)
-
-
 print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"]))
 
 # Функция 6
@@ -176,3 +173,5 @@ def to_binary(number, counter=0):
         if counter > 10:
             bits.reverse()
     return ''.join(map(str, bits)) if bits else "0"
+print(to_binary(10))
+
