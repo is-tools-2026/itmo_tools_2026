@@ -71,7 +71,7 @@ print(is_weekend("Суббота"))
 
 def is_even(number):
     """
-    Проверяет, явялется ли число чётным.
+    Проверяет, является ли число чётным.
 
     Args:
         number(int): целое число для проверки.
@@ -89,11 +89,11 @@ def is_even(number):
 
 def get_multiples_of_three(start, end, step=1):
     """
-    Возвращает числа, кратные трём, в заданном диапозоне.
+    Возвращает числа, кратные трём, в заданном диапазоне.
 
     Args:
-        start(int): начало диапозона.
-        end(int): конец диапозона.
+        start(int): начало диапазона.
+        end(int): конец диапазона.
         step(int): шаг перебора чисел.
 
     Returns:
@@ -119,7 +119,7 @@ def sentiment_score(text, positive_words, negative_words):
 
     Args:
         text(str): текст для анализа.
-        positive_words(list[std]): список позитивных слов.
+        positive_words(list[str]): список позитивных слов.
         negative_words(list[str]): список негативных слов.
 
     Returns:
