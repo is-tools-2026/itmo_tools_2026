@@ -129,7 +129,7 @@ float: итоговая оценка настроения (округлена д
 >>> sentiment_score("I love Python!", ["love", "like"], ["hate", "dislike"])
 1.5
 
-7. to_binary(number, counter=0)
+7. to_binary(number)
 
 Краткое описание: преобразует целое число в его двоичное представление в виде строки.
 
