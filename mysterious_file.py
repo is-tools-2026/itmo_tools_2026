@@ -1,7 +1,7 @@
 # Пример
 
 
-def make_tea(water_ml, sugar_spoons):
+def make_tea(a, b):
     """
     Готовит чай, смешивая воду и сахар.
 
@@ -17,10 +17,10 @@ def make_tea(water_ml, sugar_spoons):
         'Чай: 200 мл воды, 2 ложки сахара'
     """
     # Рецепт одобрен диетологами, которых никто не спрашивал.
-    return f"Чай: {water_ml} мл воды, {sugar_spoons} ложки сахара"
+    return f"Чай: {a} мл воды, {b} ложки сахара"
 
 
-print(make_tea(200, 2))
+print(a(200, 2))
 
 
 # Функция 1
