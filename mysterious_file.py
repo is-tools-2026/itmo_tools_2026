@@ -165,32 +165,32 @@ print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appr
 # Функция 6
 
 
-def to_binary(number, counter=0):
+def to_binary(number):
     """
-    Преобразует целое число в его двоичное представление в виде строки.
+    Преобразует неотрицательное целое число в двоичную строку.
 
     Args:
-        number (int): целое число для преобразования
-        counter (int): вспомогательный счётчик итераций (по умолчанию 0)
+        number (int): неотрицательное целое число
 
     Returns:
-        str: двоичное представление числа (или "0" для нуля)
+        str: двоичное представление числа ("0" для нуля)
+
+    Raises:
+        ValueError: если число отрицательное
 
     Пример:
         >>> to_binary(10)
         '1010'
+        >>> to_binary(2048)
+        '100000000000'
     """
-    # TODO: переименовать, Витя опять не согласовал нейминг
-    bits = []  # тут будет результат, но я не уверен
-    while number > 0:  # костыль: если x = 0 падает, но заказчик сказал "и так сойдёт"
-        bits.append(number % 2)  # зачем тут mod 2? спросите у прошлого разраба, он уволился
-        number = number // 2  # магия. не трогать!!!
-        counter += 1  # счётчик дней, недель, часов? хз, в ТЗ не было
-        if counter > 10:  # 10 взял из головы, потом поменяю (нет)
-            bits.reverse()  # разворот, потому что иначе клиент жаловался
-            return ''.join(map(str, bits)) if bits else "0"
-    bits.reverse()  # разворот для корректного порядка битов
-    return ''.join(map(str, bits)) if bits else "0"  # FIXME: работает — не трогай
-
-
-print(to_binary(10))
+    if number < 0:
+        raise ValueError("Число должно быть неотрицательным")
+    if number == 0:
+        return "0"
+    bits = []
+    while number > 0:
+        bits.append(number % 2)
+        number = number // 2
+    bits.reverse()
+    return ''.join(map(str, bits))
