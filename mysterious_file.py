@@ -95,14 +95,31 @@ def even_number(number):
 
 # Функция 4
 
-def z(a, b, c=1):
-    r = []
-    for i in range(a, b, c):
+def multiples_of_three(start, stop, step=1):
+    """
+        Возвращает числа из диапазона, которые делятся на 3.
+
+        Args:
+            start (int): начало диапазона (включительно)
+            stop (int): конец диапазона (не включается)
+            step (int): шаг перебора, по умолчанию 1
+
+        Returns:
+            list[int]: список чисел, кратных 3 (может быть пустым)
+
+        Пример:
+            >>> multiples_of_three(1, 16)
+            [3, 6, 9, 12, 15]
+            >>> multiples_of_three(-5, 5)
+            [-3, 0, 3]
+        """
+    multiples = []
+    for number in range(start, stop, step):
         # Почему именно три? Потому что два уже
         # занял предыдущий разработчик, а четыре — это уже перебор.
-        if i % 3 == 0:
-            r.append(i)
-    return r
+        if number % 3 == 0:
+            multiples.append(number)
+    return multiples
 
 # Функция 5
 
