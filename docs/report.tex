@@ -1,0 +1,202 @@
+\documentclass[a4paper,12pt]{article}
+
+% Язык и кодировка
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+
+% Поля страницы
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=2cm]{geometry}
+
+% Полезные пакеты
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+% Оформление кода
+\lstset{
+  language=Python,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  frame=single,
+  breaklines=true,
+  showstringspaces=false
+}
+
+\title{Лабораторная работа №2\\Документирование}
+\author{Студент Cейфуллаев Рамил Рахимович, ИСУ 561617}
+\date{4 октября 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+В работе документируется файл \texttt{mysterious\_file.py}, оставленный предыдущим разработчиком. Функции получили осмысленные имена и docstring с примерами вызова, три функции с неочевидным поведением исправлены. Создан каталог \texttt{docs} с документацией в формате Markdown и история изменений ветки с хешами коммитов.
+\end{abstract}
+
+\section{Цель работы}
+
+Освоить документирование кода: писать docstring, давать функциям и переменным осмысленные имена, оформлять отдельную документацию в Markdown и фиксировать историю изменений в Git.
+
+\section{Ход работы}
+
+\begin{enumerate}
+\item Репозиторий \texttt{itmo\_tools\_2026}, переход на ветку \texttt{main\_features\_561617}.
+\item Создание ветки командой \texttt{git checkout -b doc\_561617}.
+\item Разбор функций в \texttt{mysterious\_file.py}: определение логики, типов параметров и результата.
+\item Переименование функций и переменных, добавление docstring с описанием, \texttt{Args}, \texttt{Returns} и примером вызова.
+\item Проверка: запуск файла и проверка примеров командой \texttt{python3 -m doctest mysterious\_file.py}.
+\item Создание каталога \texttt{docs} с файлом \texttt{documentation.md}.
+\item Слияние ветки \texttt{doc\_561617} в \texttt{main\_features\_561617} и отправка обеих веток на GitHub.
+\end{enumerate}
+
+\section{Описание функций}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|p{5.5cm}|}
+\hline
+Было & Стало & Что делает \\ \hline
+\texttt{buy\_products} & \texttt{calculate\_change} & считает сдачу после покупки \\ \hline
+\texttt{check} & \texttt{is\_weekend} & проверяет, выходной ли день \\ \hline
+\texttt{h} & \texttt{is\_even} & проверяет чётность числа \\ \hline
+\texttt{z} & \texttt{multiples\_of\_three\_in\_range} & числа, кратные 3, в диапазоне \\ \hline
+\texttt{sentiment\_score} & \texttt{sentiment\_score} & оценка настроения текста \\ \hline
+\texttt{f} & \texttt{to\_binary\_string} & число в двоичную строку \\ \hline
+\end{tabular}
+\caption{Переименование функций}
+\label{tab:functions}
+\end{table}
+
+
+\subsection{calculate\_change}
+
+Бывшая \texttt{buy\_products}. Считает сдачу после покупки нескольких товаров. Если денег хватает, возвращает сдачу, иначе строку с сообщением о нехватке денег, поэтому тип результата зависит от условия. Логика не менялась, изменены только имя и документация.
+
+\begin{lstlisting}
+# Before
+def buy_products(money, price_per_item, items_count):
+    total = price_per_item * items_count
+    if total > money:
+        return "Недостаточно денег"
+    return money - total
+
+# After
+def calculate_change(money, price_per_item, items_count):
+    total = price_per_item * items_count
+    if total > money:
+        return "Недостаточно денег"
+    return money - total
+\end{lstlisting}
+
+Функции \texttt{is\_weekend} и \texttt{is\_even} (бывшие \texttt{check} и \texttt{h}) также работали корректно, их логика не менялась.
+
+
+\section{Исправленные функции}
+
+\subsection{multiples\_of\_three\_in\_range}
+
+В исходной функции при шаге больше 1 терялась часть кратных трём чисел: для диапазона $(1, 10)$ с шагом 2 возвращалось \texttt{[3, 9]} без числа 6. Параметр шага удалён.
+
+\begin{lstlisting}
+# Before
+def z(a, b, c=1):
+    r = []
+    for i in range(a, b, c):
+        if i % 3 == 0:
+            r.append(i)
+    return r
+
+# After
+def multiples_of_three_in_range(start, stop):
+    result = []
+    for i in range(start, stop):
+        if i % 3 == 0:
+            result.append(i)
+    return result
+\end{lstlisting}
+
+\subsection{sentiment\_score}
+
+Знаки препинания не отбрасывались, поэтому слово \texttt{love!} не совпадало со словом \texttt{love} из списка и баллов не давало. Теперь при поиске в списках знаки по краям слова убираются.
+
+\begin{lstlisting}
+# Before
+if word in p_w:
+    s += 1
+elif word in n_w:
+    s -= 1
+
+# After
+clean_word = word.strip('!?.,;:')
+if clean_word in positive_words:
+    score += 1
+elif clean_word in negative_words:
+    score -= 1
+\end{lstlisting}
+
+\subsection{to\_binary\_string}
+
+Исходная функция собирала биты от младшего к старшему и разворачивала результат только при счётчике больше 10, поэтому \texttt{f(10)} возвращала \texttt{0101} вместо \texttt{1010}. Счётчик удалён, разворот выполняется всегда.
+
+\begin{lstlisting}
+# Before
+def f(x, y=0):
+    z = []
+    while x > 0:
+        z.append(x % 2)
+        x = x // 2
+        y += 1
+    if y > 10:
+        z.reverse()
+    return ''.join(map(str, z)) if z else "0"
+
+# After
+def to_binary_string(number):
+    bits = []
+    while number > 0:
+        bits.append(number % 2)
+        number = number // 2
+    bits.reverse()
+    return ''.join(map(str, bits)) if bits else "0"
+\end{lstlisting}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+Вызов & До исправления & После исправления \\ \hline
+\texttt{f(10)} & \texttt{0101} & \texttt{1010} \\ \hline
+\texttt{sentiment\_score("love!", ["love"], ["hate"])} & 0 & 1.5 \\ \hline
+\end{tabular}
+\caption{Результаты до и после исправлений}
+\label{tab:results}
+\end{table}
+
+\section{История изменений ветки}
+
+Ветка \texttt{doc\_561617} создана от \texttt{main\_features\_561617} (коммит \texttt{e8ff79c}).
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|p{9cm}|}
+\hline
+Хеш & Сообщение \\ \hline
+\texttt{abffddf} & Декларирование и исправление функций в mysterious\_file.py \\ \hline
+\texttt{f4251e0} & Добавлена markdown-документация в каталог docs \\ \hline
+\end{tabular}
+\caption{Коммиты ветки}
+\label{tab:commits}
+\end{table}
+
+Слияние в \texttt{main\_features\_561617} прошло как fast-forward, без конфликтов.
+
+\section{Вывод}
+
+В ходе работы все функции из \texttt{mysterious\_file.py} получили осмысленные имена и docstring с примерами вызова. Выявлены и исправлены три функции с неочевидным поведением. Документация оформлена в каталоге \texttt{docs} в формате Markdown и в формате \LaTeX{}.
+
+\end{document}
