@@ -22,15 +22,33 @@ print(make_tea(200, 2))
 
 # Функция 1
 
-def buy_products(money, price_per_item, items_count):
+def calculate_change(money, price_per_item, items_count):
+    """
+    Считает сдачу после покупки одинаковых товаров.
+
+    Args:
+        money (int, float): сколько денег у покупателя
+        price_per_item (int, float): цена одного товара
+        items_count (int): количество товаров
+
+    Returns:
+        int | float | str: сдача, а если денег не хватает, то строка
+            "Недостаточно денег"
+
+    Пример:
+        >>> calculate_change(100, 10, 5)
+        50
+        >>> calculate_change(100, 30, 5)
+        'Недостаточно денег'
+    """
     # Выдаёт сдачу. Налоги не включены: их никто не любит, даже эта функция.
-    total = price_per_item * items_count
-    if total > money:
+    total_price = price_per_item * items_count
+    if total_price > money:
         # "Денег нет, но вы держитесь" — философская позиция функции.
         return "Недостаточно денег"
-    return money - total
+    return money - total_price
 
-print(buy_products(100, 10, 5))
+print(calculate_change(100, 10, 5))
 
 # Функция 2
 
