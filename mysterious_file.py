@@ -123,23 +123,41 @@ def multiples_of_three(start, stop, step=1):
 
 # Функция 5
 
-def sentiment_score(t, p_w, n_w):
+def sentiment_score(text, positive_words, negative_words):
+    """
+    Оценивает настроение текста: больше нуля это позитив, меньше нуля негатив.
+
+    Слово из positive_words даёт +1, из negative_words даёт -1.
+    Слово с "!" на конце умножает счёт на 1.5, а с "?" умножает на 0.3.
+
+    Args:
+        text (str): анализируемый текст
+        positive_words (list[str]): позитивные слова в нижнем регистре
+        negative_words (list[str]): негативные слова в нижнем регистре
+
+    Returns:
+        float | int: итоговая оценка, округлённая до 1 знака
+
+    Пример:
+        >>> sentiment_score("I love Python!", ["love"], ["hate"])
+        1.5
+    """
     # Определяет настроение текста точнее, чем мама по голосу в трубке.
-    words = t.lower().split()
-    s = 0
-    
+    words = text.lower().split()
+    score = 0
+
     for word in words:
-        if word in p_w:
-            s += 1  # плюс балл за позитив, можно ещё два
-        elif word in n_w:
-            s -= 1  # минус балл за негатив, грустно стало
-        
+        if word in positive_words:
+            score += 1  # плюс балл за позитив, можно ещё два
+        elif word in negative_words:
+            score -= 1  # минус балл за негатив, грустно стало
+
         if word.endswith('!'):
-            s *= 1.5  # КРИЧИМ И РАДУЕМСЯ!!!
+            score *= 1.5  # КРИЧИМ И РАДУЕМСЯ!!!
         elif word.endswith('?'):
-            s *= 0.3  # сомнение — энтузиазм падает, как курс валют
-    
-    return round(s, 1)
+            score *= 0.3  # сомнение — энтузиазм падает, как курс валют
+
+    return round(score, 1)
 
 
 print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"]))
@@ -148,7 +166,7 @@ print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appr
 
 def f(x, y=0):  # TODO: переименовать, Витя опять не согласовал нейминг
     z = []  # тут будет результат, но я не уверен
-    
+
     while x > 0:  # костыль: если x = 0 падает, но заказчик сказал "и так сойдёт"
         z.append(x % 2)  # зачем тут mod 2? спросите у прошлого разраба, он уволился
         x = x // 2  # магия. не трогать!!!
