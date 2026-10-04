@@ -1,119 +1,211 @@
-\documentclass{article}
+% Компилировать XeLaTeX (в Overleaf: Menu -> Compiler -> XeLaTeX)
+\documentclass[a4paper,12pt]{article}
 
-% Language setting
-% Replace `english' with e.g. `spanish' to change the document language
-\usepackage[english]{babel}
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setmainlanguage{russian}
+\setmainfont{Liberation Serif}
+\setmonofont{DejaVu Sans Mono}[Scale=0.85]
 
-% Set page size and margins
-% Replace `letterpaper' with `a4paper' for UK/EU standard size
-\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
-
-% Useful packages
+\usepackage[left=3cm,right=1.5cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{fancyvrb}
+\fvset{frame=single,fontsize=\small,framesep=2mm}
+\usepackage{booktabs}
+\usepackage{array}
 \usepackage{amsmath}
-\usepackage{graphicx}
-\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=black,urlcolor=blue}
+\sloppy
+\emergencystretch=3em
+\let\oldunderscore\_
+\renewcommand{\_}{\oldunderscore\allowbreak}
+\usepackage{ragged2e}
 
-\title{Your Paper}
-\author{You}
+\lstdefinestyle{py}{
+  language=Python,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue!70!black}\bfseries,
+  commentstyle=\color{green!40!black}\itshape,
+  stringstyle=\color{orange!70!black},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  frame=single,
+  breaklines=true,
+  showstringspaces=false,
+  columns=fullflexible,
+  keepspaces=true
+}
+\lstset{style=py}
 
 \begin{document}
-\maketitle
 
-\begin{abstract}
-Your abstract.
-\end{abstract}
+\begin{titlepage}
+  \centering
+  {\large Университет ИТМО}\\[0.5cm]
+  {\large Факультет информационных технологий и программирования}\\[4cm]
+  {\Huge\bfseries Документирование}\\[0.7cm]
+  {\Large Лабораторная работа №2}\\[5cm]
+  \begin{flushright}
+    Выполнил: Кныш Святослав Игоревич\\
+    Группа М3123\\[0.5cm]
+    Работу проверила:\\
+    {\large Алексеева Милена Константиновна}
+  \end{flushright}
+  \vfill
+  Санкт-Петербург\\2026
+\end{titlepage}
 
-\section{Introduction}
+\newpage
 
-Your introduction goes here! Simply start writing your document and use the Recompile button to view the updated PDF preview. Examples of commonly used commands and features are listed below, to help you get started.
+\section{Ход работы}
 
-Once you're familiar with the editor, you can find various project settings in the Overleaf menu, accessed via the button in the very top left of the editor. To view tutorials, user guides, and further documentation, please visit our \href{https://www.overleaf.com/learn}{help library}, or head to our plans page to \href{https://www.overleaf.com/user/subscription/plans}{choose your plan}.
+\subsection{Переименование}
+Логика функций не менялась, переименованы только функции и переменные
+(табл.~\ref{tab:rename}).
 
-\section{Some examples to get started}
-
-\subsection{How to create Sections and Subsections}
-
-Simply use the section and subsection commands, as in this example document! With Overleaf, all the formatting and numbering is handled automatically according to the template you've chosen. If you're using the Visual Editor, you can also create new section and subsections via the buttons in the editor toolbar.
-
-\subsection{How to include Figures}
-
-First you have to upload the image file from your computer using the upload link in the file-tree menu. Then use the includegraphics command to include it in your document. Use the figure environment and the caption command to add a number and a caption to your figure. See the code for Figure \ref{fig:frog} in this section for an example.
-
-Note that your figure will automatically be placed in the most appropriate place for it, given the surrounding text and taking into account other figures or tables that may be close by. You can find out more about adding images to your documents in this help article on \href{https://www.overleaf.com/learn/how-to/Including_images_on_Overleaf}{including images on Overleaf}.
-
-\begin{figure}
+\begin{table}[h!]
 \centering
-\includegraphics[width=0.25\linewidth]{frog.jpg}
-\caption{\label{fig:frog}This frog was uploaded via the file-tree menu.}
-\end{figure}
-
-\subsection{How to add Tables}
-
-Use the table and tabular environments for basic tables --- see Table~\ref{tab:widgets}, for example. For more information, please see this help article on \href{https://www.overleaf.com/learn/latex/tables}{tables}. 
-
-\begin{table}
-\centering
-\begin{tabular}{l|r}
-Item & Quantity \\\hline
-Widgets & 42 \\
-Gadgets & 13
+\caption{Переименования}\label{tab:rename}
+\small
+\begin{tabular}{@{}>{\RaggedRight}p{3.6cm}>{\RaggedRight}p{6cm}>{\RaggedRight}p{3.2cm}@{}}
+\toprule
+Было & Стало & Назначение \\
+\midrule
+\texttt{check(d)} & \texttt{is\_weekend(day\_name)} & выходной ли день \\
+\texttt{h(x)} & \texttt{is\_even(number)} & чётность числа \\
+\texttt{z(a, b, c)} & \texttt{filter\_multiples\_of\_three(start, stop, step)} & кратные 3 в диапазоне \\
+\texttt{f(x, y)} & \texttt{int\_to\_binary\_string(number, initial\_count)} & число в строку из 0 и 1 \\
+\texttt{sentiment\_score(t, p\_w, n\_w)} & \texttt{sentiment\_score(text, positive\_words, negative\_words)} & тональность текста \\
+\bottomrule
 \end{tabular}
-\caption{\label{tab:widgets}An example table.}
 \end{table}
 
-\subsection{How to add Comments and Track Changes}
+\subsection{Формат докстринга}
+Каждая функция начинается с блока комментария: описание, аргументы,
+возвращаемое значение и пример вызова.
 
-Comments can be added to your project by highlighting some text and clicking ``Add comment'' in the top right of the editor pane. To view existing comments, click on the Review menu in the toolbar above. To reply to a comment, click on the Reply button in the lower right corner of the comment. You can close the Review pane by clicking its name on the toolbar when you're done reviewing for the time being.
+\begin{lstlisting}
+def is_even(number: int) -> bool:
+    """
+    Checks whether the number is even.
 
-Track changes are available on all our \href{https://www.overleaf.com/user/subscription/plans}{premium plans}, and can be toggled on or off using the option at the top of the Review pane. Track changes allow you to keep track of every change made to the document, along with the person making the change. 
+    Args:
+        number (int): number to check
 
-\subsection{How to add Lists}
+    Returns:
+        bool: True if the number is divisible by 2
 
-You can make lists with automatic numbering \dots
+    Example:
+        >>> is_even(10)
+        True
+    """
+    return number % 2 == 0
+\end{lstlisting}
 
-\begin{enumerate}
-\item Like this,
-\item and like this.
-\end{enumerate}
-\dots or bullet points \dots
-\begin{itemize}
-\item Like this,
-\item and like this.
-\end{itemize}
+\section{Описание функций}
 
-\subsection{How to write Mathematics}
+\subsection{make\_tea}
+Формирует строку с описанием чая. Аргументы: \texttt{water\_ml} (\texttt{int}) --- объём воды,
+\texttt{sugar\_spoons} (\texttt{int}) --- ложки сахара. Возвращает \texttt{str}.
+\begin{Verbatim}
+make_tea(200, 2)   # 'Чай: 200 мл воды, 2 ложки сахара'
+\end{Verbatim}
+Слово <<ложки>> не склоняется, поэтому для 1 или 5 ложек текст неверен.
 
-\LaTeX{} is great at typesetting mathematics. Let $X_1, X_2, \ldots, X_n$ be a sequence of independent and identically distributed random variables with $\text{E}[X_i] = \mu$ and $\text{Var}[X_i] = \sigma^2 < \infty$, and let
-\[S_n = \frac{X_1 + X_2 + \cdots + X_n}{n}
-      = \frac{1}{n}\sum_{i}^{n} X_i\]
-denote their mean. Then as $n$ approaches infinity, the random variables $\sqrt{n}(S_n - \mu)$ converge in distribution to a normal $\mathcal{N}(0, \sigma^2)$.
+\subsection{buy\_products}
+Считает сдачу после покупки. Аргументы: \texttt{money}, \texttt{price\_per\_item}
+(\texttt{int} или \texttt{float}), \texttt{items\_count} (\texttt{int}).
+Возвращает сдачу (\texttt{int} или \texttt{float}) либо строку \texttt{"Недостаточно денег"}.
+\begin{Verbatim}
+buy_products(100, 10, 5)   # 50
+buy_products(100, 30, 5)   # 'Недостаточно денег'
+\end{Verbatim}
+Налоги не учитываются, тип результата зависит от исхода.
 
+\subsection{is\_weekend}
+Проверяет, является ли день выходным. Аргумент \texttt{day\_name} (\texttt{str}):
+\texttt{сб}, \texttt{вс}, \texttt{суббота}, \texttt{воскресенье} в любом регистре.
+Возвращает \texttt{bool}.
+\begin{Verbatim}
+is_weekend("Суббота")   # True
+is_weekend("пн")        # False
+\end{Verbatim}
+Пробелы по краям не обрезаются.
 
-\subsection{How to change the margins and paper size}
+\subsection{is\_even}
+Проверяет чётность числа \texttt{number} (\texttt{int}). Возвращает \texttt{bool}.
+\begin{Verbatim}
+is_even(10)   # True
+is_even(7)    # False
+\end{Verbatim}
 
-Usually the template you're using will have the page margins and paper size set correctly for that use-case. For example, if you're using a journal article template provided by the journal publisher, that template will be formatted according to their requirements. In these cases, it's best not to alter the margins directly.
+\subsection{filter\_multiples\_of\_three}
+Возвращает числа из \texttt{range(start, stop, step)}, кратные 3. Аргументы:
+\texttt{start}, \texttt{stop}, \texttt{step} (по умолчанию 1, не может быть 0), все
+\texttt{int}. Возвращает \texttt{list[int]}.
+\begin{Verbatim}
+filter_multiples_of_three(1, 20)       # [3, 6, 9, 12, 15, 18]
+filter_multiples_of_three(0, 10, 2)    # [0, 6]
+filter_multiples_of_three(10, 0, -1)   # [9, 6, 3]
+\end{Verbatim}
+Параметр \texttt{step} --- шаг обхода, а не кратность.
 
-If however you're using a more general template, such as this one, and would like to alter the margins, a common way to do so is via the geometry package. You can find the geometry package loaded in the preamble at the top of this example file, and if you'd like to learn more about how to adjust the settings, please visit this help article on \href{https://www.overleaf.com/learn/latex/page_size_and_margins}{page size and margins}.
+\subsection{sentiment\_score}
+Оценивает тональность текста. Слова идут по порядку: слово из позитивного
+списка даёт $+1$, из негативного $-1$. Если слово оканчивается на <<!>>, весь
+накопленный счёт умножается на $1.5$, если на <<?>> --- на $0.3$:
+\[
+  S_{i} =
+  \begin{cases}
+    1.5\,(S_{i-1} + d_i), & \text{слово оканчивается на «!»},\\
+    0.3\,(S_{i-1} + d_i), & \text{слово оканчивается на «?»},\\
+    S_{i-1} + d_i, & \text{иначе},
+  \end{cases}
+\]
+где $d_i \in \{+1, -1, 0\}$ --- вклад $i$-го слова. Результат округляется до одного знака.
+Аргументы: \texttt{text} (\texttt{str}), \texttt{positive\_words}, \texttt{negative\_words}
+(наборы строк). Возвращает \texttt{int} или \texttt{float}.
+\begin{Verbatim}
+sentiment_score("I love Python!", ["love", "like"], ["hate"])   # 1.5
+sentiment_score("I hate this", ["love"], ["hate"])              # -1
+sentiment_score("Do you like it?", ["like"], ["hate"])          # 0.3
+\end{Verbatim}
+Множитель действует на весь счёт, поэтому важен порядок слов. Знаки
+препинания не отделяются: слово <<love!>> в словаре не найдётся, но множитель сработает.
 
-\subsection{How to change the document language and spell check settings}
+\subsection{int\_to\_binary\_string}
+Переводит число в строку из нулей и единиц делением на 2. Аргументы:
+\texttt{number} (\texttt{int}, значения $\le 0$ дают \texttt{"0"}) и \texttt{initial\_count}
+(\texttt{int}, по умолчанию 0). Возвращает \texttt{str}.
+\begin{Verbatim}
+int_to_binary_string(10)     # '0101'
+int_to_binary_string(6)      # '011'
+int_to_binary_string(1024)   # '10000000000'
+int_to_binary_string(0)      # '0'
+\end{Verbatim}
+Остатки собираются от младшего бита к старшему, а список разворачивается
+только если счётчик больше 10. Поэтому для чисел меньше 1024 запись
+получается обратной (для 10 вместо \texttt{1010} выдаётся \texttt{0101}). Для
+корректного результата следует использовать \texttt{bin(number)[2:]}.
 
-Overleaf supports many different languages, including multiple different languages within one document. 
+\section{История изменений ветки}
 
-To configure the document language, simply edit the option provided to the babel package in the preamble at the top of this example project. To learn more about the different options, please visit this help article on \href{https://www.overleaf.com/learn/latex/International_language_support}{international language support}.
+\begin{table}[h!]
+\centering
+\caption{Коммиты ветки \texttt{doc\_561137}}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Хеш & Сообщение \\
+\midrule
+\texttt{518e551} & replaced name and description of functions \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-To change the spell check language, simply open the Overleaf menu at the top left of the editor window, scroll down to the spell check setting, and adjust accordingly.
+Последний коммит (\texttt{add markdown documentation in docs/}) в историю
+не включается по условию задания.
 
-\subsection{How to add Citations and a References List}
-
-You can simply upload a \verb|.bib| file containing your BibTeX entries, created with a tool such as JabRef. You can then cite entries from it, like this: \cite{greenwade93}. Just remember to specify a bibliography style, as well as the filename of the \verb|.bib|. You can find a \href{https://www.overleaf.com/help/97-how-to-include-a-bibliography-using-bibtex}{video tutorial here} to learn more about BibTeX.
-
-If you have an \href{https://www.overleaf.com/user/subscription/plans}{upgraded account}, you can also import your Mendeley or Zotero library directly as a \verb|.bib| file, via the upload menu in the file-tree.
-
-\subsection{Good luck!}
-
-We hope you find Overleaf useful, and do take a look at our \href{https://www.overleaf.com/learn}{help library} for more tutorials and user guides! Please also let us know if you have any feedback using the Contact Us link at the bottom of the Overleaf menu --- or use the contact form at \url{https://www.overleaf.com/contact}.
-
-\bibliographystyle{alpha}
-\bibliography{sample}
 
 \end{document}
