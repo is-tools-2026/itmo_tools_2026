@@ -75,8 +75,23 @@ print(weekend("Суббота"))
 
 # Функция 3
 
-def h(x):
-    return x % 2 == 0
+def even_number(number):
+    """
+    Проверяет, является ли число чётным.
+
+    Args:
+        number (int): проверяемое число
+
+    Returns:
+        bool: True, если число делится на 2 без остатка, иначе False
+
+    Пример:
+        >>> even_number(4)
+        True
+        >>> even_number(7)
+        False
+    """
+    return number % 2 == 0
 
 # Функция 4
 
