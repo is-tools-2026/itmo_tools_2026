@@ -140,7 +140,7 @@ def calculate_sentiment_score(text: str, positive_words: list[str], negative_wor
         float: Итоговый бал тональности (округлен до 1 знака после запятой).
     
     Example:
-        >>> calculate_sentiment_score("C++ is my favourite coding language!", [favourite, mostly likeable], [worst, disgusting])
+        >>> calculate_sentiment_score("C++ is my favourite coding language!", ["favourite", "mostly likeable"], ["worst", "disgusting"])
         1.5
     """
     
@@ -180,7 +180,7 @@ def to_binary_string(number: int, min_bits: int = 0) -> str:
     
     Example:
         >>> to_binary_string(10)
-        0101
+        '0101'
     """
     bits = []
     bit_count = min_bits
