@@ -49,7 +49,7 @@ print(buy_products(100, 10, 5))
 
 # Функция 2
 
-def check(day):
+def check_weekend(day):
     # Надо подать прошение на включение Пятницы.
     """""
     Проверяет, является ли переданный день выходным.
@@ -58,18 +58,18 @@ def check(day):
     Retrurns:
         bool: True, если день является выходным, иначе False
     Пример:
-        >>> check("Суббота")
+        >>> check_weekend("Суббота")
         True
-        >>> check("Понедельник")
+        >>> check_weekend("Понедельник")
         False
     """""
     return day.lower() in ["сб", "вс", "суббота", "воскресенье"]
 
-print(check("Суббота"))
+print(check_weekend("Суббота"))
 
 # Функция 3
 
-def check(number):
+def check_even(number):
     """""
     Проверяет, является ли число четным.
     Args:
@@ -77,9 +77,9 @@ def check(number):
     Returns:
         bool: True, если число четное, иначе False
     Пример:
-        >>> check(4)
+        >>> check_even(4)
         True
-        >>> check(5)
+        >>> check_even(5)
         False
     """""
     return number % 2 == 0
