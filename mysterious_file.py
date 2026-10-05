@@ -100,14 +100,31 @@ print(is_even(4))
 
 # Функция 4
 
-def z(a, b, c=1):
-    r = []
-    for i in range(a, b, c):
-        # Почему именно три? Потому что два уже
-        # занял предыдущий разработчик, а четыре — это уже перебор.
-        if i % 3 == 0:
-            r.append(i)
-    return r
+def multiples_of_three(start, stop, step=1):
+    """
+    Возвращает числа, кратные трём, из заданного диапазона.
+
+    Args:
+        start (int): начало диапазона, включается в перебор.
+        stop (int): конец диапазона, не включается в перебор.
+        step (int): шаг перебора, по умолчанию 1.
+
+    Returns:
+        list[int]: список чисел, кратных трём.
+
+    Примеры:
+        >>> multiples_of_three(1, 10)
+        [3, 6, 9]
+        >>> multiples_of_three(0, 10, 2)
+        [0, 6]
+    """
+    result = []
+    for number in range(start, stop, step):
+        if number % 3 == 0:
+            result.append(number)
+    return result
+
+print(multiples_of_three(1, 10))
 
 # Функция 5
 
