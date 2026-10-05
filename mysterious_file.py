@@ -148,10 +148,9 @@ def calculate_sentiment_score(text: str, positive_words: list[str], negative_wor
     score = 0.0
     
     for word in words:
-        clean_word = word.strip("!?.,")
-        if clean_word in positive_words:
+        if word in positive_words:
             score += 1 
-        elif clean_word in negative_words:
+        elif word in negative_words:
             score -= 1 
         
         if word.endswith('!'):
@@ -183,7 +182,7 @@ def to_binary_string(number: int, min_bits: int = 0) -> str:
         '0101'
     """
     bits = []
-    bit_count = min_bits
+    bit_count = counter_start
 
     while number > 0:
         bits.append(number % 2)
