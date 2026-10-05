@@ -29,7 +29,7 @@ def buy_products(money, price_per_item, items_count ):
     Args:
         money (int/float): количество денег
         price_per_item (int/float): стоимость одного  товара
-        price_per_item (int): количество покупаемых товаров 
+        items_count (int): количество покупаемых товаров 
     
     Returns:
         int/float: сдача(если денег хватает)
