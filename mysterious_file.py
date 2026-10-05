@@ -86,23 +86,36 @@ def division_3(start, stop, step=1):
 
 # Функция 5
 
-def sentiment_score(t, p_w, n_w):
+def sentiment_score(text, positive_word, negative_word):
+    """
+    Рассчитывает оценку тональности текста.
+
+    Args:
+        text (str): текст для анализа.
+        positive_words (list): список положительных слов.
+        negative_words (list): список отрицательных слов.
+
+    Returns:
+        float: оценка тональности текста.
+    """
+
+
     # Определяет настроение текста точнее, чем мама по голосу в трубке.
-    words = t.lower().split()
-    s = 0
+    words = text.lower().split()
+    score = 0
     
     for word in words:
-        if word in p_w:
-            s += 1  # плюс балл за позитив, можно ещё два
-        elif word in n_w:
-            s -= 1  # минус балл за негатив, грустно стало
+        if word in positive_word:
+            score += 1  # плюс балл за позитив, можно ещё два
+        elif word in negative_word:
+            score -= 1  # минус балл за негатив, грустно стало
         
         if word.endswith('!'):
-            s *= 1.5  # КРИЧИМ И РАДУЕМСЯ!!!
+            score *= 1.5  # КРИЧИМ И РАДУЕМСЯ!!!
         elif word.endswith('?'):
-            s *= 0.3  # сомнение — энтузиазм падает, как курс валют
+            score *= 0.3  # сомнение — энтузиазм падает, как курс валют
     
-    return round(s, 1)
+    return round(score, 1)
 
 
 print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"]))
