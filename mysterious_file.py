@@ -59,11 +59,24 @@ print(calculate_change(100, 10, 5))
 
 # Функция 2
 
-def check(d):
-    # Надо подать прошение на включение Пятницы. 
-    return d.lower() in ["сб", "вс", "суббота", "воскресенье"]
+def is_weekend(day_name: str) -> bool:
+    """
+    Проверяет, является ли указанный день недели выходным (суббота или воскресенье).
 
-print(check("Суббота"))
+    Args:
+        day_name (str): Название дня недели или краткое обозначение.
+    Returns:
+        bool: True, если день - выходной, иначе False.
+    
+        Example:
+            >>> is_weekend("Суббота")
+            True
+            >>> is_weekend("вт")
+            False
+    """
+    return day_name.lower() in ["сб", "вс", "суббота", "воскресенье"]
+
+print(is_weekend("Суббота"))
 
 # Функция 3
 
