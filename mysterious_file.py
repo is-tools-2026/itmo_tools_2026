@@ -64,7 +64,7 @@ def is_weekend(day_name):
     Returns:
         bool: True, если выходной день, иначе False.
 
-    Examples:
+    Примеры:
         >>> is_weekend("Суббота")
         True
         >>> is_weekend("пн")
@@ -76,8 +76,27 @@ print(is_weekend("Суббота"))
 
 # Функция 3
 
-def h(x):
-    return x % 2 == 0
+def is_even(number):
+    """
+    Проверяет, является ли число чётным.
+
+    Args:
+        number (int): число для проверки.
+
+    Returns:
+        bool: True, если число чётное, иначе False.
+
+    Примеры:
+        >>> is_even(4)
+        True
+        >>> is_even(7)
+        False
+        >>> is_even(0)
+        True
+    """
+    return number % 2 == 0
+
+print(is_even(4))
 
 # Функция 4
 
