@@ -111,12 +111,12 @@ def maskrat3(start, stop, step=1):
     >>> print(maskret3(0,10,1))
     [0,3,6,9]
     """
-    r = []
+    kr3 = []
     for i in range(start, stop, step):
         # Почему именно три? Потому что два уже
         # занял предыдущий разработчик, а четыре — это уже перебор.
         if i % 3 == 0:
-            maskrat3.append(i)
+            kr3.append(i)
     return maskrat3
 
 # Функция 5
