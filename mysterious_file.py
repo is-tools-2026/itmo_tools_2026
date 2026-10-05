@@ -128,23 +128,44 @@ print(multiples_of_three(1, 10))
 
 # Функция 5
 
-def sentiment_score(t, p_w, n_w):
-    # Определяет настроение текста точнее, чем мама по голосу в трубке.
-    words = t.lower().split()
-    s = 0
-    
+def sentiment_score(text, positive_words, negative_words):
+    """
+    Вычисляет условную оценку настроения текста.
+
+    Args:
+        text (str): текст для анализа.
+        positive_words (list[str]): позитивные слова
+            в нижнем регистре.
+        negative_words (list[str]): негативные слова
+            в нижнем регистре.
+
+    Returns:
+        int | float: оценка настроения, округлённая
+            до одного знака после запятой.
+
+    Примеры:
+        >>> sentiment_score("love Python!", ["love"], ["hate"])
+        1.5
+        >>> sentiment_score("hate", ["love"], ["hate"])
+        -1
+        >>> sentiment_score("love?", ["love"], ["hate"])
+        0.0
+    """
+    words = text.lower().split()
+    score = 0
+
     for word in words:
-        if word in p_w:
-            s += 1  # плюс балл за позитив, можно ещё два
-        elif word in n_w:
-            s -= 1  # минус балл за негатив, грустно стало
-        
+        if word in positive_words:
+            score += 1
+        elif word in negative_words:
+            score -= 1
+
         if word.endswith('!'):
-            s *= 1.5  # КРИЧИМ И РАДУЕМСЯ!!!
+            score *= 1.5
         elif word.endswith('?'):
-            s *= 0.3  # сомнение — энтузиазм падает, как курс валют
-    
-    return round(s, 1)
+            score *= 0.3
+
+    return round(score, 1)
 
 
 print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"]))
