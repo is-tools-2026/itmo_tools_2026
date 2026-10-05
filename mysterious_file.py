@@ -11,37 +11,51 @@
 """
 
 
-def make_tea(water_ml, sugar_spoons):
+def make_tea(water_ml: int, sugar_spoons: int) -> str:
     """
     Готовит чай, смешивая воду и сахар.
 
     Args:
-        water_ml (int): объём воды в миллилитрах
-        sugar_spoons (int): количество ложек сахара
+        water_ml (int): Объём воды в миллилитрах.
+        sugar_spoons (int): Количество ложек сахара.
 
     Returns:
-        str: описание получившегося напитка
+        str: Описание получившегося напитка.
 
     Пример:
         >>> make_tea(200, 2)
         'Чай: 200 мл воды, 2 ложки сахара'
     """
-    # Рецепт одобрен диетологами, которых никто не спрашивал.
     return f"Чай: {water_ml} мл воды, {sugar_spoons} ложки сахара"
 
 print(make_tea(200, 2))
 
 # Функция 1
 
-def buy_products(money, price_per_item, items_count):
-    # Выдаёт сдачу. Налоги не включены: их никто не любит, даже эта функция.
+def calculate_change(money: int | float, price_per_item: int | float, items_count: int) -> int | float | str:
+    """
+    Вычисляет сдачу при покупке определенного количества товаров.
+
+    Args:
+        money (int | float): Сумма денег у клиента.
+        price_per_item (int | float): Цена одного товара.
+        items_count (int): Количество приобретаемых товаров.
+
+    Returns:
+        int | float | str: Сумма сдачи или сообщение о недостатке средств.
+    
+    Example:
+        >>> calculate_change(100, 10, 5)
+        50
+        >>> calculate_change(30, 10, 5)
+        'Недостаточно денег'
+    """
     total = price_per_item * items_count
     if total > money:
-        # "Денег нет, но вы держитесь" — философская позиция функции.
         return "Недостаточно денег"
     return money - total
 
-print(buy_products(100, 10, 5))
+print(calculate_change(100, 10, 5))
 
 # Функция 2
 
