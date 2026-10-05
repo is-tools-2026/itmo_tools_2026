@@ -165,14 +165,14 @@ print(calculate_sentiment_score("I love Python!", ["love", "like", "enjoy", "ado
 
 # Функция 6
 
-def to_binary_string(number: int, min_bits: int = 0) -> str:
+def to_binary_string(number: int, counter_start: int = 0) -> str:
 
     """
     Преобразует неотприцательное целое число в его двоичное строковое представление.
 
     Args:
         number (int): Преобразуемое число.
-        min_bits (int): Порядок длинны/счетчика итераций (равен 0 по умолчанию).
+        counter_start (int): Порядок длинны/счетчика итераций (равен 0 по умолчанию).
     
     Returns:
         str: Двоичная строка.
