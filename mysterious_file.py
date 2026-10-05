@@ -65,14 +65,15 @@ def is_weekend(day_name: str) -> bool:
 
     Args:
         day_name (str): Название дня недели или краткое обозначение.
+
     Returns:
         bool: True, если день - выходной, иначе False.
     
-        Example:
-            >>> is_weekend("Суббота")
-            True
-            >>> is_weekend("вт")
-            False
+    Example:
+        >>> is_weekend("Суббота")
+        True
+        >>> is_weekend("вт")
+        False
     """
     return day_name.lower() in ["сб", "вс", "суббота", "воскресенье"]
 
@@ -80,8 +81,24 @@ print(is_weekend("Суббота"))
 
 # Функция 3
 
-def h(x):
-    return x % 2 == 0
+def is_even(number: int) -> bool:
+    """
+    Проверяет, является ли число четным.
+
+    Args:
+        number (int): Проверяемое целое число.
+
+    Returns:
+        bool: True, если число четное, иначе False.
+
+    Example:
+        >>> is_even(6)
+        True
+        >>> is_even(1)
+        False
+    """
+
+    return number % 2 == 0
 
 # Функция 4
 
