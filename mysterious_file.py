@@ -28,7 +28,7 @@ def buy_products(money, price_per_item, items_count):
         Args:
             money (int): Сумма для покупки
             price_per_item (int): Цена за товар
-            item_counts (int): Количество покупаемых товаров
+            items_counts (int): Количество покупаемых товаров
         Returns:
                 str: Сообщение о недостатке денег
                 int: Сдача после покупки
@@ -55,7 +55,7 @@ def check_weekend(day):
     Проверяет, является ли переданный день выходным.
     Args:
         day (str): Название дня недели
-    Retrurns:
+    Returns:
         bool: True, если день является выходным, иначе False
     Пример:
         >>> check_weekend("Суббота")
@@ -93,13 +93,13 @@ def multiples_of_three(first, last, step=1):
         first (int): Начальное число
         last (int): Конечное число
         step (int): Шаг между числами, по умолчанию равен 1
-        Returns:
-            list: Список чисел, делящихся на 3
-        Пример:
-            >>> multiples_of_three(1, 30)
-            [3, 6, 9, 12, 15, 18, 21, 24, 27]
-            >>> multiples_of_three(1, 30, 2)
-            [3, 9, 15, 21, 27]
+    Returns:
+        list: Список чисел, делящихся на 3
+    Пример:
+        >>> multiples_of_three(1, 30)
+        [3, 6, 9, 12, 15, 18, 21, 24, 27]
+        >>> multiples_of_three(1, 30, 2)
+        [3, 9, 15, 21, 27]
     """""
     r = []
     for i in range(first, last, step):
@@ -150,9 +150,9 @@ print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appr
 
 def int_to_binary(number, count=0):  # TODO: переименовать, Витя опять не согласовал нейминг
     """""
-    Переводит число из десятичной системы счисления в двоичную, если число состоит из 10 разрядов в двоичной системе, 
+    Переводит число из десятичной системы счисления в двоичную, если число состоит более чем из 10 разрядов в двоичной системе, 
     в противном случае после перевода выводит число наоборот.
-    Args:2
+    Args:
         number (int): число в десятичной системе счисления
         count (int): счетчик разрядов числа в двоичной системе
     Returns:
