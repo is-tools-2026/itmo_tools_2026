@@ -12,6 +12,7 @@
 \usepackage{listings}
 \usepackage{fancyvrb}
 \fvset{frame=single,fontsize=\small,framesep=2mm}
+\usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{amsmath}
@@ -22,6 +23,12 @@
 \let\oldunderscore\_
 \renewcommand{\_}{\oldunderscore\allowbreak}
 \usepackage{ragged2e}
+\newcommand{\shot}[3]{%
+  \begin{figure}[h!]\centering
+  \IfFileExists{#1}{\includegraphics[width=\linewidth,height=0.4\textheight,keepaspectratio]{#1}}%
+  {\fbox{\parbox{0.9\linewidth}{\centering\vspace{2cm}Здесь будет скриншот: \texttt{\detokenize{#1}}\vspace{2cm}}}}
+  \caption{#2}\label{#3}
+  \end{figure}}
 
 \lstdefinestyle{py}{
   language=Python,
@@ -200,6 +207,8 @@ int_to_binary_string(0)      # '0'
 Хеш & Сообщение \\
 \midrule
 \texttt{518e551} & replaced name and description of functions \\
+\texttt{9d59e2c} & add markdown documentation in docs/ \\
+\texttt{42f30c9} & documentation in latex \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -207,5 +216,15 @@ int_to_binary_string(0)      # '0'
 Последний коммит (\texttt{add markdown documentation in docs/}) в историю
 не включается по условию задания.
 
+
+\section{Скриншоты}
+
+\shot{screenshots/md_code.png}{Код документа \texttt{docs/documentation.md} (Markdown)}{fig:mdcode}
+
+\shot{screenshots/md_preview.png}{Превью документа \texttt{docs/documentation.md}}{fig:mdprev}
+
+\shot{screenshots/tex_code.png}{Исходный код отчёта в LaTeX}{fig:texcode}
+
+\shot{screenshots/tex_compile.png}{PDF-файл по результатам компиляции в LaTeX}{fig:texcode}
 
 \end{document}
