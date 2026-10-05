@@ -53,18 +53,36 @@ print(weekend("Суббота"))
 # Функция 3
 
 def parity(number):
+    """
+    Проверяет, является ли число чётным.
+
+    Args:
+         число для проверки.
+
+    Returns:
+        True, если число чётное, иначе False.
+    """
     return number % 2 == 0
 
 # Функция 4
 
-def z(a, b, c=1):
-    r = []
-    for i in range(a, b, c):
-        # Почему именно три? Потому что два уже
-        # занял предыдущий разработчик, а четыре — это уже перебор.
-        if i % 3 == 0:
-            r.append(i)
-    return r
+def division_3(start, stop, step=1):
+    """
+    Находит числа, которые делятся на 3 без остатка.
+
+    Args:
+        start : начало диапазона.
+        stop : конец диапазона.
+        step : шаг.
+
+    Returns:
+        список чисел, кратных 3.
+    """
+    arr = []
+    for number in range(start, stop, step):
+        if number % 3 == 0:
+            arr.append(number)
+    return arr
 
 # Функция 5
 
