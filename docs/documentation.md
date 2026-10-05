@@ -20,6 +20,8 @@
 ```python
 >>> make_tea(200, 2)
 'Чай: 200 мл воды, 2 ложки сахара'
+```
+
 
 ### 1. buy_products(money, price_per_item, items_count )
 
