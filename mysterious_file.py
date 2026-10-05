@@ -58,6 +58,8 @@ def weekend(day):
     Returns:
         True, если день является субботой или воскресеньем,
         иначе False.
+    Example:
+        weekend("Суббота")
     '''
 
     return day.lower() in ["сб", "вс", "суббота", "воскресенье"]
@@ -75,6 +77,9 @@ def parity(number):
 
     Returns:
         True, если число чётное, иначе False.
+    
+    Example:
+        parity(10)
     """
     return number % 2 == 0
 
@@ -91,6 +96,9 @@ def division_3(start, stop, step=1):
 
     Returns:
         список чисел, кратных 3.
+
+    Example:
+        division_3(1, 10)
     """
     arr = []
     for number in range(start, stop, step):
@@ -102,7 +110,7 @@ def division_3(start, stop, step=1):
 
 def sentiment_score(text, positive_word, negative_word):
     """
-    Рассчитывает оценку тональности текста.
+    Рассчитывает оценку текста.
 
     Args:
         text (str): текст для анализа.
@@ -110,14 +118,17 @@ def sentiment_score(text, positive_word, negative_word):
         negative_words (list): список отрицательных слов.
 
     Returns:
-        float: оценка тональности текста.
+        оценка тональности текста.
+    Example:
+        sentiment_score(
+            "Это хороший день!",
+            ["хороший"],
+            ["плохой"]
+        )
     """
-
-
     # Определяет настроение текста точнее, чем мама по голосу в трубке.
     words = text.lower().split()
     score = 0
-    
     for word in words:
         if word in positive_word:
             score += 1  # плюс балл за позитив, можно ещё два
@@ -146,7 +157,10 @@ def process_number(number, count=0):# TODO: переименовать, Витя
         count : количество итераций.
 
     Returns:
-        str: строка с результатами обработки.
+        строка с результатами обработки.
+    
+    Example:
+        process_number(10)
     """
     digits = []  # тут будет результат, но я не уверен
   
