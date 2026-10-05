@@ -1,0 +1,212 @@
+# Пример
+
+def make_tea(water_ml, sugar_spoons):
+    """
+    Готовит чай, смешивая воду и сахар.
+
+    Args:
+        water_ml (int): объём воды в миллилитрах
+        sugar_spoons (int): количество ложек сахара
+
+    Returns:
+        str: описание получившегося напитка
+
+    Пример:
+        >>> make_tea(200, 2)
+        'Чай: 200 мл воды, 2 ложки сахара'
+    """
+    # Рецепт одобрен диетологами, которых никто не спрашивал.
+    return f"Чай: {water_ml} мл воды, {sugar_spoons} ложки сахара"
+
+print(make_tea(200, 2))
+
+# Функция 1
+
+def buy_products(money, price_per_item, items_count):
+    """
+    Вычисляет сдачу после покупки указанного количества товара.
+
+    Args:
+        money (int): доступная сумма денег.
+        price_per_item (int): цена одного товара.
+        items_count (int): количество покупаемого товара.
+
+    Returns:
+        int | str: сдача, если денег хватает,
+        иначе строка "Недостаточно денег".
+
+    Пример:
+        >>> calculate_change(100, 10, 5)
+        50
+        >>> calculate_change(40, 10, 5)
+        "Недостаточно денег"
+    """
+    # Выдаёт сдачу. Налоги не включены: их никто не любит, даже эта функция.
+    total = price_per_item * items_count
+    if total > money:
+        # "Денег нет, но вы держитесь" — философская позиция функции.
+        return "Недостаточно денег"
+    return money - total
+
+print(buy_products(100, 10, 5))
+
+# Функция 2
+
+def is_weekend(day_name):
+    """
+    Проверяет, обозначает ли строка выходной день.
+
+    Args:
+        day_name (str): название или сокращение дня недели.
+            Возможные обозначения выходных: "сб", "вс",
+            "суббота", "воскресенье". Регистр не влияет.
+
+    Returns:
+        bool: True, если выходной день, иначе False.
+
+    Примеры:
+        >>> is_weekend("Суббота")
+        True
+        >>> is_weekend("пн")
+        False
+    """
+    return day_name.lower() in ["сб", "вс", "суббота", "воскресенье"]
+
+print(is_weekend("Суббота"))
+
+# Функция 3
+
+def is_even(number):
+    """
+    Проверяет, является ли число чётным.
+
+    Args:
+        number (int): число для проверки.
+
+    Returns:
+        bool: True, если число чётное, иначе False.
+
+    Примеры:
+        >>> is_even(4)
+        True
+        >>> is_even(7)
+        False
+        >>> is_even(0)
+        True
+    """
+    return number % 2 == 0
+
+print(is_even(4))
+
+# Функция 4
+
+def multiples_of_three(start, stop, step=1):
+    """
+    Возвращает числа, кратные трём, из заданного диапазона.
+
+    Args:
+        start (int): начало диапазона, включается в перебор.
+        stop (int): конец диапазона, не включается в перебор.
+        step (int): шаг перебора, по умолчанию 1.
+
+    Returns:
+        list[int]: список чисел, кратных трём.
+
+    Примеры:
+        >>> multiples_of_three(1, 10)
+        [3, 6, 9]
+        >>> multiples_of_three(0, 10, 2)
+        [0, 6]
+    """
+    result = []
+    for number in range(start, stop, step):
+        if number % 3 == 0:
+            result.append(number)
+    return result
+
+print(multiples_of_three(1, 10))
+
+# Функция 5
+
+def sentiment_score(text, positive_words, negative_words):
+    """
+    Вычисляет условную оценку настроения текста.
+
+    Args:
+        text (str): текст для анализа.
+        positive_words (list[str]): позитивные слова
+            в нижнем регистре.
+        negative_words (list[str]): негативные слова
+            в нижнем регистре.
+
+    Returns:
+        int | float: оценка настроения, округлённая
+            до одного знака после запятой.
+
+    Примеры:
+        >>> sentiment_score("love Python!", ["love"], ["hate"])
+        1.5
+        >>> sentiment_score("hate", ["love"], ["hate"])
+        -1
+        >>> sentiment_score("love?", ["love"], ["hate"])
+        0.0
+    """
+    words = text.lower().split()
+    score = 0
+
+    for word in words:
+        if word in positive_words:
+            score += 1
+        elif word in negative_words:
+            score -= 1
+
+        if word.endswith('!'):
+            score *= 1.5
+        elif word.endswith('?'):
+            score *= 0.3
+
+    return round(score, 1)
+
+
+print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"]))
+
+# Функция 6
+
+def binary_digits(number, counter=0):
+    """
+    Возвращает двоичные цифры числа строкой.
+    Порядок цифр зависит от значения счётчика.
+
+    Args:
+        number (int): число для преобразования.
+            Для нуля и отрицательных чисел возвращается "0".
+        counter (int): начальное значение счётчика,
+            по умолчанию 0. Увеличивается на 1
+            за каждую полученную двоичную цифру.
+
+    Returns:
+        str: двоичные цифры от младшей к старшей.
+            Если итоговый счётчик больше 10,
+            цифры возвращаются от старшей к младшей.
+
+    Примеры:
+        >>> binary_digits(10)
+        '0101'
+        >>> binary_digits(10, 7)
+        '1010'
+        >>> binary_digits(0)
+        '0'
+    """
+    digits = []
+
+    while number > 0:
+        digits.append(number % 2)
+        number = number // 2
+        counter += 1
+
+    if counter > 10:
+        digits.reverse()
+
+    return ''.join(map(str, digits)) if digits else "0"
+
+print(binary_digits(10))
