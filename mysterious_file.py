@@ -102,14 +102,27 @@ def is_even(number: int) -> bool:
 
 # Функция 4
 
-def z(a, b, c=1):
-    r = []
-    for i in range(a, b, c):
-        # Почему именно три? Потому что два уже
-        # занял предыдущий разработчик, а четыре — это уже перебор.
-        if i % 3 == 0:
-            r.append(i)
-    return r
+def find_multiples_of_three(start: int, stop: int, step: int = 1) -> list[int]:
+    """
+    Находит все числа, кратные трем, в заданном диапазоне.
+
+    Args:
+        start (int): Начало диапазона.
+        stop (int): Конец диапазона (не включительно).
+        step (int): Шаг итерации (длинна шага), который по умолчанию равен 1.
+    
+    Returns:
+        list[int]: Список чисел из диапазона, которые соответствуют условию кратности 3.
+
+    Example:
+        >>> find_multiples_of_three(1, 10)
+        [3, 6, 9]
+    """
+    multiples = []
+    for current_number in range(start, stop, step):
+        if current_number % 3 == 0:
+            multiples.append(current_number)
+    return multiples
 
 # Функция 5
 
