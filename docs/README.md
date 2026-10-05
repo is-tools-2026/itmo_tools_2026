@@ -204,6 +204,14 @@ transform_into_binary(12, 23) # ('1100', 27)
 
 
 ## История изменений ветки doc_561160
-1. `785a7c6` - Сообщение: "add(docs): add docs folder for functions description and fixing <mysterious_file.py>"
+1. `785a7c6`
+*Сообщение:* 
+    "add(docs): add <docs> folder for functions description and fixing <mysterious_file.py>"
 
-2. 
+2. `f9a4f55`
+*Сообщение:*
+    "update(mysterious_file): add true descriptions for functions"
+
+3. `41c7cc1`
+*Сообщение:* 
+    "add(docs): add <README.md> file with descriptions for functions, without code"
