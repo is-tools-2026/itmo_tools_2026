@@ -96,6 +96,23 @@ def chetnoe(number):
 # Функция 4
 
 def numbers_divisible_by_3(start, stop, step=1):
+    """
+    Возвращает числа из диапазона, которые делятся на 3 без остатка.
+
+    Args:
+        start (int): начало диапазона
+        stop (int): конец диапазона
+        step (int): шаг перебора (по умолчанию 1)
+
+    Returns:
+        list[int]: список чисел из диапазона, кратных 3
+
+    Пример:
+        >>> numbers_divisible_by_3(1, 10)
+        [3, 6, 9]
+        >>> numbers_divisible_by_3(0, 20, 5)
+        [0, 15]
+    """
     result = []
     for i in range(start, stop, step):
         # Почему именно три? Потому что два уже
@@ -107,6 +124,25 @@ def numbers_divisible_by_3(start, stop, step=1):
 # Функция 5
 
 def sentiment_score(text, positive_words, negative_words):
+    """
+    Определяет настроение текста по списку положительных и отрицательных слов.
+
+    Args:
+        text (str): анализируемый текст
+        positive_words (list[str]): список слов, повышающих оценку
+        negative_words (list[str]): список слов, понижающих оценку
+
+    Returns:
+        float: итоговая оценка настроения текста (округлённая до 1 знака).
+            Восклицательный знак в конце слова усиливает эффект на x1.5,
+            вопросительный наоборот ослабляет на x0.3
+
+    Пример:
+        >>> sentiment_score("I love Python!", ["love", "like"], ["hate", "dislike"])
+        1.5
+        >>> sentiment_score("I hate it", ["love", "like"], ["hate", "dislike"])
+        -1
+    """
     # Определяет настроение текста точнее, чем мама по голосу в трубке.
     words = text.lower().split()
     score = 0
@@ -130,6 +166,25 @@ print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appr
 # Функция 6
 
 def to_binary(number, bit_count=0):  # TODO: переименовать, Витя опять не согласовал нейминг
+    """
+    Переводит число в двоичную запись.
+
+    Args:
+        number (int): число для перевода
+        bit_count (int): счётчик количества бит, изначально 0
+
+    Returns:
+        str: двоичное представление числа (при малых числах порядок
+            разрядов может быть перевёрнут)
+
+    Пример:
+        >>> to_binary(10)
+        '0101'
+        >>> to_binary(0)
+        '0'
+        >>> to_binary(1024)
+        '10000000000'
+    """
     bits = []  # тут будет результат, но я не уверен
     
     while number > 0:  # костыль: если number = 0 падает, но заказчик сказал "и так сойдёт"
