@@ -126,26 +126,43 @@ def find_multiples_of_three(start: int, stop: int, step: int = 1) -> list[int]:
 
 # Функция 5
 
-def sentiment_score(t, p_w, n_w):
-    # Определяет настроение текста точнее, чем мама по голосу в трубке.
-    words = t.lower().split()
-    s = 0
+def calculate_sentiment_score(text: str, positive_words: list[str], negative_words: list[str]) -> float:
+    """
+    Оценивает тональность текста на основе списков позитивных или негативных слов.
+    Учитывает восклицательные (увеличение эмоционральности) и вопросительные знаки (возникновение неуверенности) в конце слов.
+
+    Args:
+        text (str): Входной текст.
+        positive_words (list[str]): Список всех слов с позитивным тоном.
+        negative_words (list[str]): Список всех слов с негативным тоном.
+    
+    Returns:
+        float: Итоговый бал тональности (округлен до 1 знака после запятой).
+    
+    Example:
+        >>> calculate_sentiment_score("C++ is my favourite coding language!", [favourite, mostly likeable], [worst, disgusting])
+        1.5
+    """
+    
+    words = text.lower().split()
+    score = 0.0
     
     for word in words:
-        if word in p_w:
-            s += 1  # плюс балл за позитив, можно ещё два
-        elif word in n_w:
-            s -= 1  # минус балл за негатив, грустно стало
+        clean_word = word.strip("!?.,")
+        if clean_word in positive_words:
+            score += 1 
+        elif clean_word in negative_words:
+            score -= 1 
         
         if word.endswith('!'):
-            s *= 1.5  # КРИЧИМ И РАДУЕМСЯ!!!
+            score *= 1.5
         elif word.endswith('?'):
-            s *= 0.3  # сомнение — энтузиазм падает, как курс валют
+            score *= 0.3 
     
-    return round(s, 1)
+    return round(score, 1)
 
 
-print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"]))
+print(calculate_sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"]))
 
 # Функция 6
 
