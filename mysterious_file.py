@@ -15,7 +15,6 @@ def make_tea(water_ml, sugar_spoons):
         >>> make_tea(200, 2)
         'Чай: 200 мл воды, 2 ложки сахара'
     """
-    # Рецепт одобрен диетологами, которых никто не спрашивал.
     return f"Чай: {water_ml} мл воды, {sugar_spoons} ложки сахара"
 
 print(make_tea(200, 2))
@@ -36,10 +35,8 @@ def buy_products(money, price_per_item, items_count):
         >>>buy_products(100, 10, 5)
         '50'
     """
-    # Выдаёт сдачу. Налоги не включены: их никто не любит, даже эта функция.
     total = price_per_item * items_count
     if total > money:
-        # "Денег нет, но вы держитесь" — философская позиция функции.
         return "Недостаточно денег"
     return money - total
 
@@ -58,7 +55,6 @@ def check_if_weekend(weekend):
         >>>check("Суббота")
         'True'
     """
-    # Надо подать прошение на включение Пятницы. 
     return weekend.lower() in ["сб", "вс", "суббота", "воскресенье"]
 
 print(check_if_weekend("Суббота"))
@@ -100,8 +96,6 @@ def check_division_by_3(first_point, second_point, with_step=1):
     """
     checked_numbers_div_by_3 = []
     for numba in range(first_point, second_point, with_step):
-        # Почему именно три? Потому что два уже
-        # занял предыдущий разработчик, а четыре — это уже перебор.
         if numba % 3 == 0:
             checked_numbers_div_by_3.append(numba)
     return checked_numbers_div_by_3
@@ -126,20 +120,19 @@ def sentiment_score(phrase, positive_words, negative_words):
         >>>print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"]))
         '1.5'
     """
-    # Определяет настроение текста точнее, чем мама по голосу в трубке.
     words = phrase.lower().split()
     mood = 0
     
     for word in words:
         if word in positive_words:
-            mood += 1  # плюс балл за позитив, можно ещё два
+            mood += 1
         elif word in negative_words:
-            mood -= 1  # минус балл за негатив, грустно стало
+            mood -= 1
         
         if word.endswith('!'):
-            mood *= 1.5  # КРИЧИМ И РАДУЕМСЯ!!!
+            mood *= 1.5
         elif word.endswith('?'):
-            mood *= 0.3  # сомнение — энтузиазм падает, как курс валют
+            mood *= 0.3
     
     return round(mood, 1)
 
@@ -148,7 +141,7 @@ print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appr
 
 # Функция 6
 
-def convert_to_binary_if(number_bit_count, bit_count=0):  # TODO: переименовать, Витя опять не согласовал нейминг
+def convert_to_binary_if(number_bit_count, bit_count=0):
     """
     Переводит число в двоичную систему исчесления
     Возвращает в обратном если битов меньше чем bit_count
@@ -164,14 +157,14 @@ def convert_to_binary_if(number_bit_count, bit_count=0):  # TODO: переиме
         '0101'
 
     """
-    result_bit_count = []  # тут будет результат, но я не уверен
+    result_bit_count = []
     
-    while number_bit_count > 0:  # костыль: если x = 0 падает, но заказчик сказал "и так сойдёт"
-        result_bit_count.append(number_bit_count % 2)  # зачем тут mod 2? спросите у прошлого разраба, он уволился
-        number_bit_count //= 2  # магия. не трогать!!!
-        bit_count += 1  # счётчик дней, недель, часов? хз, в ТЗ не было
-    if bit_count > 10:  # 10 взял из головы, потом поменяю (нет)
-        result_bit_count.reverse()  # разворот, потому что иначе клиент жаловался
-    return ''.join(map(str, result_bit_count)) if result_bit_count else "0"  # FIXME: работает — не трогай
+    while number_bit_count > 0:
+        result_bit_count.append(number_bit_count % 2)
+        number_bit_count //= 2
+        bit_count += 1
+    if bit_count > 10:
+        result_bit_count.reverse()
+    return ''.join(map(str, result_bit_count)) if result_bit_count else "0"
 
 print(convert_to_binary_if(10))
