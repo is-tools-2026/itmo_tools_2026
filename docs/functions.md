@@ -186,4 +186,4 @@ convert_to_binary(10)
 | Коммит | Описание |
 |---|---|
 | `00c2008` | Document and rename functions |
-| `<hash>` | Add project documentation |
+| `f923314` | Add project documentation |
