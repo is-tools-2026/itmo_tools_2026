@@ -159,6 +159,10 @@ def convert_to_binary_if(number_bit_count, bit_count=0):  # TODO: переиме
         bit_count (int): количество битов в числе
         result_bit_count(str): записываем сюда биты 
 
+    Пример:
+        >>>print(convert_to_binary_if(10))
+        '0101'
+
     """
     result_bit_count = []  # тут будет результат, но я не уверен
     
