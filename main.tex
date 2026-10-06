@@ -1,119 +1,152 @@
-\documentclass{article}
+\documentclass[12pt,a4paper]{article}
 
-% Language setting
-% Replace `english' with e.g. `spanish' to change the document language
-\usepackage[english]{babel}
+% Поддержка русского языка и кодировок
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[T2A]{fontenc}
 
-% Set page size and margins
-% Replace `letterpaper' with `a4paper' for UK/EU standard size
-\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
-
-% Useful packages
-\usepackage{amsmath}
+% Поля страницы
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{hyperref}
 \usepackage{graphicx}
-\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{float}
 
-\title{Your Paper}
-\author{You}
+\title{\textbf{Отчет по лабораторной работе} \\ Документирование кода и составление README.md}
+\author{Университет ИТМО \\ Выполнил: Павлов Артем \\ ИСУ: 561999}
+\date{Октябрь 2026 г.}
 
 \begin{document}
+
 \maketitle
 
-\begin{abstract}
-Your abstract.
-\end{abstract}
+\section{Цель работы}
+Научиться писать документацию к проекту в формате Markdown, проводить рефакторинг исходного кода, задавать понятные имена переменным, добавлять аннотации типов и оформлять итоговый отчет в системе верстки \LaTeX.
 
-\section{Introduction}
+\section{Документация проекта (\texttt{docs/README.md})}
 
-Your introduction goes here! Simply start writing your document and use the Recompile button to view the updated PDF preview. Examples of commonly used commands and features are listed below, to help you get started.
+\subsection{Описание функций (\texttt{mysterious\_file.py})}
 
-Once you're familiar with the editor, you can find various project settings in the Overleaf menu, accessed via the button in the very top left of the editor. To view tutorials, user guides, and further documentation, please visit our \href{https://www.overleaf.com/learn}{help library}, or head to our plans page to \href{https://www.overleaf.com/user/subscription/plans}{choose your plan}.
-
-\section{Some examples to get started}
-
-\subsection{How to create Sections and Subsections}
-
-Simply use the section and subsection commands, as in this example document! With Overleaf, all the formatting and numbering is handled automatically according to the template you've chosen. If you're using the Visual Editor, you can also create new section and subsections via the buttons in the editor toolbar.
-
-\subsection{How to include Figures}
-
-First you have to upload the image file from your computer using the upload link in the file-tree menu. Then use the includegraphics command to include it in your document. Use the figure environment and the caption command to add a number and a caption to your figure. See the code for Figure \ref{fig:frog} in this section for an example.
-
-Note that your figure will automatically be placed in the most appropriate place for it, given the surrounding text and taking into account other figures or tables that may be close by. You can find out more about adding images to your documents in this help article on \href{https://www.overleaf.com/learn/how-to/Including_images_on_Overleaf}{including images on Overleaf}.
-
-\begin{figure}
-\centering
-\includegraphics[width=0.25\linewidth]{frog.jpg}
-\caption{\label{fig:frog}This frog was uploaded via the file-tree menu.}
-\end{figure}
-
-\subsection{How to add Tables}
-
-Use the table and tabular environments for basic tables --- see Table~\ref{tab:widgets}, for example. For more information, please see this help article on \href{https://www.overleaf.com/learn/latex/tables}{tables}. 
-
-\begin{table}
-\centering
-\begin{tabular}{l|r}
-Item & Quantity \\\hline
-Widgets & 42 \\
-Gadgets & 13
-\end{tabular}
-\caption{\label{tab:widgets}An example table.}
-\end{table}
-
-\subsection{How to add Comments and Track Changes}
-
-Comments can be added to your project by highlighting some text and clicking ``Add comment'' in the top right of the editor pane. To view existing comments, click on the Review menu in the toolbar above. To reply to a comment, click on the Reply button in the lower right corner of the comment. You can close the Review pane by clicking its name on the toolbar when you're done reviewing for the time being.
-
-Track changes are available on all our \href{https://www.overleaf.com/user/subscription/plans}{premium plans}, and can be toggled on or off using the option at the top of the Review pane. Track changes allow you to keep track of every change made to the document, along with the person making the change. 
-
-\subsection{How to add Lists}
-
-You can make lists with automatic numbering \dots
-
-\begin{enumerate}
-\item Like this,
-\item and like this.
-\end{enumerate}
-\dots or bullet points \dots
+\subsubsection{\texttt{buy\_products}}
+Считает сдачу с купленных товаров, вычитая общую стоимость (цена $\times$ количество) из имеющегося количества денег.
 \begin{itemize}
-\item Like this,
-\item and like this.
+    \item \textbf{Типы параметров:}
+    \begin{itemize}
+        \item \texttt{money} (\texttt{int}): Количество денег у покупателя.
+        \item \texttt{price\_per\_item} (\texttt{int}): Цена за одну единицу товара.
+        \item \texttt{items\_count} (\texttt{int}): Количество покупаемых товаров.
+    \end{itemize}
+    \item \textbf{Возвращаемое значение:} \texttt{int} --- сумма сдачи.
+\end{itemize}
+\textbf{Пример вызова:} \texttt{buy\_products(100, 10, 5)} $\rightarrow$ \texttt{50}
+
+\subsubsection{\texttt{check\_if\_weekend}}
+Проверяет, является ли введенный день недели выходным (суббота или воскресенье), предварительно приводя строку к нижнему регистру.
+\begin{itemize}
+    \item \textbf{Типы параметров:}
+    \begin{itemize}
+        \item \texttt{weekend} (\texttt{str}): Название дня недели.
+    \end{itemize}
+    \item \textbf{Возвращаемое значение:} \texttt{bool} --- \texttt{True}, если день выходной, иначе \texttt{False}.
+\end{itemize}
+\textbf{Пример вызова:} \texttt{check\_if\_weekend("Суббота")} $\rightarrow$ \texttt{True}
+
+\subsubsection{\texttt{even}}
+Проверяет число на четность.
+\begin{itemize}
+    \item \textbf{Типы параметров:}
+    \begin{itemize}
+        \item \texttt{number\_even} (\texttt{int}): Проверяемое целое число.
+    \end{itemize}
+    \item \textbf{Возвращаемое значение:} \texttt{bool} --- \texttt{True}, если число четное, иначе \texttt{False}.
+\end{itemize}
+\textbf{Пример вызова:} \texttt{even(100)} $\rightarrow$ \texttt{True}
+
+\subsubsection{\texttt{check\_division\_by\_3}}
+Проверяет в промежутке от \texttt{first\_point} до \texttt{second\_point} с шагом \texttt{with\_step}, какие из чисел делятся на 3, и записывает их в список.
+\begin{itemize}
+    \item \textbf{Типы параметров:}
+    \begin{itemize}
+        \item \texttt{first\_point} (\texttt{int}): Первая точка промежутка.
+        \item \texttt{second\_point} (\texttt{int}): Вторая точка промежутка.
+        \item \texttt{with\_step} (\texttt{int}): Шаг прохождения промежутка.
+    \end{itemize}
+    \item \textbf{Возвращаемое значение:} \texttt{list[int]} --- список чисел, деляющихся на 3.
+\end{itemize}
+\textbf{Пример вызова:} \texttt{check\_division\_by\_3(9, 15, 2)} $\rightarrow$ \texttt{[9]}
+
+\subsubsection{\texttt{sentiment\_score}}
+Анализирует тональность текста (фразы) на основе списков позитивных и негативных слов.
+\begin{itemize}
+    \item \textbf{Типы параметров:}
+    \begin{itemize}
+        \item \texttt{phrase} (\texttt{str}): Проверяемая фраза.
+        \item \texttt{positive\_words} (\texttt{list[str]}): Список слов с позитивной окраской.
+        \item \texttt{negative\_words} (\texttt{list[str]}): Список слов с негативной окраской.
+    \end{itemize}
+    \item \textbf{Возвращаемое значение:} \texttt{float} --- итоговый индекс тональности.
+\end{itemize}
+\textbf{Пример вызова:} \texttt{sentiment\_score('I love Python!', ["love"], ["hate"])} $\rightarrow$ \texttt{1.5}
+
+\subsubsection{convert\_to\_binary\_if}
+Переводит число в двоичную систему счисления с проверкой количества битов.
+\begin{itemize}
+    \item Типы параметров:
+    \begin{itemize}
+        \item \texttt{number\_bit\_count} (int): Переводимое число.
+        \item \texttt{bit\_count} (int): Пороговое количество битов.
+    \end{itemize}
+    \item Возвращаемое значение: \texttt{str} --- строка с битовым представлением.
+\end{itemize}
+\textbf{Пример вызова:} \texttt{convert\_to\_binary\_if(10)} $\to$ \texttt{'0101'}
+
+\subsection{История изменений ветки doc\_561999}
+\begin{itemize}
+    \item \texttt{c97f6b9} --- починил переменные и добавил объяснение функциям
+    \item \texttt{5e63ac3} --- добавил пример в последней функции
 \end{itemize}
 
-\subsection{How to write Mathematics}
+\section{Скриншоты}
 
-\LaTeX{} is great at typesetting mathematics. Let $X_1, X_2, \ldots, X_n$ be a sequence of independent and identically distributed random variables with $\text{E}[X_i] = \mu$ and $\text{Var}[X_i] = \sigma^2 < \infty$, and let
-\[S_n = \frac{X_1 + X_2 + \cdots + X_n}{n}
-      = \frac{1}{n}\sum_{i}^{n} X_i\]
-denote their mean. Then as $n$ approaches infinity, the random variables $\sqrt{n}(S_n - \mu)$ converge in distribution to a normal $\mathcal{N}(0, \sigma^2)$.
+\subsection{Код функций (\texttt{mysterious\_file.py})}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images/func1_buy_products.png}
+    \caption{Функция 1: \texttt{buy\_products}}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/func2_check_if_weekend.png}
+    \caption{Функция 2: \texttt{check\_if\_weekend}}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/func3_even.png}
+    \caption{Функция 3: \texttt{even}}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/func4_check_division_by_3.png}
+    \caption{Функция 4: \texttt{check\_division\_by\_3}}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/func5_sentiment_score.png}
+    \caption{Функция 5: \texttt{sentiment\_score}}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/func6_convert_to_binary_if.png}
+    \caption{Функция 6: \texttt{convert\_to\_binary\_if}}
+\end{figure}
 
 
-\subsection{How to change the margins and paper size}
-
-Usually the template you're using will have the page margins and paper size set correctly for that use-case. For example, if you're using a journal article template provided by the journal publisher, that template will be formatted according to their requirements. In these cases, it's best not to alter the margins directly.
-
-If however you're using a more general template, such as this one, and would like to alter the margins, a common way to do so is via the geometry package. You can find the geometry package loaded in the preamble at the top of this example file, and if you'd like to learn more about how to adjust the settings, please visit this help article on \href{https://www.overleaf.com/learn/latex/page_size_and_margins}{page size and margins}.
-
-\subsection{How to change the document language and spell check settings}
-
-Overleaf supports many different languages, including multiple different languages within one document. 
-
-To configure the document language, simply edit the option provided to the babel package in the preamble at the top of this example project. To learn more about the different options, please visit this help article on \href{https://www.overleaf.com/learn/latex/International_language_support}{international language support}.
-
-To change the spell check language, simply open the Overleaf menu at the top left of the editor window, scroll down to the spell check setting, and adjust accordingly.
-
-\subsection{How to add Citations and a References List}
-
-You can simply upload a \verb|.bib| file containing your BibTeX entries, created with a tool such as JabRef. You can then cite entries from it, like this: \cite{greenwade93}. Just remember to specify a bibliography style, as well as the filename of the \verb|.bib|. You can find a \href{https://www.overleaf.com/help/97-how-to-include-a-bibliography-using-bibtex}{video tutorial here} to learn more about BibTeX.
-
-If you have an \href{https://www.overleaf.com/user/subscription/plans}{upgraded account}, you can also import your Mendeley or Zotero library directly as a \verb|.bib| file, via the upload menu in the file-tree.
-
-\subsection{Good luck!}
-
-We hope you find Overleaf useful, and do take a look at our \href{https://www.overleaf.com/learn}{help library} for more tutorials and user guides! Please also let us know if you have any feedback using the Contact Us link at the bottom of the Overleaf menu --- or use the contact form at \url{https://www.overleaf.com/contact}.
-
-\bibliographystyle{alpha}
-\bibliography{sample}
+\section{Вывод}
+В ходе выполнения лабораторной работы были задокументированы функции файла \texttt{mysterious\_file.py}, проведен рефакторинг имен переменных и аннотаций типов, создан файл \texttt{docs/README.md} и скомпилирован итоговый отчет в \LaTeX.
 
 \end{document}
