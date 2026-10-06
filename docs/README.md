@@ -1,109 +1,183 @@
-\documentclass[12pt,a4paper]{article}
+# Документация проекта
 
-% Поддержка русского языка и кодировок
-\usepackage[utf8]{inputenc}
-\usepackage[russian]{babel}
-\usepackage[T2A]{fontenc}
+Документация функций файла `mysterious_file.py`.
 
-% Поля страницы
-\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
-\usepackage{hyperref}
+- Автор: Павлов Артем
+- ИСУ: 561999
+- Ветка: `doc_561999`
 
-\title{\textbf{Отчет по лабораторной работе} \\ Документирование кода и составление README.md}
-\author{Университет ИТМО \\ Выполнил: Павлов Артем \\ ИСУ: 561999}
-\date{Октябрь 2026 г.}
+## Содержание
 
-\begin{document}
+1. [buy_products](#1-buy_products)
+2. [check_if_weekend](#2-check_if_weekend)
+3. [even](#3-even)
+4. [check_division_by_3](#4-check_division_by_3)
+5. [sentiment_score](#5-sentiment_score)
+6. [convert_to_binary_if](#6-convert_to_binary_if)
+7. [История изменений ветки](#история-изменений-ветки-doc_561999)
 
-\maketitle
+---
 
-\section{Цель работы}
-Научиться писать документацию к проекту в формате Markdown, проводить рефакторинг исходного кода, задавать понятные имена переменным, добавлять аннотации типов и оформлять итоговый отчет в системе верстки \LaTeX.
+## 1. buy_products
 
-\section{Документация проекта (\texttt{docs/README.md})}
+Считает сдачу с покупки: из имеющихся денег вычитает стоимость товаров (цена × количество). Если денег не хватает, возвращает строку `"Недостаточно денег"`.
 
-\subsection{Описание функций (\texttt{mysterious\_file.py})}
+```python
+def buy_products(money, price_per_item, items_count)
+```
 
-\subsubsection{\texttt{buy\_products}}
-Считает сдачу с купленных товаров, вычитая общую стоимость (цена $\times$ количество) из имеющегося количества денег.
-\begin{itemize}
-    \item \textbf{Типы параметров:}
-    \begin{itemize}
-        \item \texttt{money} (\texttt{int}): Количество денег у покупателя.
-        \item \texttt{price\_per\_item} (\texttt{int}): Цена за одну единицу товара.
-        \item \texttt{items\_count} (\texttt{int}): Количество покупаемых товаров.
-    \end{itemize}
-    \item \textbf{Возвращаемое значение:} \texttt{int} --- сумма сдачи.
-\end{itemize}
-\textbf{Пример вызова:} \texttt{buy\_products(100, 10, 5)} $\rightarrow$ \texttt{50}
+| Параметр         | Тип   | Описание                          |
+|------------------|-------|-----------------------------------|
+| `money`          | `int` | Сколько денег у покупателя        |
+| `price_per_item` | `int` | Цена одной единицы товара         |
+| `items_count`    | `int` | Сколько штук покупает покупатель  |
 
-\subsubsection{\texttt{check\_if\_weekend}}
-Проверяет, является ли введенный день недели выходным (суббота или воскресенье), предварительно приводя строку к нижнему регистру.
-\begin{itemize}
-    \item \textbf{Типы параметров:}
-    \begin{itemize}
-        \item \texttt{weekend} (\texttt{str}): Название дня недели.
-    \end{itemize}
-    \item \textbf{Возвращаемое значение:} \texttt{bool} --- \texttt{True}, если день выходной, иначе \texttt{False}.
-\end{itemize}
-\textbf{Пример вызова:} \texttt{check\_if\_weekend("Суббота")} $\rightarrow$ \texttt{True}
+**Возвращает:** `int` — сумма сдачи, либо `str` — `"Недостаточно денег"`, если стоимость больше имеющихся денег.
 
-\subsubsection{\texttt{even}}
-Проверяет число на четность.
-\begin{itemize}
-    \item \textbf{Типы параметров:}
-    \begin{itemize}
-        \item \texttt{number\_even} (\texttt{int}): Проверяемое целое число.
-    \end{itemize}
-    \item \textbf{Возвращаемое значение:} \texttt{bool} --- \texttt{True}, если число четное, иначе \texttt{False}.
-\end{itemize}
-\textbf{Пример вызова:} \texttt{even(100)} $\rightarrow$ \texttt{True}
+**Примеры вызова:**
 
-\subsubsection{\texttt{check\_division\_by\_3}}
-Проверяет в промежутке от \texttt{first\_point} до \texttt{second\_point} с шагом \texttt{with\_step}, какие из чисел делятся на 3, и записывает их в список.
-\begin{itemize}
-    \item \textbf{Типы параметров:}
-    \begin{itemize}
-        \item \texttt{first\_point} (\texttt{int}): Первая точка промежутка.
-        \item \texttt{second\_point} (\texttt{int}): Вторая точка промежутка.
-        \item \texttt{with\_step} (\texttt{int}): Шаг прохождения промежутка.
-    \end{itemize}
-    \item \textbf{Возвращаемое значение:} \texttt{list[int]} --- список чисел, деляющихся на 3.
-\end{itemize}
-\textbf{Пример вызова:} \texttt{check\_division\_by\_3(9, 15, 2)} $\rightarrow$ \texttt{[9]}
+```python
+buy_products(100, 10, 5)   # 50
+buy_products(20, 10, 5)    # "Недостаточно денег"
+```
 
-\subsubsection{\texttt{sentiment\_score}}
-Анализирует тональность текста (фразы) на основе списков позитивных и негативных слов.
-\begin{itemize}
-    \item \textbf{Типы параметров:}
-    \begin{itemize}
-        \item \texttt{phrase} (\texttt{str}): Проверяемая фраза.
-        \item \texttt{positive\_words} (\texttt{list[str]}): Список слов с позитивной окраской.
-        \item \texttt{negative\_words} (\texttt{list[str]}): Список слов с негативной окраской.
-    \end{itemize}
-    \item \textbf{Возвращаемое значение:} \texttt{float} --- итоговый индекс тональности.
-\end{itemize}
-\textbf{Пример вызова:} \texttt{sentiment\_score('I love Python!', ["love"], ["hate"])} $\rightarrow$ \texttt{1.5}
+---
 
-\subsubsection{convert\_to\_binary\_if}
-Переводит число в двоичную систему счисления с проверкой количества битов.
-\begin{itemize}
-    \item Типы параметров:
-    \begin{itemize}
-        \item \texttt{number\_bit\_count} (int): Переводимое число.
-        \item \texttt{bit\_count} (int): Пороговое количество битов.
-    \end{itemize}
-    \item Возвращаемое значение: \texttt{str} --- строка с битовым представлением.
-\end{itemize}
-\textbf{Пример вызова:} \texttt{convert\_to\_binary\_if(10)} $\to$ \texttt{'0101'}
+## 2. check_if_weekend
 
-\subsection{История изменений ветки doc\_561999}
-\begin{itemize}
-    \item \texttt{c97f6b9} --- починил переменные и добавил объяснение функциям
-    \item \texttt{5e63ac3} --- добавил пример в последней функции
-\end{itemize}
+Проверяет, является ли введённый день недели выходным. Строка предварительно приводится к нижнему регистру (`lower()`), поэтому регистр не важен. Выходными считаются: `сб`, `вс`, `суббота`, `воскресенье`.
 
-\section{Вывод}
-В ходе выполнения лабораторной работы были задокументированы функции файла \texttt{mysterious\_file.py}, проведен рефакторинг имен переменных и аннотаций типов, создан файл \texttt{docs/README.md} и скомпилирован итоговый отчет в \LaTeX.
+```python
+def check_if_weekend(weekend)
+```
 
-\end{document}
+| Параметр  | Тип   | Описание                                      |
+|-----------|-------|-----------------------------------------------|
+| `weekend` | `str` | Название дня недели (полное или сокращённое)  |
+
+**Возвращает:** `bool` — `True`, если день выходной, иначе `False`.
+
+**Примеры вызова:**
+
+```python
+check_if_weekend("Суббота")   # True
+check_if_weekend("вс")        # True
+check_if_weekend("Понедельник")  # False
+```
+
+---
+
+## 3. even
+
+Проверяет число на чётность.
+
+```python
+def even(number_even)
+```
+
+| Параметр      | Тип   | Описание                  |
+|---------------|-------|---------------------------|
+| `number_even` | `int` | Проверяемое целое число   |
+
+**Возвращает:** `bool` — `True`, если число чётное, иначе `False`.
+
+**Примеры вызова:**
+
+```python
+even(100)   # True
+even(7)     # False
+```
+
+---
+
+## 4. check_division_by_3
+
+Проходит по промежутку от `first_point` до `second_point` с шагом `with_step` и собирает в список числа, которые делятся на 3. Правая граница **не включается** (как в `range`). Если шаг не указан, он равен 1.
+
+```python
+def check_division_by_3(first_point, second_point, with_step=1)
+```
+
+| Параметр       | Тип   | Описание                                        |
+|----------------|-------|-------------------------------------------------|
+| `first_point`  | `int` | Первая точка промежутка (включается)            |
+| `second_point` | `int` | Вторая точка промежутка (не включается)         |
+| `with_step`    | `int` | Шаг прохождения промежутка (по умолчанию `1`)   |
+
+**Возвращает:** `list[int]` — список чисел, которые делятся на 3.
+
+**Примеры вызова:**
+
+```python
+check_division_by_3(9, 15, 2)   # [9]  (проверяются 9, 11, 13)
+check_division_by_3(1, 10)      # [3, 6, 9]
+```
+
+---
+
+## 5. sentiment_score
+
+Оценивает тональность фразы по спискам позитивных и негативных слов. Фраза переводится в нижний регистр и делится на слова. Алгоритм по каждому слову:
+
+- слово из позитивного списка: `+1`;
+- слово из негативного списка: `-1`;
+- если слово заканчивается на `!`, текущий счёт умножается на `1.5`;
+- если слово заканчивается на `?`, текущий счёт умножается на `0.3`.
+
+Результат округляется до одного знака после запятой.
+
+> **Важно:** знак `!` или `?` должен стоять в конце слова, а слово сравнивается со списками вместе с этим знаком. Поэтому `"love!"` не распознается как слово `love`.
+
+```python
+def sentiment_score(phrase, positive_words, negative_words)
+```
+
+| Параметр         | Тип         | Описание                          |
+|------------------|-------------|-----------------------------------|
+| `phrase`         | `str`       | Проверяемая фраза                 |
+| `positive_words` | `list[str]` | Слова с позитивной окраской       |
+| `negative_words` | `list[str]` | Слова с негативной окраской       |
+
+**Возвращает:** `float` — итоговый индекс тональности.
+
+**Пример вызова:**
+
+```python
+sentiment_score("I love Python!", ["love", "like", "enjoy"], ["hate", "dislike"])   # 1.5
+```
+
+Разбор: слово `love` даёт `+1`, а последнее слово `python!` оканчивается на `!`, поэтому `1 × 1.5 = 1.5`.
+
+---
+
+## 6. convert_to_binary_if
+
+Переводит неотрицательное целое число в двоичную систему. Биты собираются от младшего к старшему, поэтому по умолчанию строка получается **перевёрнутой**. Счётчик `bit_count` стартует с переданного значения и увеличивается на количество битов числа. Если итоговое значение больше 10, биты разворачиваются и возвращается обычная запись (старший бит первым). Для `0` и отрицательных чисел возвращается `"0"`.
+
+```python
+def convert_to_binary_if(number_bit_count, bit_count=0)
+```
+
+| Параметр            | Тип   | Описание                                                      |
+|---------------------|-------|---------------------------------------------------------------|
+| `number_bit_count`  | `int` | Переводимое число                                             |
+| `bit_count`         | `int` | Начальное значение счётчика битов (по умолчанию `0`)          |
+
+**Возвращает:** `str` — строка с битовым представлением.
+
+**Примеры вызова:**
+
+```python
+convert_to_binary_if(10)         # '0101'  (4 бита, 4 <= 10, биты не разворачиваются)
+convert_to_binary_if(10, 7)      # '1010'  (7 + 4 = 11 > 10, биты развёрнуты)
+convert_to_binary_if(1024)       # '10000000000'  (11 бит > 10)
+convert_to_binary_if(0)          # '0'
+```
+
+---
+
+## История изменений ветки doc_561999
+
+- `c97f6b9` — починил переменные и добавил обьяснение функциям
+- `5e63ac3` — добавил пример в последней функции
+- `95bd5e3` — Убрал лишние комментарии
