@@ -152,7 +152,7 @@ def sentiment_score(t, p_w, n_w):
 
 print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"]))
 
-# Функция 6
+# Функция перевода числа в двоичную
 
 def binRevert(x, y=0):  # TODO: переименовать, Витя опять не согласовал нейминг
     """
