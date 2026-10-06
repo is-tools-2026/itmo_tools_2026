@@ -215,3 +215,23 @@ transform_into_binary(12, 23) # ('1100', 27)
 3. `41c7cc1`
 *Сообщение:* 
     "add(docs): add <README.md> file with descriptions for functions, without code"
+
+4. `43b0045`
+*Сообщение:* 
+    "update(docs): add commit logs in <README.md>"
+
+5. `0360688`
+*Сообщение:* 
+    "update(docs): add commit logs in <README.md>"
+
+6. `44e2758`
+*Сообщение:* 
+    "update(mysterious_file): add new comments"
+
+7. `4577f14`
+*Сообщение:* 
+    "add(docs): add documentation folder for <mysterious_file.py>"
+
+8. `5164d21`
+*Сообщение:* 
+    "fix(): fixed rectangle, triangle and my_main_561160"
