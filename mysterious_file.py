@@ -188,20 +188,20 @@ def sentiment_score(txt, pos, neg):
     
     # Определяет настроение текста точнее, чем мама по голосу в трубке.
     words = txt.lower().split()
-    s = 0
+    ratio = 0
     
     for word in words:
         if word in pos:
-            s += 1  # плюс балл за позитив, можно ещё два
+            ratio += 1  # плюс балл за позитив, можно ещё два
         elif word in neg:
-            s -= 1  # минус балл за негатив, грустно стало
+            ratio -= 1  # минус балл за негатив, грустно стало
 
         if word.endswith('!'): 
-            s *= 1.5  # КРИЧИМ И РАДУЕМСЯ!!!
+            ratio *= 1.5  # КРИЧИМ И РАДУЕМСЯ!!!
         elif word.endswith('?'):
-            s *= 0.3  # сомнение — энтузиазм падает, как курс валют
+            ratio *= 0.3  # сомнение — энтузиазм падает, как курс валют
     
-    return round(s, 1)
+    return round(ratio, 1)
 
 
 print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"]))
