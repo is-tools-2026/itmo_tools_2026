@@ -1,212 +1,213 @@
-# # Пример
+# Пример
 
-# def make_tea(water_ml, sugar_spoons):
-#     """
-#     Готовит чай, смешивая воду и сахар.
+def make_tea(water_ml, sugar_spoons):
+    """
+    Готовит чай, смешивая воду и сахар.
 
-#     Args:
-#         water_ml (int): объём воды в миллилитрах
-#         sugar_spoons (int): количество ложек сахара
+    Args:
+        water_ml (int): объём воды в миллилитрах
+        sugar_spoons (int): количество ложек сахара
 
-#     Returns:
-#         str: описание получившегося напитка
-#     Пример:
-#         >>> make_tea(200, 2)
-#         'Чай: 200 мл воды, 2 ложки сахара'
-#     """
-#     # Рецепт одобрен диетологами, которых никто не спрашивал.
-#     return f"Чай: {water_ml} мл воды, {sugar_spoons} ложки сахара"
+    Returns:
+        str: описание получившегося напитка
+    Пример:
+        >>> make_tea(200, 2)
+        'Чай: 200 мл воды, 2 ложки сахара'
+    """
+    # Рецепт одобрен диетологами, которых никто не спрашивал.
+    return f"Чай: {water_ml} мл воды, {sugar_spoons} ложки сахара"
 
-# print(make_tea(200, 2))
+print(make_tea(200, 2))
+# print(make_tea(3200, 4))
 
-# # Функция 1
+# Функция 1
 
-# def bought_products(money, price_per_item, items_count):
-#     """
-#     Вычитает сумму за покупку одинаковых товаров из общей суммы денег у пользователя 
+def bought_products(money, price_per_item, items_count):
+    """
+    Вычитает сумму за покупку одинаковых товаров из общей суммы денег у пользователя 
 
-#     Args:
-#         money (int): Число денег у пользоавтель
-#         price_per_item (float): Цена одного товара
-#         items_count (int): Число одинаковых товаров
+    Args:
+        money (int): Число денег у пользоавтель
+        price_per_item (float): Цена одного товара
+        items_count (int): Число одинаковых товаров
 
-#     Returns:
-#         int / float: Оставшиеся деньги у пользователя
-#         str: В противном случае "Недостаточно денег"
+    Returns:
+        int / float: Оставшиеся деньги у пользователя
+        str: В противном случае "Недостаточно денег"
     
-#     Example:
-#         >>> bought_products(100, 10, 5)
-#     50
+    Example:
+        >>> bought_products(100, 10, 5)
+    50
         
-#         >>> bought_products(100, 100, 2)
-#     "Недостаточно денег"
-
-#     """
+        >>> bought_products(100, 100, 2)
+    "Недостаточно денег"
     
-#     # Выдаёт сдачу. Налоги не включены: их никто не любит, даже эта функция.
-#     total = price_per_item * items_count
+    """
     
-#     if total > money:
-#         # "Денег нет, но вы держитесь" — философская позиция функции.
-#         return "Недостаточно денег"
-#     return money - total
-
-# print(bought_products(100, 10, 5))
-
-# # Функция 2
-
-# def is_in_list(day):
+    # Выдаёт сдачу. Налоги не включены: их никто не любит, даже эта функция.
+    total = price_per_item * items_count
     
-#     """
-#     Делает проверку на наличие элемента в списке
+    if total > money:
+        # "Денег нет, но вы держитесь" — философская позиция функции.
+        return "Недостаточно денег"
+    return money - total
 
-#     Args:
-#         day (str): Элемент, наличие которого мы хотим проверить
+print(bought_products(100, 10, 5))
+# print(bought_products(100, 100, 2)) 
+
+# Функция 2
+
+def is_in_list(day):
     
-#     Returns:
-#         bool: True - есть элемент, False - нет элемента
-#     Examples:
-#         list: ["сб", "вс", "суббота", "воскресенье"]
-#         >>> is_in_list("Суббота")
-#     True
+    """
+    Делает проверку на наличие элемента в списке
+
+    Args:
+        day (str): Элемент, наличие которого мы хотим проверить
+    
+    Returns:
+        bool: True - есть элемент, False - нет элемента
+    Examples:
+        >>> is_in_list("Суббота")
+    True
         
-#         >>> is_in_list("С")
-#     False
-#     """
+        >>> is_in_list("С")
+    False
+    """
     
-#     # Надо подать прошение на включение Пятницы. 
-#     return day.lower() in ["сб", "вс", "суббота", "воскресенье"]
+    # Надо подать прошение на включение Пятницы. 
+    return day.lower() in ["сб", "вс", "суббота", "воскресенье"]
 
-# print(is_in_list("Суббота"))
+print(is_in_list("Суббота"))
 
-# # Функция 3
+# Функция 3
 
-# def is_even(parametr):
+def is_even(parametr):
     
-#     """
-#     Ф-ция, делающая проверку чётное ли число
+    """
+    Ф-ция, делающая проверку чётное ли число
     
-#     Args:
-#         parametr (int): Элемент, который мы хотим проверить
-#     Returns:
-#         bool: True - Кратно 2, False - не кратно 2
-#     Examples:
-#         При вызове процедуры возвращает
-#         >>> is_even(2)
-#     True
+    Args:
+        parametr (int): Элемент, который мы хотим проверить
+    Returns:
+        bool: True - Кратно 2, False - не кратно 2
+    Examples:
+        При вызове процедуры возвращает
+        >>> is_even(2)
+    True
     
-#         >>> is_even(2)
-#     False
-#     """
-# # tests
-#     return parametr % 2 == 0
+        >>> is_even(3)
+    False
+    """
+    return parametr % 2 == 0
 
-# print(is_even(2))
+print(is_even(2))
+# print(is_even(3))
 
-# # Функция 4
+# Функция 4
 
-# def multiples_of_3(prm1, prm2, step = 1):
+def multiples_of_3(prm1, prm2, step = 1):
     
-#     """ 
-#     Ф-ция возвращает список чисел, кратных 3
+    """ 
+    Ф-ция возвращает список чисел, кратных 3
     
-#     Args:
+    Args:
         
-#         prm1(int) - Начало дипазона перебора индексов
+        prm1(int) - Начало дипазона перебора индексов
         
-#         prm2(int) - Конец диапозона перебора индексов
+        prm2(int) - Конец диапозона перебора индексов
         
-#         step(int) - Шаг перебора индексов
-#             - Если при вызове ф-ции шаг(step) не обозначаем => 
-#                 step = 1
-#             - Если при вызове ф-ции шаг(step) обозначаем => 
-#                 step = <введённое число>
+        step(int) - Шаг перебора индексов
+            - Если при вызове ф-ции шаг(step) не обозначаем => 
+                step = 1
+            - Если при вызове ф-ции шаг(step) обозначаем => 
+                step = <введённое число>
         
-#     Returns:
+    Returns:
     
-#             list: Список индексов списка чисел, делящихся на 3
+            list: Список индексов списка чисел, делящихся на 3
         
-#     Examples:
+    Examples:
     
-#     >>> 1) Input: 
-#         - multiples_of_3(0, 13)
-#        Output: 
-#         - [0, 3, 6, 9]
+    >>> 1) Input: 
+        - multiples_of_3(0, 13)
+       Output: 
+        - [0, 3, 6, 9]
     
-#     >>> 2) Input: 
-#         - multiples_of_3(0, 13, 2)
-#        Output: 
-#         - [0, 6, 12]
+    >>> 2) Input: 
+        - multiples_of_3(0, 13, 2)
+       Output: 
+        - [0, 6, 12]
 
-#     >>> 3) Input: 
-#         - multiples_of_3(0, 4, 1)
-#        Output: 
-#         - [0, 3]
+    >>> 3) Input: 
+        - multiples_of_3(0, 4, 1)
+       Output: 
+        - [0, 3]
     
-#     """
+    """
     
-#     res = []
+    res = []
     
-#     for i in range(prm1, prm2, step):
-#         # Почему именно три? Потому что два уже
-#         # занял предыдущий разработчик, а четыре — это уже перебор.
-#         if i % 3 == 0:
-#             res.append(i)
-#     return res
+    for i in range(prm1, prm2, step):
+        # Почему именно три? Потому что два уже
+        # занял предыдущий разработчик, а четыре — это уже перебор.
+        if i % 3 == 0:
+            res.append(i)
+    return res
 
-# # tests
+# tests
 # num = int(input()) + 1
-# # step = int(input())
-# print(multiples_of_3(0, 4, 1))
+# step = int(input())
+print(multiples_of_3(0, 4, 1))
 
-# # Функция 5
+# Функция 5
 
-# def sentiment_score(txt, pos, neg):
-#     """
-#     Функция возвращает коэфицент (оценку) того, на сколько сильно текст был эмоционально окрашен 
+def sentiment_score(txt, pos, neg):
+    """
+    Функция возвращает коэфицент (оценку) того, на сколько сильно текст был эмоционально окрашен 
 
-#     Args:
-#         txt (str): Строка, которую будет оценивать функция
-#         pos (list): Массив положительных качеств (прилагательных)
-#         neg (list): Массив негативных качеств (прилагательных)
+    Args:
+        txt (str): Строка, которую будет оценивать функция
+        pos (list): Массив положительных качеств (прилагательных)
+        neg (list): Массив негативных качеств (прилагательных)
 
-#     Returns:
-#         float: Коэфицент эмоциональной окраски текста, округлённый до десятых 
+    Returns:
+        float: Коэфицент эмоциональной окраски текста, округлённый до десятых 
     
-#     Examples:
+    Examples:
     
-#     >>> sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"]) 
-#     1.5
+    >>> sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"]) 
+    1.5
     
-#     >>> sentiment_score("love like enjoy", ["love", "like", "enjoy"], ["hate"]) 
-#     3.0
+    >>> sentiment_score("love like enjoy", ["love", "like", "enjoy"], ["hate"]) 
+    3.0
 
-#     >>> sentiment_score("Do I love! Python", ["love"], ["hate"])
-#     0.0
-#     """
+    >>> sentiment_score("Do I love! Python", ["love"], ["hate"])
+    0.0
+    """
     
-#     # Определяет настроение текста точнее, чем мама по голосу в трубке.
-#     words = txt.lower().split()
-#     s = 0
+    # Определяет настроение текста точнее, чем мама по голосу в трубке.
+    words = txt.lower().split()
+    s = 0
     
-#     for word in words:
-#         if word in pos:
-#             s += 1  # плюс балл за позитив, можно ещё два
-#         elif word in neg:
-#             s -= 1  # минус балл за негатив, грустно стало
+    for word in words:
+        if word in pos:
+            s += 1  # плюс балл за позитив, можно ещё два
+        elif word in neg:
+            s -= 1  # минус балл за негатив, грустно стало
 
-#         if word.endswith('!'): 
-#             s *= 1.5  # КРИЧИМ И РАДУЕМСЯ!!!
-#         elif word.endswith('?'):
-#             s *= 0.3  # сомнение — энтузиазм падает, как курс валют
+        if word.endswith('!'): 
+            s *= 1.5  # КРИЧИМ И РАДУЕМСЯ!!!
+        elif word.endswith('?'):
+            s *= 0.3  # сомнение — энтузиазм падает, как курс валют
     
-#     return round(s, 1)
+    return round(s, 1)
 
 
-# print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"]))
-# # tests
-# # print(sentiment_score("love like enjoy", ["love", "like", "enjoy"], ["hate"]))
-# # print(sentiment_score("Do I love! Python", ["love"], ["hate"]))
+print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"]))
+# tests
+# print(sentiment_score("love like enjoy", ["love", "like", "enjoy"], ["hate"]))
+# print(sentiment_score("Do I love! Python", ["love"], ["hate"]))
 
 # Функция 6
 
