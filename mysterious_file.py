@@ -79,6 +79,7 @@ def is_in_list(day):
     return day.lower() in ["сб", "вс", "суббота", "воскресенье"]
 
 print(is_in_list("Суббота"))
+# print(is_in_lidt("С"))
 
 # Функция 3
 
@@ -92,7 +93,6 @@ def is_even(parametr):
     Returns:
         bool: True - Кратно 2, False - не кратно 2
     Examples:
-        При вызове процедуры возвращает
         >>> is_even(2)
     True
     
