@@ -1,0 +1,375 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{graphicx}
+\usepackage{minted}
+\usepackage{xcolor}
+\usepackage[T2A]{fontenc}
+
+\setminted{
+    encoding=UTF-8,
+    breaklines=true,
+    frame=single,
+    fontsize=\small,
+}
+
+\begin{document}
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    
+    {\Large МИНИСТЕРСТВО НАУКИ И ВЫСШЕГО ОБРАЗОВАНИЯ РОССИЙСКОЙ ФЕДЕРАЦИИ
+Федеральное государственное автономное образовательное учреждение высшего образования
+“Санкт-Петербургский национальный исследовательский университет информационных технологий механики и оптики”
+    \par}
+    {\Large Мегафакультет: трансляционных информационных технологий
+    \par}
+    {\LargeФакультет: информационных технологий и программирования
+    \par}
+    \vspace{0.5cm}
+    {\large Университет ИТМО\par}
+    
+    \vspace{1.5cm}
+    {\Large\bfseries По дисциплине: “Инструментальные средства разработки ПО”
+    \par}
+    {\Large\bfseries Тема "Документирование"
+    \par}
+    
+    \vspace{0.5cm}
+    % {\Large Документирование\par}
+    
+    \vfill
+    {\large Выполнил студент группы №M3121:\par}
+    {\large Галочкин Тимофей Антонович\par}
+    \vspace{0.5cm}
+    {\large Работу проверила:\par}
+    {\large Алексеева Милена Константиновна\par}
+    \vspace{1.05cm}
+    {\Large САНКТ-ПЕТЕРБУРГ\par}
+    {\large 2026\par}
+\end{titlepage}
+
+\section{Цель работы}
+    {\large - Научится писать, как отдельную документацию, так и внедрять её в исходный код\par}
+
+\section{Документация к файлу mysterious\_file.py}
+    % {\large \centering \boldsymbol{Уровень 1: Новичок (Базовый) — «Мой первый комментарий»}\par}
+    % \vspace{0.5cm}
+    
+
+    \subsection{Функция bought\_products}
+    
+    Функция вычитает сумму покупки из денег пользователя.
+    
+    \begin{minted}{python}
+    def bought_products(money, price_per_item, items_count):
+        total = price_per_item * items_count
+        if total > money:
+            return "Недостаточно денег"
+        return money - total
+    \end{minted}
+    
+    \subsection*{Параметры}
+        \begin{enumerate}
+            \item \texttt{money (int)} - число денег у пользователя
+            \item \texttt{price\_per\_item (float)} - цена одного товара
+            \item \texttt{items\_count} (int) - число одинаковых товаров
+        \end{enumerate}
+        
+        \subsection*{Возвращает}
+        \begin{enumerate}
+            \item \texttt{int} или \texttt{float} - оставшиеся деньги у пользователя
+            \item \texttt{«Недостаточно денег» (str)} -  если денег не хватает
+        \end{enumerate}
+    
+    
+    \subsection*{Примеры вызова:}
+        \begin{minted}{python}
+        >>> bought_products(100, 10, 5)
+        50
+        \end{minted}
+
+        \begin{minted}{python}
+        >>> bought_products(100, 100, 5) 
+        Недостаточно денег
+        \end{minted}
+        
+
+% --------------------------------------------------------
+
+    \hrulefill
+
+    \subsection{Функция is\_in\_list}
+    
+    Делает проверку на наличие элемента в заранее заготовленном списке, состоящим из дней недель.
+    
+    \begin{minted}{python}
+    def is_in_list(day):
+        return day.lower() in ["сб", "вс", "суббота", "воскресенье"]
+    \end{minted}
+    
+    \subsection*{Параметры}
+        \begin{enumerate}
+            \item \texttt{day (str)} - Элемент, наличие которого мы хотим проверить (День недели)
+            \item \texttt{arr = ["сб", "вс", "суббота", "воскресенье"] (list): } - Массив дней недели
+        \end{enumerate}
+        
+        \subsection*{Возвращает}
+        \begin{enumerate}
+            \item \texttt{True (bool)} -  Элемент есть в массиве
+            \item \texttt{False (bool)} - Элемента в массиве нет        \end{enumerate}
+    
+    
+    \subsection*{Примеры вызова:}
+        \begin{minted}{python}
+        >>> is_in_list("Суббота")
+        True
+        \end{minted}
+
+        \begin{minted}{python}
+        >>> is_in_list("С")
+        False
+        \end{minted}
+
+% --------------------------------------------------------
+
+    \hrulefill
+    
+    \subsection{Функция is\_even}
+    
+    Функция делает проверку на то, чётное ли число, и выводит результат
+    
+    \begin{minted}{python}
+    def is_even(parametr):
+        return parametr % 2 == 0
+    \end{minted}
+    
+    \subsection*{Параметры}
+        \begin{itemize}
+            \item \texttt{parametr (int)} - Элемент, который мы хотим проверить
+        \end{itemize}
+        
+        \subsection*{Возвращает}
+        \begin{enumerate}
+            \item \texttt{True (bool)} -  Число кратно 2
+            \item \texttt{False (bool)} - Число не кратно 2
+        \end{enumerate}
+    
+    
+    \subsection*{Примеры вызова:}
+        \begin{minted}{python}
+    >>> is_even(2)
+    True
+        \end{minted}
+
+        \begin{minted}{python}
+    >>> is_even(2)
+    False
+        \end{minted}
+
+% --------------------------------------------------------
+
+    \hrulefill
+
+    \subsection{Функция multiples\_of\_3}
+    
+    Функция возвращает список чисел, кратных трём
+    
+    \begin{minted}{python}
+    def multiples_of_3(prm1, prm2, step = 1):
+        res = []
+        for i in range(prm1, prm2, step):
+            if i % 3 == 0:
+                res.append(i)
+        return res
+    \end{minted}
+    
+    \subsection*{Параметры}
+        \begin{enumerate}
+            \item \texttt{prm1 (int) } - Начало диапозона перебора индексов 
+            \item \texttt{prm2 (int)} - Конец диапозона перебора индексов
+            \item \texttt{step (int)} -  Шаг перебора индексов
+                \begin{itemize}
+                    \item Если при вызове ф-ции шаг \textit{(step)} \textbf{не обозначаем}: step = 1
+                    \item Если при вызове ф-ции шаг  \textit{(step)} \textbf{обозначаем}: step = <введённое число>
+                \end{itemize}
+        \end{enumerate}
+        
+        \subsection*{Возвращает}
+        \begin{itemize}
+            \item \texttt{list} - Список чисел, которые делятся на 3  
+        \end{itemize}
+    
+    
+    \subsection*{Примеры вызова:}
+        \begin{minted}{python}
+    >>> multiples_of_3(0, 13) 
+    [0, 3, 6, 9]
+        \end{minted}
+
+        \begin{minted}{python}
+    >>> multiples_of_3(0, 13, 2) 
+    [0, 6, 12]
+        \end{minted}
+
+        \begin{minted}{python}
+    >>> multiples_of_3(0, 13, 2)
+    [0, 6, 12]
+        \end{minted}
+
+% --------------------------------------------------------
+
+% --------------------------------------------------------
+
+    \hrulefill
+
+    \subsection{Функция sentiment\_score}
+    
+    Функция возвращает коэффицент (оценку) того, на сколько сильно текст был эмоционально окрашен
+
+    
+    \begin{minted}{python}
+    def sentiment_score(txt, pos, neg):
+        words = txt.lower().split()
+        ratio = 0
+        
+        for word in words:
+            if word in pos:
+                ratio += 1  
+            elif word in neg:
+                ratio -= 1 
+    
+            if word.endswith('!'): 
+                ratio *= 1.5  
+            elif word.endswith('?'):
+                ratio *= 0.3 
+                
+        return round(ratio, 1)
+
+    \end{minted}
+    
+    \subsection*{Параметры}
+        \begin{enumerate}
+            \item \texttt{txt (str)} - Строка, которую будет оценивать функция
+            \item \texttt{pos (list)} - Список положительных слов (прилагательных)
+            \item \texttt{neg (list)} -  Список негативных слов (прилагательных)
+        \end{enumerate}
+        
+        \subsection*{Возвращает}
+        \begin{itemize}
+            \item \texttt{float} - Коэффицент эмоциональной окраски текста, округлённый до десятых  
+        \end{itemize}
+    
+    
+    \subsection*{Примеры вызова:}
+        \begin{minted}{python}
+    >>> sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"]) 
+    1.5
+        \end{minted}
+
+        \begin{minted}{python}
+    >>> sentiment_score("love like enjoy", ["love", "like", "enjoy"], ["hate"]) 
+    3.0
+        \end{minted}
+
+        \begin{minted}{python}
+    >>> sentiment_score("Do I love! Python", ["love"], ["hate"]) 
+    0.0
+        \end{minted}
+
+% --------------------------------------------------------
+
+% --------------------------------------------------------
+
+    \hrulefill
+
+    \subsection{Функция sentiment\_score}
+    
+    Функция делает перевод числа из десятичной системы счистления в двоичную и выводит результат. В текущей версии переменная count не выводится 
+
+    
+    \begin{minted}{python}
+    def transform_into_binary(num, count = 0):  
+        res = [] 
+        
+        while num > 0: 
+            res.append(num % 2) 
+            num //= 2 
+            count += 1 
+            
+        if count > 10: 
+            res.reverse() 
+            
+        return ''.join(map(str, res)) if res else "0" 
+    \end{minted}
+    
+    \subsection*{Параметры}
+        \begin{enumerate}
+            \item \texttt{num (int)} - Число в десятичной системы счистления 
+            \item \texttt{count (int)} - Список положительных слов (прилагательных)
+            \item \texttt{neg (list)} -  Количество итераций
+        \end{enumerate}
+        
+        \subsection*{Возвращает}
+        \begin{itemize}
+            \item \texttt{str} - Строка из символов входящего числа в двоичной системе счистления
+        \end{itemize}
+    
+    
+    \subsection*{Примеры вызова:}
+        \begin{minted}{python}
+    >>>transform_into_binary(10) 
+    0101
+        \end{minted}
+
+        \begin{minted}{python}
+    >>> transform_into_binary(12) 
+    ('1100', 4)
+
+        \end{minted}
+
+        \begin{minted}{python}
+    >>> transform_into_binary(12) 
+    ('1100', 4)
+        \end{minted}
+
+        \begin{minted}{python}
+    >>> transform_into_binary(12, 23) 
+    ('1100', 27)
+        \end{minted}
+
+% --------------------------------------------------------
+
+\hrulefill
+
+\subsection{Граф истории коммитов}
+
+    На рисунке показана история коммитов в ветке \texttt{doc\_561160}.
+    
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=1.3\textwidth]{log.png}
+        \caption{История коммитов в ветке doc\_561160}
+    \end{figure}
+
+% --------------------------------------------------------
+
+\hrulefill
+
+\section{Проблемы и трудности}
+    \subsection*{Информация}
+        Поскольку с \textbf{LaTeX} и \textbf{Markdown} до написания лабораторной работы я не был знаком, поэтому всю информацию нужно было искать самостоятельно и тщательно делать выборку из большого количества источников. Также, я принял решение не только читать статьи на сайтах с описанием команд и документациями, но и обращаться к \textbf{LLM Hangzhou DeepSeek Artificial Intelligence Basic Technology Research Co., Ltd}, чтобы облегчить поиск нужных команд или для понимания нюансов работы с \textbf{LaTeX} и \textbf{Markdown}. Более того, на сайте https://ru.overleaf.com/ редактор предлагает вставить определённые теги, что позволет "поиграться" и попробовать в действии их посмотреть из-за встроенного на сайте компилятора для \textbf{LaTeX}, что значительно упрощало поиск подходящих тегов.
+    
+
+% --------------------------------------------------------
+
+\hrulefill
+
+\section{Выводы}
+    
+    \large{При написании данной лабораторной работы я сталкивался со множеством трудностей, начиная с понимания того, что делал имел в виду старый разраб, когда создавал эти функции, заканчивая правильностью использования тех или иных тегов при работе с \textbf{LaTeX} и \textbf{Markdown}. Благодарая этой работе я познакомился с языками разметки \textbf{LaTeX} и \textbf{Markdown} и выучил меня базовым теги, которые пригодятся в документации реального проекта.}
+    
+
+% --------------------------------------------------------
+
+\end{document}
