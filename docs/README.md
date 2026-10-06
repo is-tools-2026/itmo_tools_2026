@@ -1,80 +1,109 @@
-#Функция 1 - buy_products
+\documentclass[12pt,a4paper]{article}
 
-Считает сдачу с купленных товаров вычитая цену умноженную 
-    на количество товаров из количества денег на руках.
+% Поддержка русского языка и кодировок
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage[T2A]{fontenc}
 
-    Args:
-        money (int): сколько есть денег на руках
-        price_per_item (int): цена товара 
-        items_count (int): сколько штук будет покупатель брать
-    
-    Пример:
-        >>>buy_products(100, 10, 5)
-        '50'
+% Поля страницы
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{hyperref}
 
-#Функция 2 - check_if_weekend
+\title{\textbf{Отчет по лабораторной работе} \\ Документирование кода и составление README.md}
+\author{Университет ИТМО \\ Выполнил: Павлов Артем \\ ИСУ: 561999}
+\date{Октябрь 2026 г.}
 
-Проверяет введенный день недели на соответствие с выходным, функция lower делает из всех заглавных букв прописные.
+\begin{document}
 
-    Args:
-        weekend (str): день недели
-    
-    Пример:
-        >>>check("Суббота")
-        'True'
-    
-#Функция 3 - even
+\maketitle
 
-Делает проверку числа на четность.
+\section{Цель работы}
+Научиться писать документацию к проекту в формате Markdown, проводить рефакторинг исходного кода, задавать понятные имена переменным, добавлять аннотации типов и оформлять итоговый отчет в системе верстки \LaTeX.
 
-    Args:
-        number_even (int): число
-    
-    Пример: 
-        >>>even(100)
-        'True'
+\section{Документация проекта (\texttt{docs/README.md})}
 
-#Функция 4 - check_division_by_3
+\subsection{Описание функций (\texttt{mysterious\_file.py})}
 
-Проверяет в промежутке от first_point до second_point, с шагом в with_step(если ничего не ввести, то шаг будет равен единице)
-    какие из чисел делятся на 3, вводит нужные числа в список.
+\subsubsection{\texttt{buy\_products}}
+Считает сдачу с купленных товаров, вычитая общую стоимость (цена $\times$ количество) из имеющегося количества денег.
+\begin{itemize}
+    \item \textbf{Типы параметров:}
+    \begin{itemize}
+        \item \texttt{money} (\texttt{int}): Количество денег у покупателя.
+        \item \texttt{price\_per\_item} (\texttt{int}): Цена за одну единицу товара.
+        \item \texttt{items\_count} (\texttt{int}): Количество покупаемых товаров.
+    \end{itemize}
+    \item \textbf{Возвращаемое значение:} \texttt{int} --- сумма сдачи.
+\end{itemize}
+\textbf{Пример вызова:} \texttt{buy\_products(100, 10, 5)} $\rightarrow$ \texttt{50}
 
-    Args:
-        first_point (int): первая точка промежутка
-        second_point (int): вторая точка промежутка
-        with_step (int): с каким шагом будет идти фунция по промежутку
-        checked_numbers_div_by_3 (list): числа которые делятся на 3
-        numba (int): временная переменная, которая принимает очередное число из диапазона для проверки
+\subsubsection{\texttt{check\_if\_weekend}}
+Проверяет, является ли введенный день недели выходным (суббота или воскресенье), предварительно приводя строку к нижнему регистру.
+\begin{itemize}
+    \item \textbf{Типы параметров:}
+    \begin{itemize}
+        \item \texttt{weekend} (\texttt{str}): Название дня недели.
+    \end{itemize}
+    \item \textbf{Возвращаемое значение:} \texttt{bool} --- \texttt{True}, если день выходной, иначе \texttt{False}.
+\end{itemize}
+\textbf{Пример вызова:} \texttt{check\_if\_weekend("Суббота")} $\rightarrow$ \texttt{True}
 
-    Пример:
-        >>>check_division_by_3(9, 15, 2)
-        '[9]'
+\subsubsection{\texttt{even}}
+Проверяет число на четность.
+\begin{itemize}
+    \item \textbf{Типы параметров:}
+    \begin{itemize}
+        \item \texttt{number\_even} (\texttt{int}): Проверяемое целое число.
+    \end{itemize}
+    \item \textbf{Возвращаемое значение:} \texttt{bool} --- \texttt{True}, если число четное, иначе \texttt{False}.
+\end{itemize}
+\textbf{Пример вызова:} \texttt{even(100)} $\rightarrow$ \texttt{True}
 
-#Функция 5 - sentiment_score
+\subsubsection{\texttt{check\_division\_by\_3}}
+Проверяет в промежутке от \texttt{first\_point} до \texttt{second\_point} с шагом \texttt{with\_step}, какие из чисел делятся на 3, и записывает их в список.
+\begin{itemize}
+    \item \textbf{Типы параметров:}
+    \begin{itemize}
+        \item \texttt{first\_point} (\texttt{int}): Первая точка промежутка.
+        \item \texttt{second\_point} (\texttt{int}): Вторая точка промежутка.
+        \item \texttt{with\_step} (\texttt{int}): Шаг прохождения промежутка.
+    \end{itemize}
+    \item \textbf{Возвращаемое значение:} \texttt{list[int]} --- список чисел, деляющихся на 3.
+\end{itemize}
+\textbf{Пример вызова:} \texttt{check\_division\_by\_3(9, 15, 2)} $\rightarrow$ \texttt{[9]}
 
-Смотрим с каким настроением написана фраза.
+\subsubsection{\texttt{sentiment\_score}}
+Анализирует тональность текста (фразы) на основе списков позитивных и негативных слов.
+\begin{itemize}
+    \item \textbf{Типы параметров:}
+    \begin{itemize}
+        \item \texttt{phrase} (\texttt{str}): Проверяемая фраза.
+        \item \texttt{positive\_words} (\texttt{list[str]}): Список слов с позитивной окраской.
+        \item \texttt{negative\_words} (\texttt{list[str]}): Список слов с негативной окраской.
+    \end{itemize}
+    \item \textbf{Возвращаемое значение:} \texttt{float} --- итоговый индекс тональности.
+\end{itemize}
+\textbf{Пример вызова:} \texttt{sentiment\_score('I love Python!', ["love"], ["hate"])} $\rightarrow$ \texttt{1.5}
 
-    Args:
-        phrase (str): фраза которую мы провереяем
-        positive_words (list): слова с позитивным настроением
-        negative_words(list): слова с негативным настроением
-        mood (int): считает с каким настроением был написан текст
-        words (list): времменный список по которому мы проходим циклом for, список состоит из слов во фразе
-        word (str): временная переменная которой мы проходимся по списку
+\subsubsection{convert\_to\_binary\_if}
+Переводит число в двоичную систему счисления с проверкой количества битов.
+\begin{itemize}
+    \item Типы параметров:
+    \begin{itemize}
+        \item \texttt{number\_bit\_count} (int): Переводимое число.
+        \item \texttt{bit\_count} (int): Пороговое количество битов.
+    \end{itemize}
+    \item Возвращаемое значение: \texttt{str} --- строка с битовым представлением.
+\end{itemize}
+\textbf{Пример вызова:} \texttt{convert\_to\_binary\_if(10)} $\to$ \texttt{'0101'}
 
-    Пример:
-        >>>print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"]))
-        '1.5'
+\subsection{История изменений ветки doc\_561999}
+\begin{itemize}
+    \item \texttt{c97f6b9} --- починил переменные и добавил объяснение функциям
+    \item \texttt{5e63ac3} --- добавил пример в последней функции
+\end{itemize}
 
-#Функция 6 - convert_to_binary_if
+\section{Вывод}
+В ходе выполнения лабораторной работы были задокументированы функции файла \texttt{mysterious\_file.py}, проведен рефакторинг имен переменных и аннотаций типов, создан файл \texttt{docs/README.md} и скомпилирован итоговый отчет в \LaTeX.
 
-Переводит число в двоичную систему исчесления
-    Возвращает в обратном если битов меньше чем bit_count
-    Возвращает число в двоичной системе счисления если битов больше чем bit_count
-
-    Args:
-        number_bit_count (int): число которое мы переводим
-        bit_count (int): количество битов в числе
-        result_bit_count(str): записываем сюда биты 
-#История 
-c97f6b9 (HEAD -> doc_561999) починил переменные и добавил обьяснение функциям
+\end{document}
