@@ -100,3 +100,4 @@
 
 31b83fc :  rename and add docstrings to functions in 'mysterious_file.py'
 
+401caed : create markdown documentation file 'lab2_docs.md'
