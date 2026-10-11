@@ -56,8 +56,9 @@ sentiment_score("I love Python!", ["love"], ["hate"])
 ### 6. binary(number: int, y: int) -> str
     # Переводит целое число из десятичной системы счисления в двоичную строку.
 
+
 **Пример вызова:**
 ```python
 binary(10)
 # Вернет: '1010'
-``` 
+```
