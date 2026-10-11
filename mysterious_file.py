@@ -23,7 +23,7 @@ print(make_tea(200, 2))
 # Функция 1
 
 def buy_products(money, price_per_item, items_count):
-"""
+    """
     Рассчитывает сдачу после покупки товаров.
 
     Args:
@@ -38,7 +38,7 @@ def buy_products(money, price_per_item, items_count):
     Пример:
         >>> buy_products(100, 10, 5)
         50
-"""
+    """
     total = price_per_item * items_count
     if total > money:
         return "Недостаточно денег"
