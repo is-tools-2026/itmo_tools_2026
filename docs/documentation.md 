@@ -1,0 +1,63 @@
+# Документация проекта itmo_tools_2026 
+
+## Описание функций
+
+
+### 1. make_tea(water_ml: int, sugar_spoons: int) -> str
+Готовит чай, смешивая воду и сахар.
+
+**Пример вызова:**
+```python
+make_tea(200, 2)
+# Вернет: 'чай: 200 мл воды, 2 ложки сахара'
+```
+
+
+### 2. check_is_weekend(day: int) -> bool
+# Проверяет, является ли указанный день выходным.
+
+**Пример вызова:**
+```python
+check_is_weekend ("Суббота")
+# Вернет: True
+```
+
+
+### 3. check_number(num: int) -> bool
+    # Проверяет, является ли число четным.
+
+**Пример вызова:**
+```python
+check_number (4)
+# Вернет: True
+```
+
+
+### 4. generate_list(start: int, stop: int, step: int) -> list
+    # Генерирует список чисел в заданном диапазоне range
+
+**Пример вызова:**
+```python
+generate_list(1, 10, 3)
+# Вернет: 1, 4, 7
+```
+
+
+### 5. sentiment_score(text: str, positive_words: list, negative_words: list) -> float 
+    # Оценивает настроение текста на основе списка позитивных и негативных слов.
+
+**Пример вызова:**
+```python
+sentiment_score("I love Python!", ["love"], ["hate"])
+# Вернет: 1.5
+```
+
+
+### 6. binary(number: int, y: int) -> str
+    # Переводит целое число из десятичной системы счисления в двоичную строку.
+
+**Пример вызова:**
+```python
+binary(10)
+# Вернет: '1010'
+``` 
