@@ -75,7 +75,7 @@ def isEven(number):
     Проверяет, делится ли число на 2
 
     Args:
-        number (int): Любое число
+        number (int/float): Любое число
     
     Returns:
         bool: True/False - делиться или нет
