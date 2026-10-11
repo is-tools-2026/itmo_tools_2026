@@ -1,0 +1,114 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{verbatim}
+
+\title{Документация проэкта}
+\author{Цветков Владимир}
+
+\begin{document}
+
+\maketitle
+
+\section{make\_tea(water\_ml, sugar\_spoons)}
+
+\subsection{Описание}
+Эта функция условно "заваривает чай" по вашему рецепту, принимая в себя количество миллилитров воды и ложек сахара для работы. Оба значения integer.
+
+\subsection{Примеры вызова функции}
+
+\begin{verbatim}
+    make_tea(200, 2)
+    # Output: Чай: 200 мл воды, 2 ложки сахара
+
+    make_tea(100, 4)
+    # Output: Чай: 100 мл воды, 4 ложки сахара
+\end{verbatim}
+
+\section{buy\_products(money, price\_per\_item, items\_count}
+\subsection{Описание}
+Функция принимает 3 значения: (int) Сумму ваших денег, (int) стоимость одного предмета и (int) сколько предметов нужно приобрести.
+Возвращает функция одно из двух: Сдачу, оставшуюся после покупки, или предупреждение о том, что денег не хватает
+\subsection{Примеры вызова функции}
+\begin{verbatim}
+    buy_products(100, 10, 5)
+    # Output: 50
+
+    buy_products(200, 40, 4)
+    # Output: 80
+\end{verbatim}
+
+\section{check(day)}
+\subsection{Описание функции}
+Функция принимает (str) название нынешнего дня и проверяет, выходной он, или нет.
+Возвращает True/False
+
+\subsection{Примеры вызова функции}
+\begin{verbatim}
+    check("Суббота")
+    # Output: True
+
+    check("Понедельник")
+    # Output: False
+\end{verbatim}
+
+\section{isEven(number)}
+\subsection{Описание функции}
+Функция принимает любое (int/float) число и проверяет, чётное оно, или нет.
+Возвращает True/False
+\subsection{Примеры вызова функции}
+\begin{verbatim}
+    isEven(2)
+    # Output: True
+
+    isEven(347)
+    # Output: False
+\end{verbatim}
+
+\section{divByThree(start, end, step=1}
+\subsection{Описание функции}
+Функция принимает значения начала диапазона (int) start и его конца (int) end, также (int) step - шаг между каждым числом, всегда 1.
+Возвращает список чисел, которые делятся на 3 в данном диапазоне.
+
+\subsection{Примеры вызова функции}
+\begin{verbatim}
+    divByThree(0, 10, 1)
+    # Output: [0, 3, 6, 9]
+
+    divByThree(0, 2, 1)
+    # Output: [0]
+\end{verbatim}
+
+\section{sentiment\_score(text, positive\_words, negative\_words)}
+\subsection{Описание функции}
+Функция принимает 3 значения: (str) сообщение, у которого нужно сосчитать счёт сентиментальности, (2 list with str) список позитивных и список отрицательных слов.
+Выводит (int) счёт сентиментальности текста
+\subsection{Примеры вызова функции}
+\begin{verbatim}
+    sentiment_score("I hate that pineapple!", [love, like, adore], [hate, disdain, pineapple, dislike])
+    # Output: -3
+\end{verbatim}
+
+\section{binaryTransform(decimal\_number, counter=0}
+\subsection{Описание функции}
+Функция принимает 2 значения: (int) десятичное число, которое нужно трансформировать в двоичное и (int) счётчик, равный нулю.
+Возвращает функция (str) бинарное значение десятичного числа
+
+\subsection{Примеры вызова функции}
+\begin{verbatim}
+    binaryTransform(5, 0)
+    # Output: '101'
+\end{verbatim}
+
+\section{История коммитов, хэши}
+\begin{verbatim}
+    0fec54 (HEAD -> doc_561991) Подправил функцию 3
+    9949e63 Подправил последнюю функцию и добавил ей описание
+    341e9da Сделал функцию счётчика сентиментальности текста попроще для прочтения, добавил описание
+    6da1705 Поподробнее описал и изменил функцию 4, расписал переменные
+    6a77790 Поподробнее описал и изменил функцию 3
+    b959b94 Добавил описание ко второй функции и описал входную переменную поподробнее
+    d66e71c Добавил описание функции №1 (о покупке товаров)
+\end{verbatim}
+\end{document}
