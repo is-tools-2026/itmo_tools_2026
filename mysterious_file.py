@@ -152,15 +152,29 @@ print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appr
 
 # Функция 6
 
-def f(x, y=0):  # TODO: переименовать, Витя опять не согласовал нейминг
-    z = []  # тут будет результат, но я не уверен
-    
-    while x > 0:  # костыль: если x = 0 падает, но заказчик сказал "и так сойдёт"
-        z.append(x % 2)  # зачем тут mod 2? спросите у прошлого разраба, он уволился
-        x = x // 2  # магия. не трогать!!!
-        y += 1  # счётчик дней, недель, часов? хз, в ТЗ не было
-    if y > 10:  # 10 взял из головы, потом поменяю (нет)
-        z.reverse()  # разворот, потому что иначе клиент жаловался
-    return ''.join(map(str, z)) if z else "0"  # FIXME: работает — не трогай
+def binaryTransform(decimal_number, counter=0):
+    """
+    Возвращает строковое двоичное значение числа десятичной системы исчисления
 
-print(f(10))
+    Args:
+        decimal_number (int): Десятичное число
+        counter (int): Счётчик (=0 сначала)
+
+    Returns:
+        str: Двоичная версия числа
+
+    Пример:
+        >>> binaryTransform(5, 0)
+        "101"
+    """
+    result = []
+    
+    while decimal_number > 0:
+        result.append(decimal_number % 2)
+        decimal_number //= 2
+        counter += 1
+        if counter > 10:
+            result.reverse()
+    return ''.join(map(str, result)) if result else "0"
+
+print(binaryTransform(10))
