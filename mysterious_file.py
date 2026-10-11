@@ -70,8 +70,21 @@ print(check("Суббота"))
 
 # Функция 3
 
-def h(x):
-    return x % 2 == 0
+def isEven(number):
+    """
+    Проверяет, делится ли число на 2
+
+    Args:
+        number (int): Любое число
+    
+    Returns:
+        bool: True/False - делиться или нет
+
+    Пример:
+        >>> isEven(2)
+        True
+    """
+    return number % 2 == 0
 
 # Функция 4
 
