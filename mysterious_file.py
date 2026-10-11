@@ -114,15 +114,30 @@ def divByThree(start, end, step = 1):
 
 # Функция 5
 
-def sentiment_score(t, p_w, n_w):
+def sentiment_score(text, positive_words, negative_words):
+    """
+    Считает очки настроения полученного текста
+
+    Args:
+        text (str): Всё сообщение, которое требуется проверить
+        positive_words (list with str): Список позитивных слов
+        negative_words (list with str): Список отрицательных слов
+
+    Returns:
+        s (int): Счёт настроения текста
+
+    Пример:
+        >>> sentiment_score("I hate that pineapple!", ["love", "adore", "like", "enjoy"], ["hate", "dislike", "disdain", "pineapple"])
+        -3
+    """
     # Определяет настроение текста точнее, чем мама по голосу в трубке.
-    words = t.lower().split()
+    words = text.lower().split()
     s = 0
     
     for word in words:
-        if word in p_w:
+        if word in positive_words:
             s += 1  # плюс балл за позитив, можно ещё два
-        elif word in n_w:
+        elif word in negative_words:
             s -= 1  # минус балл за негатив, грустно стало
         
         if word.endswith('!'):
