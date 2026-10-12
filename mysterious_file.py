@@ -95,7 +95,7 @@ def is_even(number):
 
 # Функция 4
 
-def z(start, end, step=1):
+def get_multiples_of_three(start, end, step=1):
      """
     Возвращает список чисел, кратных 3, в заданном диапазоне.
 
