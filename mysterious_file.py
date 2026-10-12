@@ -27,9 +27,9 @@ def buy_products(money, price_per_item, items_count):
     Вычисляет сдачу при оплате товара или сообщает о нехватке денежных средств.
 
     Args:
-        money(float): Сумма денежных средств у покупателя.
-        price_per_item(float): Цуена за единицу товара.
-        items_count(float): Количество оплачиваемых товаров.
+        money(int): Сумма денежных средств у покупателя.
+        price_per_item(int): Цена за единицу товара.
+        items_count(int): Количество оплачиваемых товаров.
 
     Returns:
         float | srt: Сумма сдачи (float), если денежных средств достаточно,  или строка "Недостаточно денег" (str).
@@ -97,8 +97,8 @@ def sentiment_analyze(text, positive_words, negative_words):
 
     Args:
         text(str): Исходный текст для анализа.
-        positive_words(list[str] | set[str]): Список / множество слов с позитивной окраской.
-        negative_words(list[str] | set[str]): Список / множество слов с негативной окраской.
+        positive_words(list[str] | set[str]): Список слов с позитивной окраской.
+        negative_words(list[str] | set[str]): Список слов с негативной окраской.
     Returns:
         float: Итоговый балл окраски текста (округлен до знака поле занятой).
     """
@@ -141,7 +141,7 @@ def binary(number, bit_count=0):
         number = number // 2
         bit_count += 1
     if bit_count > 10:
-        binary_digits .reverse() 
+        binary_digits .reverse()
     return ''.join(map(str, binary_digits )) if binary_digits  else "0"
 
 print(binary(10))
