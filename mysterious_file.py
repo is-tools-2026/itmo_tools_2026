@@ -15,157 +15,81 @@ def make_tea(water_ml, sugar_spoons):
         >>> make_tea(200, 2)
         'Чай: 200 мл воды, 2 ложки сахара'
     """
+    # Рецепт одобрен диетологами, которых никто не спрашивал.
     return f"Чай: {water_ml} мл воды, {sugar_spoons} ложки сахара"
 
 print(make_tea(200, 2))
 
-# Функция 1 (ранее buy_products)
+# Функция 1
 
-def calculate_change(money, price_per_item, items_count):
-    """
-    Рассчитывает сдачу после покупки товара или возвращает сообщение о нехватке средств.
-
-    Args:
-        money (float): количество денег у покупателя
-        price_per_item (float): цена за единицу товара
-        items_count (int): количество единиц товара
-
-    Returns:
-        float | str: оставшиеся деньги (сдача) или строка 'Недостаточно денег'
-
-    Пример:
-        >>> calculate_change(100, 10, 5)
-        50.0
-    """
-    total_cost = price_per_item * items_count
-    if total_cost > money:
+def buy_products(money, price_per_item, items_count):
+    # Выдаёт сдачу. Налоги не включены: их никто не любит, даже эта функция.
+    total = price_per_item * items_count
+    if total > money:
+        # "Денег нет, но вы держитесь" — философская позиция функции.
         return "Недостаточно денег"
-    return money - total_cost
+    return money - total
 
-print(calculate_change(100, 10, 5))
+print(buy_products(100, 10, 5))
 
-# Функция 2 (ранее check)
+# Функция 2
 
-def is_weekend(day_name):
-    """
-    Проверяет, является ли переданный день недели выходным.
+def check(d):
+    # Надо подать прошение на включение Пятницы. 
+    return d.lower() in ["сб", "вс", "суббота", "воскресенье"]
 
-    Args:
-        day_name (str): название или сокращение дня недели
+print(check("Суббота"))
 
-    Returns:
-        bool: True, если день является выходным (суббота/воскресенье), иначе False
+# Функция 3
 
-    Пример:
-        >>> is_weekend("Суббота")
-        True
-    """
-    return day_name.lower() in ["сб", "вс", "суббота", "воскресенье"]
+def h(x):
+    return x % 2 == 0
 
-print(is_weekend("Суббота"))
+# Функция 4
 
-# Функция 3 (была h)
-def is_even(number):
-    """
-    Проверяет, является ли число чётным.
+def z(a, b, c=1):
+    r = []
+    for i in range(a, b, c):
+        # Почему именно три? Потому что два уже
+        # занял предыдущий разработчик, а четыре — это уже перебор.
+        if i % 3 == 0:
+            r.append(i)
+    return r
 
-    Args:
-        number (int): проверяемое целое число
+# Функция 5
 
-    Returns:
-        bool: True, если число чётное, иначе False
-
-    Пример:
-        >>> is_even(4)
-        True
-    """
-    return number % 2 == 0
-
-# Функция 4 (была z)
-def filter_numbers_divisible_by_three(start, end, step = 1):
-    """
-    Формирует список чисел в заданном диапазоне, которые делятся на 3 без остатка.
-
-    Args:
-        start (int): начало диапазона
-        end (int): конец диапазона
-        step (int): шаг инкремента (по умолчанию 1)
-
-    Returns:
-        list[int]: список чисел, кратных трём
-
-    Пример:
-        >>> filter_numbers_divisible_by_three(1, 10)
-        [3, 6, 9]
-    """
-    result_list = []
-    for current_number in range(start, end, step):
-        if current_number % 3 == 0:
-            result_list.append(current_number)
-    return result_list
-
-# Функция 5 (sentiment_score)
-def calculate_sentiment_score(text, positive_words, negative_words):
-    """
-    Оценивает тональность текста на основе списков позитивных и негативных слов,
-    учитывая знаки препинания (восклицательные и вопросительные знаки).
-
-    Args:
-        text (str): анализируемый текст
-        positive_words (list[str]): список позитивных ключевых слов
-        negative_words (list[str]): список негативных ключевых слов
-
-    Returns:
-        float: итоговая оценка тональности текста
-
-    Пример:
-        >>> calculate_sentiment_score("I love Python!", ["love"], ["hate"])
-        1.5
-    """
-    words = text.lower().split()
-    sentiment_sum = 0.0
+def sentiment_score(t, p_w, n_w):
+    # Определяет настроение текста точнее, чем мама по голосу в трубке.
+    words = t.lower().split()
+    s = 0
     
     for word in words:
-        if word in positive_words:
-            sentiment_sum += 1
-        elif word in negative_words:
-            sentiment_sum -= 1
+        if word in p_w:
+            s += 1  # плюс балл за позитив, можно ещё два
+        elif word in n_w:
+            s -= 1  # минус балл за негатив, грустно стало
         
         if word.endswith('!'):
-            sentiment_sum *= 1.5
+            s *= 1.5  # КРИЧИМ И РАДУЕМСЯ!!!
         elif word.endswith('?'):
-            sentiment_sum *= 0.3
+            s *= 0.3  # сомнение — энтузиазм падает, как курс валют
     
-    return round(sentiment_sum, 1)
+    return round(s, 1)
 
-print(calculate_sentiment_score("I love Python!", ["love", "like", "enjoy"], ["hate", "dislike"]))
 
-# Функция 6 (была f)
-def decimal_to_binary_string(decimal_number, iteration_counter = 0):
-    """
-    Конвертирует целое число в двоичную строку с учетом специфической логики разворота.
+print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"]))
 
-    Args:
-        decimal_number (int): число в десятичной системе
-        iteration_counter (int): счетчик итераций (по умолчанию 0)
+# Функция 6
 
-    Returns:
-        str: двоичное представление числа в виде строки
-
-    Пример:
-        >>> decimal_to_binary_string(10)
-        '1010'
-    """
-    binary_digits = []
+def f(x, y=0):  # TODO: переименовать, Витя опять не согласовал нейминг
+    z = []  # тут будет результат, но я не уверен
     
-    while decimal_number > 0:
-        binary_digits.append(decimal_number % 2)
-        decimal_number = decimal_number // 2
-        iteration_counter += 1
-        
-    if iteration_counter > 10:
-        binary_digits.reverse()
-        
-    return ''.join(map(str, binary_digits)) if binary_digits else "0"
+    while x > 0:  # костыль: если x = 0 падает, но заказчик сказал "и так сойдёт"
+        z.append(x % 2)  # зачем тут mod 2? спросите у прошлого разраба, он уволился
+        x = x // 2  # магия. не трогать!!!
+        y += 1  # счётчик дней, недель, часов? хз, в ТЗ не было
+    if y > 10:  # 10 взял из головы, потом поменяю (нет)
+        z.reverse()  # разворот, потому что иначе клиент жаловался
+    return ''.join(map(str, z)) if z else "0"  # FIXME: работает — не трогай
 
-print(decimal_to_binary_string(10))
+print(f(10))
