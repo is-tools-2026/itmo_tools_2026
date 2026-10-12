@@ -1,0 +1,168 @@
+\documentclass[a4paper,12pt]{article}
+
+% Кодировка и язык
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+
+% Геометрия страницы
+\usepackage{geometry}
+\geometry{left=2.5cm,right=2cm,top=2cm,bottom=2cm}
+
+% Графика и таблицы
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+
+% Листинги кода
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Гиперссылки
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+}
+
+% Настройки листингов
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{green!60!black}\itshape,
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    breaklines=true,
+    frame=single,
+    language=Python,
+    showstringspaces=false,
+    tabsize=4,
+}
+
+% Заголовок
+\title{Лабораторная работа №2\\Документирование кода на Python}
+\author{ИСУ: 561636}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Цель работы}
+
+Изучить принципы документирования кода на языке Python. Научиться
+писать docstring'и к функциям, использовать осмысленные имена
+переменных и функций, оформлять проектную документацию в формате
+Markdown и верстать отчёты в системе LaTeX.
+
+\section{Ход работы}
+
+\subsection{Анализ исходного файла}
+
+Исходный файл \texttt{mysterious\_file.py} содержал функции с
+неинформативными именами (\texttt{h}, \texttt{k}, \texttt{z},
+\texttt{f}, \texttt{s}) и без документации. Для каждой функции
+было выполнено:
+
+\begin{enumerate}
+    \item Прочитан код и определено назначение функции.
+    \item Определены типы параметров и возвращаемого значения.
+    \item Переименованы функция и переменные в осмысленные имена.
+    \item Добавлен docstring с описанием, параметрами, возвращаемым
+          значением и примером вызова.
+\end{enumerate}
+
+\subsection{Пример документированной функции}
+
+Ниже приведён пример одной из документированных функций.
+
+\begin{lstlisting}[caption={Функция \texttt{is\_even}}]
+def is_even(number):
+    """
+    Checks if a number is even.
+
+    Args:
+        number (int): Number to check.
+
+    Returns:
+        bool: True if the number is even, otherwise False.
+
+    Example:
+        >>> is_even(4)
+        True
+        >>> is_even(7)
+        False
+    """
+    return number % 2 == 0
+\end{lstlisting}
+
+\subsection{Список переименованных функций}
+
+В таблице~\ref{tab:rename} приведено соответствие старых и новых имён.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Старое имя} & \textbf{Новое имя} & \textbf{Назначение} \\
+\hline
+\texttt{buy\_products} & \texttt{buy\_products} & Расчёт сдачи \\
+\texttt{check} & \texttt{is\_weekend} & Проверка выходного \\
+\texttt{h} & \texttt{is\_even} & Проверка чётности \\
+\texttt{z} & \texttt{find\_multiples\_of\_three} & Поиск кратных 3 \\
+\texttt{sentiment\_score} & \texttt{calculate\_sentiment\_score} & Анализ тональности \\
+\texttt{f} & \texttt{to\_binary\_string} & Перевод в двоичную \\
+\hline
+\end{tabular}
+\caption{Переименование функций}
+\label{tab:rename}
+\end{table}
+
+\subsection{Создание документации}
+
+В каталоге \texttt{docs} создан файл \texttt{functions.md} в формате
+Markdown. Документация включает:
+
+\begin{itemize}
+    \item описание проекта;
+    \item требования к системе;
+    \item структуру проекта;
+    \item описание всех функций с примерами использования;
+    \item историю изменений с хешами коммитов.
+\end{itemize}
+
+\subsection{История коммитов}
+
+В таблице~\ref{tab:commits} приведена история коммитов.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|l|l|}
+\hline
+\textbf{№} & \textbf{Хеш коммита} & \textbf{Описание} \\
+\hline
+1 & \texttt{335f9ce} & All the functions in mysterious\_file.py are documented \\
+2 & \texttt{c3e4551} & Documentation for all functions has been added \\
+\hline
+\end{tabular}
+\caption{История коммитов}
+\label{tab:commits}
+\end{table}
+
+\section{Вывод}
+
+В ходе лабораторной работы были изучены принципы документирования
+кода: написание docstring'ов, использование осмысленных имён,
+оформление проектной документации в Markdown и верстка отчётов
+в LaTeX. Все функции файла \texttt{mysterious\_file.py} были
+задокументированы, создана документация в каталоге \texttt{docs},
+оформлен отчёт в LaTeX.
+
+\end{document}
