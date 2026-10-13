@@ -121,7 +121,7 @@ number_to_binary(0)       # '0'
 
 | Хеш коммита | Что сделано |
 |-------------|-------------|
-| `<hash1>` | Добавлены docstring и переименованы функции в mysterious_file.py |
-| `<hash2>` | Добавлена документация docs/documentation.md |
+| `c14e076` | Добавлены docstring и переименованы функции в mysterious_file.py |
+| `98bc799` | Добавлен docstring и исправлены ошибки в mysterious_file.py |
 
 > Хеши смотрим командой `git log --oneline`. Последний коммит в таблицу не вписываем.
