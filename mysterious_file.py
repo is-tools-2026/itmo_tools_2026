@@ -15,141 +15,64 @@ def make_tea(water_ml, sugar_spoons):
         >>> make_tea(200, 2)
         'Чай: 200 мл воды, 2 ложки сахара'
     """
+    # Рецепт одобрен диетологами, которых никто не спрашивал.
     return f"Чай: {water_ml} мл воды, {sugar_spoons} ложки сахара"
 
 print(make_tea(200, 2))
 
 # Функция 1
 
-def change(money, price_per_item, items_count):
-    """
-    Подсчет сдачи после покупки одинаковых товаров.
-
-    Args:
-        money (int / float): сколько денег у покупателя
-        price_per_item (int / float): цена одной единицы товара
-        items_count (int): количество купленных товаров
- 
-    Returns:
-        int /float /str: сдача, либо строка
-            "Недостаточно денег", если стоимость покупки больше money
-
-    Пример:
-        >>> change(100, 10, 5)
-        50
-        >>> change(100, 10, 11)
-        'Недостаточно денег'
-    """
+def buy_products(money, price_per_item, items_count):
+    # Выдаёт сдачу. Налоги не включены: их никто не любит, даже эта функция.
     total = price_per_item * items_count
     if total > money:
+        # "Денег нет, но вы держитесь" — философская позиция функции.
         return "Недостаточно денег"
     return money - total
 
-print(change(100, 10, 5))
+print(buy_products(100, 10, 5))
 
 # Функция 2
 
-def weekend_check(day):
-    """
-    Проверяет выходной ли день, который прниимает.
-    Принимает: "сб", "вс", "суббота", "воскресенье"
-    Args:
-        day (str): название дня недели (сокращённое или полное)
- 
-    Returns:
-        bool: True, если день суббота или воскресенье, иначе False
- 
-    Пример:
-        >>> weekend_check("Суббота")
-        True
-        >>> weekend_check("пн")
-        False
-    """
-    return day.lower() in ["сб", "вс", "суббота", "воскресенье"]
+def check(d):
+    # Надо подать прошение на включение Пятницы. 
+    return d.lower() in ["сб", "вс", "суббота", "воскресенье"]
 
-print(weekend_check("Суббота"))
+print(check("Суббота"))
 
 # Функция 3
 
-def even(num):
-    """
-    Проверяет четное ли число
- 
-    Args:
-        num (int): целое число для проверки
- 
-    Returns:
-        bool: True, если число делится на 2 без остатка, иначе False
- 
-    Пример:
-        >>> even(4)
-        True
-        >>> even(7)
-        False
-    """
-    return num % 2 == 0
+def h(x):
+    return x % 2 == 0
 
 # Функция 4
 
-def kratno_trem(start, end, step=1):
-    """
-    Возвращает числа из заданных, которые кратны трем, end - не часть диапазона
- 
-    Args:
-        start (int): начало диапазона
-        end (int): конец диапазона
-        step (int): шаг перебора в диапазоне
- 
-    Returns:
-        list[int]: список чисел, которые кратны 3
- 
-    Пример:
-        >>> kratno_trem(3, 12)
-        [3, 6, 9]
-        >>> kratno_trem(3, 10, 2)
-        [3, 9]
-    """
-    res = []
-    for i in range(start, end, step):
+def z(a, b, c=1):
+    r = []
+    for i in range(a, b, c):
+        # Почему именно три? Потому что два уже
+        # занял предыдущий разработчик, а четыре — это уже перебор.
         if i % 3 == 0:
-            res.append(i)
-    return res
+            r.append(i)
+    return r
 
 # Функция 5
 
-def sentiment_score(text, positive_words, negative_words):
-    """
-    Проверяет настроение текста по списку слов, режет текст по пробелам
-    Слова из списка positive_words дают по +1, из negative_words -1. При окончании слова на "!",
-    накопленный счет умножается на 1.5, при окончании на "?" - на 0.3
-    Слово сравнивается со списком вместе со знаками
-
- 
-    Args:
-        text (str): анализируемый текст
-        positive_words (list[str]): позитивные слова
-        negative_words (list[str]): негативные слова
- 
-    Returns:
-        float: счет итого
- 
-    Пример:
-        >>> sentiment_score("I love cats!", ["love"], ["hate"])
-        1.5
-        >>> sentiment_score("I hate dogs?", ["love"], ["hate"])
-        -0.3
-    """
-    words = text.lower().split()
+def sentiment_score(t, p_w, n_w):
+    # Определяет настроение текста точнее, чем мама по голосу в трубке.
+    words = t.lower().split()
     s = 0
+    
     for word in words:
-        if word in  positive_words:
-            s += 1
-        elif word in negative_words:
-            s -= 1
+        if word in p_w:
+            s += 1  # плюс балл за позитив, можно ещё два
+        elif word in n_w:
+            s -= 1  # минус балл за негатив, грустно стало
+        
         if word.endswith('!'):
-            s *= 1.5
+            s *= 1.5  # КРИЧИМ И РАДУЕМСЯ!!!
         elif word.endswith('?'):
-            s *= 0.3
+            s *= 0.3  # сомнение — энтузиазм падает, как курс валют
     
     return round(s, 1)
 
@@ -158,34 +81,15 @@ print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appr
 
 # Функция 6
 
-def to_binary(num, bit_counter=0):
-    """
-    Переводит положительное десятичное число в двоичное делением на два
-
-    Args:
-        num (int): при num <= 0 вернётся "0"
-        bit_counter (int): начальное значение счётчика битов - 0
-            Влияет на разворот результата при достижении 10
- 
-    Returns:
-        str: строка из символов '0' и '1'; "0", если num <= 0
- 
-    Пример:
-        >>> to_binary(10)
-        '0101'
-        >>> to_binary(10, 7)
-        '1010'
-        >>> to_binary(0)
-        '0'
-    """
-    bits = []
+def f(x, y=0):  # TODO: переименовать, Витя опять не согласовал нейминг
+    z = []  # тут будет результат, но я не уверен
     
-    while num > 0:
-        bits.append(num%2)
-        num = num // 2 
-        bit_counter += 1 
-    if bit_counter > 10:
-        bits.reverse()
-    return ''.join(map(str, bits)) if bits else "0"
+    while x > 0:  # костыль: если x = 0 падает, но заказчик сказал "и так сойдёт"
+        z.append(x % 2)  # зачем тут mod 2? спросите у прошлого разраба, он уволился
+        x = x // 2  # магия. не трогать!!!
+        y += 1  # счётчик дней, недель, часов? хз, в ТЗ не было
+    if y > 10:  # 10 взял из головы, потом поменяю (нет)
+        z.reverse()  # разворот, потому что иначе клиент жаловался
+    return ''.join(map(str, z)) if z else "0"  # FIXME: работает — не трогай
 
-print(to_binary(10))
+print(f(10))
