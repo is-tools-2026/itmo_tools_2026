@@ -19,6 +19,7 @@ def make_tea(water_ml, sugar_spoons):
 
 print(make_tea(200, 2))
 
+
 # Функция 1
 
 def change(money, price_per_item, items_count):
@@ -31,7 +32,7 @@ def change(money, price_per_item, items_count):
         items_count (int): количество купленных товаров
  
     Returns:
-        int /float /str: сдача, либо строка
+        int / float / str: сдача, либо строка
             "Недостаточно денег", если стоимость покупки больше money
 
     Пример:
@@ -47,12 +48,14 @@ def change(money, price_per_item, items_count):
 
 print(change(100, 10, 5))
 
+
 # Функция 2
 
 def weekend_check(day):
     """
-    Проверяет выходной ли день, который прниимает.
+    Проверяет выходной ли день, который принимает.
     Принимает: "сб", "вс", "суббота", "воскресенье"
+
     Args:
         day (str): название дня недели (сокращённое или полное)
  
@@ -69,11 +72,12 @@ def weekend_check(day):
 
 print(weekend_check("Суббота"))
 
+
 # Функция 3
 
 def even(num):
     """
-    Проверяет четное ли число
+    Проверяет четное ли число.
  
     Args:
         num (int): целое число для проверки
@@ -89,11 +93,12 @@ def even(num):
     """
     return num % 2 == 0
 
+
 # Функция 4
 
-def kratno_trem(start, end, step=1):
+def multiples_of_three(start, end, step=1):
     """
-    Возвращает числа из заданных, которые кратны трем, end - не часть диапазона
+    Возвращает числа из заданных, которые кратны трем, end - не часть диапазона.
  
     Args:
         start (int): начало диапазона
@@ -104,9 +109,9 @@ def kratno_trem(start, end, step=1):
         list[int]: список чисел, которые кратны 3
  
     Пример:
-        >>> kratno_trem(3, 12)
+        >>> multiples_of_three(3, 12)
         [3, 6, 9]
-        >>> kratno_trem(3, 10, 2)
+        >>> multiples_of_three(3, 10, 2)
         [3, 9]
     """
     res = []
@@ -115,15 +120,15 @@ def kratno_trem(start, end, step=1):
             res.append(i)
     return res
 
+
 # Функция 5
 
 def sentiment_score(text, positive_words, negative_words):
     """
-    Проверяет настроение текста по списку слов, режет текст по пробелам
+    Проверяет настроение текста по списку слов, режет текст по пробелам.
     Слова из списка positive_words дают по +1, из negative_words -1. При окончании слова на "!",
-    накопленный счет умножается на 1.5, при окончании на "?" - на 0.3
-    Слово сравнивается со списком вместе со знаками
-
+    накопленный счет умножается на 1.5, при окончании на "?" - на 0.3.
+    Слово сравнивается со списком вместе со знаками.
  
     Args:
         text (str): анализируемый текст
@@ -142,7 +147,7 @@ def sentiment_score(text, positive_words, negative_words):
     words = text.lower().split()
     s = 0
     for word in words:
-        if word in  positive_words:
+        if word in positive_words:
             s += 1
         elif word in negative_words:
             s -= 1
@@ -153,18 +158,18 @@ def sentiment_score(text, positive_words, negative_words):
     
     return round(s, 1)
 
-
 print(sentiment_score("I love Python!", ["love", "like", "enjoy", "adore", "appreciate"], ["hate", "dislike", "detest", "antipathy"]))
+
 
 # Функция 6
 
 def to_binary(num, bit_counter=0):
     """
-    Переводит положительное десятичное число в двоичное делением на два
+    Переводит положительное десятичное число в двоичное делением на два.
 
     Args:
         num (int): при num <= 0 вернётся "0"
-        bit_counter (int): начальное значение счётчика битов - 0
+        bit_counter (int): начальное значение счётчика битов - 0.
             Влияет на разворот результата при достижении 10
  
     Returns:
@@ -181,7 +186,7 @@ def to_binary(num, bit_counter=0):
     bits = []
     
     while num > 0:
-        bits.append(num%2)
+        bits.append(num % 2)
         num = num // 2 
         bit_counter += 1 
     if bit_counter > 10:
