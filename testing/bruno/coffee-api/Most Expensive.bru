@@ -1,0 +1,35 @@
+meta {
+  name: Most Expensive
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://127.0.0.1:5001/api/most-expensive
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("Status code is 200", function () {
+      expect(res.status).to.equal(200);
+  });
+  
+  test("Response contains drink", function () {
+      expect(res.body).to.have.property("drink");
+  });
+  
+  test("Response contains price", function () {
+      expect(res.body).to.have.property("price");
+  });
+  
+  test("Price is positive", function () {
+      expect(res.body.price).to.be.greaterThan(0);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}
