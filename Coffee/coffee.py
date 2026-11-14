@@ -36,8 +36,13 @@ DISCOUNTS = {
 }
 
 
+def _is_int(value):
+    """True, если value — целое число (bool не считается числом)."""
+    return isinstance(value, int) and not isinstance(value, bool)
+
+
 # ============================================================
-# ПРИМЕР. Цена напитка 
+# ПРИМЕР. Цена напитка
 # ============================================================
 
 def get_price(drink_name):
@@ -49,10 +54,10 @@ def get_price(drink_name):
 
     Returns:
         int: цена напитка
-  
+
     Raises:
         ValueError: если напитка нет в меню
-        
+
     Здесь всё честно: нет напитка — нет цены.
     """
     if drink_name not in MENU:
@@ -73,11 +78,23 @@ def calculate_order_total(quantity, price):
 
     Returns:
         int: итоговая стоимость
+
+    Raises:
+        TypeError: если quantity или price не целые числа
+        ValueError: если quantity или price отрицательные
     """
+    if not _is_int(quantity):
+        raise TypeError("Количество должно быть целым числом")
+    if not _is_int(price):
+        raise TypeError("Цена должна быть целым числом")
+    if quantity < 0:
+        raise ValueError("Количество не может быть отрицательным")
+    if price < 0:
+        raise ValueError("Цена не может быть отрицательной")
     return quantity * price
 
 # ============================================================
-# ФУНКЦИЯ 2. Возвращает самый дорогой напиток в мен
+# ФУНКЦИЯ 2. Возвращает самый дорогой напиток в меню
 # ============================================================
 
 def get_most_expensive_drink():
@@ -86,8 +103,13 @@ def get_most_expensive_drink():
 
     Returns:
         tuple: (название, цена)
+
+    Raises:
+        ValueError: если меню пустое
     """
-    name = min(MENU, key=MENU.get)
+    if not MENU:
+        raise ValueError("Меню пустое")
+    name = max(MENU, key=MENU.get)
     return name, MENU[name]
 
 # ============================================================
@@ -96,19 +118,24 @@ def get_most_expensive_drink():
 
 def generate_wifi_password(length=8):
     """
-    Генерирует пароль для Wi-Fi кофейни. Условие: длина 8 символов,
-    может состоять только из латинских букв и цифр, 
-    минимум одна заглавная буква, 
-    минимум одна строчная буква, 
-    минимум одна цифра.  
-    
-    Args:
-        lenght (int): длина пароля
-    
-    Returns:
-        string: пароль от wifi
+    Генерирует пароль для Wi-Fi кофейни. Условие: длина не меньше 8 символов,
+    может состоять только из латинских букв и цифр,
+    минимум одна заглавная буква,
+    минимум одна строчная буква,
+    минимум одна цифра.
 
+    Args:
+        length (int): длина пароля
+
+    Returns:
+        str: пароль от wifi
+
+    Raises:
+        TypeError: если length не целое число
+        ValueError: если length меньше 8
     """
+    if not _is_int(length):
+        raise TypeError("Длина пароля должна быть целым числом")
     if length < 8:
         raise ValueError("Длина пароля должна быть не меньше 8 символов")
 
@@ -125,13 +152,13 @@ def generate_wifi_password(length=8):
     return ''.join(password_list)
 
 # ============================================================
-# ФУНКЦИЯ 4. Вывод чека 
+# ФУНКЦИЯ 4. Вывод чека
 # ============================================================
 
 def format_receipt(drink_name, quantity):
     """
     Формирует текст чека.
-    
+
     Формат:
         Чек CampusCoffee
         Напиток: <название>
@@ -141,29 +168,37 @@ def format_receipt(drink_name, quantity):
     Args:
         drink_name (str): название напитка
         quantity (int): количество
-        total (int): итоговая сумма
 
     Returns:
         str: текст чека
+
+    Raises:
+        ValueError: если название пустое, напитка нет в меню
+                    или количество не положительное
+        TypeError: если количество не целое число
     """
     if not drink_name:
         raise ValueError("Название напитка не может быть пустым")
     if drink_name not in MENU:
-            raise ValueError("Напитка нет в меню")
-    if quantity < 0:
-        raise ValueError("Количество не может быть отрицательным")
-    
-    total = get_price(drink_name) * quantity
-    
+        raise ValueError("Напитка нет в меню")
+    if not _is_int(quantity):
+        raise TypeError("Количество должно быть целым числом")
+    if quantity <= 0:
+        raise ValueError("Количество должно быть больше нуля")
+
+    total = calculate_order_total(quantity, get_price(drink_name))
+
     return (
-        f"\n---Чек Coffee---\n"
+        f"Чек CampusCoffee\n"
         f"Напиток: {drink_name}\n"
         f"Количество: {quantity}\n"
         f"Итого: {total} руб.\n"
-    ) # Подсказка: для теста подойдет регулярное выражение
+    )  # Подсказка: для теста подойдет регулярное выражение
 
-print(get_price('latte'))
-print(calculate_order_total('latte', 5))
-print(get_most_expensive_drink())
-print(generate_wifi_password(8))
-print(format_receipt('latte', 1))
+
+if __name__ == "__main__":
+    print(get_price('latte'))
+    print(calculate_order_total(5, get_price('latte')))
+    print(get_most_expensive_drink())
+    print(generate_wifi_password(8))
+    print(format_receipt('latte', 1))
