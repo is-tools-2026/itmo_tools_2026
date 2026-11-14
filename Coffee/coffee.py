@@ -1,21 +1,13 @@
 """
-Модуль вузовской кофейни.
+Модуль вузовской кофейни «CampusCoffee» (исправленная версия).
 
-Содержит функции для работы с меню, заказами, скидками и бонусами.
-
-ВАЖНО: в одних функциях есть обработка ошибок, в других — нет.
-Твоя задача — написать тесты, которые это выявят.
-А потом — исправить то, что нашёл.
-
-Удачи! Она тебе понадобится. 🍀
+Во всех функциях некорректный ввод приводит к ValueError.
 """
 
-# Меню кофейни: название -> цена
-# Любимый кофе лектора - Латте
 import random
 import string
 
-
+# Меню кофейни: название -> цена
 MENU = {
     "espresso": 150,
     "capuccino": 250,
@@ -26,8 +18,6 @@ MENU = {
 }
 
 # Скидки: код -> процент
-# Скидка для преподов больше, чем для студентов.
-# Это не баг, это мотивация хорошо учиться.
 DISCOUNTS = {
     "STUDENT10": 10,
     "TEACHER15": 15,
@@ -36,31 +26,42 @@ DISCOUNTS = {
 }
 
 
+def _check_int(value, name, minimum=0):
+    """Проверяет, что value — целое число (не bool) и value >= minimum."""
+    if isinstance(value, bool) or not isinstance(value, int):
+        raise ValueError(f"{name} должно быть целым числом")
+    if value < minimum:
+        raise ValueError(f"{name} не может быть меньше {minimum}")
+
+
+def _check_drink(drink_name):
+    """Проверяет, что drink_name — непустая строка из меню."""
+    if not isinstance(drink_name, str):
+        raise ValueError("Название напитка должно быть строкой")
+    if not drink_name:
+        raise ValueError("Название напитка не может быть пустым")
+    if drink_name not in MENU:
+        raise ValueError(f"Напиток '{drink_name}' не найден в меню")
+
+
 # ============================================================
-# ПРИМЕР. Цена напитка 
+# ПРИМЕР. Цена напитка
 # ============================================================
 
 def get_price(drink_name):
     """
     Возвращает цену напитка по его названию.
 
-    Args:
-        drink_name (str): название напитка
-
-    Returns:
-        int: цена напитка
-  
     Raises:
-        ValueError: если напитка нет в меню
-        
-    Здесь всё честно: нет напитка — нет цены.
+        ValueError: если напитка нет в меню или название не строка
     """
-    if drink_name not in MENU:
-        raise ValueError(f"Напиток '{drink_name}' не найден в меню")
+    # БЫЛО: get_price([]) падало с TypeError (unhashable type)
+    _check_drink(drink_name)
     return MENU[drink_name]
 
+
 # ============================================================
-# ФУНКЦИЯ 1. Вычисляет стоимость заказа
+# ФУНКЦИЯ 1. Стоимость заказа
 # ============================================================
 
 def calculate_order_total(quantity, price):
@@ -68,102 +69,99 @@ def calculate_order_total(quantity, price):
     Вычисляет стоимость заказа.
 
     Args:
-        quantity (int): количество напитков
-        price (int): цена одного напитка
+        quantity (int): количество напитков (>= 0)
+        price (int): цена одного напитка (>= 0)
 
-    Returns:
-        int: итоговая стоимость
+    Raises:
+        ValueError: если аргументы не целые или отрицательные
     """
+    # БЫЛО: return quantity * price -> ('latte', 5) давало 'lattelatte...',
+    # а отрицательные значения давали отрицательную сумму
+    _check_int(quantity, "Количество")
+    _check_int(price, "Цена")
     return quantity * price
 
+
 # ============================================================
-# ФУНКЦИЯ 2. Возвращает самый дорогой напиток в мен
+# ФУНКЦИЯ 2. Самый дорогой напиток
 # ============================================================
 
 def get_most_expensive_drink():
-    """
-    Возвращает самый дорогой напиток в меню.
-
-    Returns:
-        tuple: (название, цена)
-    """
-    name = min(MENU, key=MENU.get)
+    """Возвращает кортеж (название, цена) самого дорогого напитка."""
+    # БЫЛО: min(...) -> возвращался самый дешёвый напиток (tea)
+    name = max(MENU, key=MENU.get)
     return name, MENU[name]
 
+
 # ============================================================
-# ФУНКЦИЯ 3. Генерация пароля от wifi
+# ФУНКЦИЯ 3. Пароль от Wi-Fi
 # ============================================================
 
 def generate_wifi_password(length=8):
     """
-    Генерирует пароль для Wi-Fi кофейни. Условие: длина 8 символов,
-    может состоять только из латинских букв и цифр, 
-    минимум одна заглавная буква, 
-    минимум одна строчная буква, 
-    минимум одна цифра.  
-    
-    Args:
-        lenght (int): длина пароля
-    
-    Returns:
-        string: пароль от wifi
+    Генерирует пароль для Wi-Fi: латинские буквы и цифры,
+    минимум одна заглавная, одна строчная и одна цифра.
 
+    Args:
+        length (int): длина пароля (>= 8)
+
+    Raises:
+        ValueError: если length не целое или меньше 8
     """
+    # БЫЛО: generate_wifi_password("8") / (None) падали с TypeError
+    _check_int(length, "Длина пароля")
     if length < 8:
         raise ValueError("Длина пароля должна быть не меньше 8 символов")
 
-    lowercase = random.choice(string.ascii_lowercase)
-    uppercase = random.choice(string.ascii_uppercase)
-    digit = random.choice(string.digits)
+    rng = random.SystemRandom()  # криптостойкий генератор для паролей
+    lowercase = rng.choice(string.ascii_lowercase)
+    uppercase = rng.choice(string.ascii_uppercase)
+    digit = rng.choice(string.digits)
 
     all_chars = string.ascii_letters + string.digits
-    remaining = ''.join(random.choice(all_chars) for _ in range(length - 3))
+    remaining = [rng.choice(all_chars) for _ in range(length - 3)]
 
-    password = lowercase + uppercase + digit + remaining
-    password_list = list(password)
-    random.shuffle(password_list)
-    return ''.join(password_list)
+    password_list = [lowercase, uppercase, digit] + remaining
+    rng.shuffle(password_list)
+    return "".join(password_list)
+
 
 # ============================================================
-# ФУНКЦИЯ 4. Вывод чека 
+# ФУНКЦИЯ 4. Чек
 # ============================================================
 
 def format_receipt(drink_name, quantity):
     """
     Формирует текст чека.
-    
+
     Формат:
-        Чек CampusCoffee
+        ---Чек Coffee---
         Напиток: <название>
         Количество: <число>
         Итого: <число> руб.
 
-    Args:
-        drink_name (str): название напитка
-        quantity (int): количество
-        total (int): итоговая сумма
-
-    Returns:
-        str: текст чека
+    Raises:
+        ValueError: неверное название, нет в меню, количество не целое или < 1
     """
-    if not drink_name:
-        raise ValueError("Название напитка не может быть пустым")
-    if drink_name not in MENU:
-            raise ValueError("Напитка нет в меню")
-    if quantity < 0:
-        raise ValueError("Количество не может быть отрицательным")
-    
+    # БЫЛО: quantity="2" -> TypeError, drink_name=[] -> TypeError,
+    # quantity=0 давало чек на 0 руб., в докстринге был лишний аргумент total
+    _check_drink(drink_name)
+    _check_int(quantity, "Количество", minimum=1)
+
     total = get_price(drink_name) * quantity
-    
+
     return (
         f"\n---Чек Coffee---\n"
         f"Напиток: {drink_name}\n"
         f"Количество: {quantity}\n"
         f"Итого: {total} руб.\n"
-    ) # Подсказка: для теста подойдет регулярное выражение
+    )
 
-print(get_price('latte'))
-print(calculate_order_total('latte', 5))
-print(get_most_expensive_drink())
-print(generate_wifi_password(8))
-print(format_receipt('latte', 1))
+
+if __name__ == "__main__":
+    # БЫЛО: print(...) на уровне модуля выполнялись при каждом import
+    print(get_price("latte"))
+    print(calculate_order_total(5, 280))
+    print(get_most_expensive_drink())
+    print(generate_wifi_password(8))
+    print(format_receipt("latte", 1))
