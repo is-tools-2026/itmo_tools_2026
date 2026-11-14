@@ -54,7 +54,10 @@ def order_total():
     except (KeyError, TypeError, ValueError):
         return jsonify({"error": "quantity и price должны быть числами"}), 400
 
-    total = calculate_order_total(quantity, price)
+    try:
+        total = calculate_order_total(quantity, price)
+    except ValueError as exc:  # отрицательные значения и т.п.
+        return jsonify({"error": str(exc)}), 400
     return jsonify({"quantity": quantity, "price": price, "total": total})
 
 
@@ -89,7 +92,11 @@ def wifi_password():
     Ответ:
         {"length": 8, "password": "aB3kLm9x"}
     """
-    length = request.args.get("length", default=8, type=int)
+    raw_length = request.args.get("length", default="8")
+    try:
+        length = int(raw_length)  # БЫЛО: type=int молча подставлял 8 для "abc"
+    except ValueError:
+        return jsonify({"error": "length должен быть целым числом"}), 400
     try:
         password = generate_wifi_password(length)
     except ValueError as exc:

@@ -70,6 +70,19 @@ class OrderTotalTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
 
 
+class OrderTotalNegativeTestCase(unittest.TestCase):
+    def setUp(self):
+        self.client = app.test_client()
+
+    def test_negative_quantity(self):
+        r = self.client.post("/api/order-total", json={"quantity": -1, "price": 280})
+        self.assertEqual(r.status_code, 400)
+
+    def test_negative_price(self):
+        r = self.client.post("/api/order-total", json={"quantity": 1, "price": -280})
+        self.assertEqual(r.status_code, 400)
+
+
 class MostExpensiveTestCase(unittest.TestCase):
     """Тесты для GET /api/most-expensive."""
 
@@ -130,6 +143,12 @@ class WifiPasswordTestCase(unittest.TestCase):
         response = self.client.get("/api/wifi-password?length=5")
         self.assertEqual(response.status_code, 400)
         self.assertIn("error", response.get_json())
+
+
+class WifiPasswordInvalidTestCase(unittest.TestCase):
+    def test_length_not_a_number(self):
+        r = app.test_client().get("/api/wifi-password?length=abc")
+        self.assertEqual(r.status_code, 400)
 
 
 class ReceiptTestCase(unittest.TestCase):
