@@ -1,3 +1,6 @@
 def main():
-    branch_name = 'main_feateres_560979' 
+    branch_name = ''
     print("this branch name:" + branch_name)
+
+if __name__ == "__main__":
+    main()
