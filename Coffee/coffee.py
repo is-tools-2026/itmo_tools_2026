@@ -150,7 +150,6 @@ def format_receipt(drink_name, quantity):
     Args:
         drink_name (str): название напитка
         quantity (int): количество
-        total (int): итоговая сумма
 
     Returns:
         str: текст чека
@@ -158,18 +157,16 @@ def format_receipt(drink_name, quantity):
     if not drink_name:
         raise ValueError("Название напитка не может быть пустым")
     if drink_name not in MENU:
-            raise ValueError("Напитка нет в меню")
-    if quantity < 0:
-        raise ValueError("Количество не может быть отрицательным")
+        raise ValueError("Напитка нет в меню")
     
-    total = get_price(drink_name) * quantity
-    
+    total = calculate_order_total(quantity, get_price(drink_name))
+
     return (
-        f"\n---Чек Coffee---\n"
+        f"Чек CampusCoffee\n"
         f"Напиток: {drink_name}\n"
         f"Количество: {quantity}\n"
-        f"Итого: {total} руб.\n"
-    ) # Подсказка: для теста подойдет регулярное выражение
+        f"Итого: {total} руб."
+    )
 
 if __name__ == "__main__":
     print(get_price('latte'))
