@@ -9,6 +9,7 @@ from coffee import (
     calculate_order_total,
     get_most_expensive_drink,
     format_receipt,
+    generate_wifi_password
 )
 
 # Пример
@@ -53,3 +54,7 @@ class CalculateOrderTotalTestCase(unittest.TestCase):
     def test_incorrect_price_type(self):
         with self.assertRaises(ValueError):
             calculate_order_total(5, "120")
+
+class GetMostExpensiveDrinkTestCase(unittest.TestCase):
+    def test_most_expensive_drink(self):
+        self.assertEqual(get_most_expensive_drink(), ("latte", 280))
