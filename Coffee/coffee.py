@@ -96,7 +96,7 @@ def get_most_expensive_drink():
     Returns:
         tuple: (название, цена)
     """
-    name = min(MENU, key=MENU.get)
+    name = max(MENU, key=MENU.get)
     return name, MENU[name]
 
 # ============================================================
