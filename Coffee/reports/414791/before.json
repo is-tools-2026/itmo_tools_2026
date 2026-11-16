@@ -1,0 +1,39 @@
+{
+  "phase": "before",
+  "tests": 53,
+  "passed": 27,
+  "failures": 16,
+  "errors": 10,
+  "skipped": 0,
+  "failed_tests": [
+    "test_coffee.ModuleImportTests.test_import_has_no_output",
+    "test_coffee.MostExpensiveDrinkTests.test_empty_menu",
+    "test_coffee.MostExpensiveDrinkTests.test_other_menu",
+    "test_coffee.MostExpensiveDrinkTests.test_regular_menu",
+    "test_coffee.OrderTotalTests.test_boolean_price",
+    "test_coffee.OrderTotalTests.test_boolean_quantity",
+    "test_coffee.OrderTotalTests.test_fractional_quantity",
+    "test_coffee.OrderTotalTests.test_infinite_price",
+    "test_coffee.OrderTotalTests.test_nan_price",
+    "test_coffee.OrderTotalTests.test_negative_price",
+    "test_coffee.OrderTotalTests.test_negative_quantity",
+    "test_coffee.OrderTotalTests.test_string_price",
+    "test_coffee.OrderTotalTests.test_string_quantity",
+    "test_coffee.ReceiptTests.test_boolean_quantity",
+    "test_coffee.ReceiptTests.test_fractional_quantity",
+    "test_coffee.ReceiptTests.test_receipt_matches_documented_format"
+  ],
+  "error_tests": [
+    "test_coffee.GetPriceTests.test_dictionary_instead_of_name",
+    "test_coffee.GetPriceTests.test_list_instead_of_name",
+    "test_coffee.OrderTotalTests.test_none_price",
+    "test_coffee.OrderTotalTests.test_none_quantity",
+    "test_coffee.ReceiptTests.test_list_name",
+    "test_coffee.ReceiptTests.test_none_quantity",
+    "test_coffee.ReceiptTests.test_string_quantity",
+    "test_coffee.WifiPasswordTests.test_fractional_length",
+    "test_coffee.WifiPasswordTests.test_none_length",
+    "test_coffee.WifiPasswordTests.test_string_length"
+  ],
+  "python": "3.12.14"
+}
