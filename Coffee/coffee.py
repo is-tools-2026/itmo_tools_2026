@@ -74,6 +74,10 @@ def calculate_order_total(quantity, price):
     Returns:
         int: итоговая стоимость
     """
+    if not isinstance(quantity, int) or isinstance(quantity, bool) or quantity < 0:
+        raise ValueError("Количество должно быть целым неотрицательным числом")
+    if not isinstance(price, (int, float)) or isinstance(price, bool) or price < 0:
+        raise ValueError("Цена должна быть неотрицательным числом")
     return quantity * price
 
 # ============================================================
@@ -87,7 +91,7 @@ def get_most_expensive_drink():
     Returns:
         tuple: (название, цена)
     """
-    name = min(MENU, key=MENU.get)
+    name = max(MENU, key=MENU.get)  # <-- Исправлено min на max
     return name, MENU[name]
 
 # ============================================================
@@ -96,19 +100,10 @@ def get_most_expensive_drink():
 
 def generate_wifi_password(length=8):
     """
-    Генерирует пароль для Wi-Fi кофейни. Условие: длина 8 символов,
-    может состоять только из латинских букв и цифр, 
-    минимум одна заглавная буква, 
-    минимум одна строчная буква, 
-    минимум одна цифра.  
-    
-    Args:
-        lenght (int): длина пароля
-    
-    Returns:
-        string: пароль от wifi
-
+    Генерирует пароль для Wi-Fi кофейни...
     """
+    if not isinstance(length, int) or isinstance(length, bool):
+        raise TypeError("Длина должна быть целым числом")
     if length < 8:
         raise ValueError("Длина пароля должна быть не меньше 8 символов")
 
@@ -130,28 +125,16 @@ def generate_wifi_password(length=8):
 
 def format_receipt(drink_name, quantity):
     """
-    Формирует текст чека.
-    
-    Формат:
-        Чек CampusCoffee
-        Напиток: <название>
-        Количество: <число>
-        Итого: <число> руб.
-
-    Args:
-        drink_name (str): название напитка
-        quantity (int): количество
-        total (int): итоговая сумма
-
-    Returns:
-        str: текст чека
+    Формирует текст чека...
     """
     if not drink_name:
         raise ValueError("Название напитка не может быть пустым")
     if drink_name not in MENU:
-            raise ValueError("Напитка нет в меню")
-    if quantity < 0:
-        raise ValueError("Количество не может быть отрицательным")
+        raise ValueError("Напитка нет в меню")
+    
+    # <-- Добавлена проверка типа и изменено на <= 0
+    if not isinstance(quantity, int) or quantity <= 0:
+        raise ValueError("Количество не может быть отрицательным или нулевым")
     
     total = get_price(drink_name) * quantity
     
@@ -160,10 +143,6 @@ def format_receipt(drink_name, quantity):
         f"Напиток: {drink_name}\n"
         f"Количество: {quantity}\n"
         f"Итого: {total} руб.\n"
-    ) # Подсказка: для теста подойдет регулярное выражение
+    )
 
-print(get_price('latte'))
-print(calculate_order_total('latte', 5))
-print(get_most_expensive_drink())
-print(generate_wifi_password(8))
-print(format_receipt('latte', 1))
+ 
