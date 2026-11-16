@@ -1,12 +1,14 @@
 import unittest
+
 from coffee import (
-    get_price, 
-    calculate_order_total, 
-    get_most_expensive_drink, 
-    generate_wifi_password, 
+    get_price,
+    calculate_order_total,
+    get_most_expensive_drink,
+    generate_wifi_password,
     format_receipt,
-    MENU
+    MENU,
 )
+
 
 class TestCoffee(unittest.TestCase):
 
@@ -45,6 +47,7 @@ class TestCoffee(unittest.TestCase):
     def test_wifi_password_length(self):
         password = generate_wifi_password(8)
         self.assertEqual(len(password), 8)
+
         password_12 = generate_wifi_password(12)
         self.assertEqual(len(password_12), 12)
 
@@ -88,9 +91,55 @@ class TestCoffee(unittest.TestCase):
 
     def test_assert_almost_equal_example(self):
         price = get_price("latte")
-        # 280 - 10% = 252.0
         calculated_price = price * 0.9
         self.assertAlmostEqual(calculated_price, 252.0, places=1)
 
-if __name__ == '__main__':
+    def test_format_receipt_exact_format(self):
+        expected = (
+            "Чек CampusCoffee\n"
+            "Напиток: latte\n"
+            "Количество: 2\n"
+            "Итого: 560 руб."
+        )
+        receipt = format_receipt("latte", 2)
+        self.assertEqual(receipt.strip(), expected)
+
+    def test_get_price_invalid_type(self):
+        with self.assertRaises(TypeError):
+            get_price(123)
+
+    def test_calculate_total_zero_price(self):
+        self.assertEqual(calculate_order_total(3, 0), 0)
+
+    def test_calculate_total_float_price(self):
+        self.assertAlmostEqual(
+            calculate_order_total(3, 10.1), 30.3, places=2
+        )
+
+    def test_calculate_total_bool_quantity(self):
+        with self.assertRaises(TypeError):
+            calculate_order_total(True, 150)
+
+    def test_calculate_total_bool_price(self):
+        with self.assertRaises(TypeError):
+            calculate_order_total(2, True)
+
+    def test_wifi_password_allowed_characters(self):
+        password = generate_wifi_password(100)
+        self.assertTrue(password.isascii())
+        self.assertTrue(password.isalnum())
+
+    def test_wifi_password_default_length(self):
+        self.assertEqual(len(generate_wifi_password()), 8)
+
+    def test_format_receipt_invalid_name_type(self):
+        with self.assertRaises(TypeError):
+            format_receipt(123, 1)
+
+    def test_format_receipt_bool_quantity(self):
+        with self.assertRaises(TypeError):
+            format_receipt("latte", True)
+
+
+if __name__ == "__main__":
     unittest.main()
