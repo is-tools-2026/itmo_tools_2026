@@ -66,14 +66,19 @@ def get_price(drink_name):
 def calculate_order_total(quantity, price):
     """
     Вычисляет стоимость заказа.
-
-    Args:
-        quantity (int): количество напитков
-        price (int): цена одного напитка
-
-    Returns:
-        int: итоговая стоимость
     """
+    if not isinstance(quantity, int) or isinstance(quantity, bool):
+        raise TypeError("Количество должно быть целым числом")
+
+    if not isinstance(price, (int, float)) or isinstance(price, bool):
+        raise TypeError("Цена должна быть числом")
+
+    if quantity < 0:
+        raise ValueError("Количество не может быть отрицательным")
+
+    if price < 0:
+        raise ValueError("Цена не может быть отрицательной")
+
     return quantity * price
 
 # ============================================================
@@ -87,7 +92,7 @@ def get_most_expensive_drink():
     Returns:
         tuple: (название, цена)
     """
-    name = min(MENU, key=MENU.get)
+    name = max(MENU, key=MENU.get)
     return name, MENU[name]
 
 # ============================================================
@@ -109,6 +114,8 @@ def generate_wifi_password(length=8):
         string: пароль от wifi
 
     """
+    if type(length) is not int:
+        raise TypeError("Длина пароля должна быть целым числом")
     if length < 8:
         raise ValueError("Длина пароля должна быть не меньше 8 символов")
 
@@ -150,8 +157,11 @@ def format_receipt(drink_name, quantity):
         raise ValueError("Название напитка не может быть пустым")
     if drink_name not in MENU:
             raise ValueError("Напитка нет в меню")
-    if quantity < 0:
-        raise ValueError("Количество не может быть отрицательным")
+    if type(quantity) is not int:
+        raise TypeError("Количество должно быть целым числом")
+
+    if quantity <= 0:
+        raise ValueError("Количество должно быть больше нуля")
     
     total = get_price(drink_name) * quantity
     
@@ -162,8 +172,9 @@ def format_receipt(drink_name, quantity):
         f"Итого: {total} руб.\n"
     ) # Подсказка: для теста подойдет регулярное выражение
 
-print(get_price('latte'))
-print(calculate_order_total('latte', 5))
-print(get_most_expensive_drink())
-print(generate_wifi_password(8))
-print(format_receipt('latte', 1))
+if __name__ == "__main__":
+    print(get_price("latte"))
+    print(calculate_order_total(3, 150))
+    print(get_most_expensive_drink())
+    print(generate_wifi_password(8))
+    print(format_receipt("latte", 1))
