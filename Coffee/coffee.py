@@ -74,6 +74,15 @@ def calculate_order_total(quantity, price):
     Returns:
         int: итоговая стоимость
     """
+    if type(quantity) is not int:
+        raise ValueError("Количество должно быть целым числом")
+    if type(price) is not int:
+        raise ValueError("Цена должна быть целым числом")
+    if quantity < 0:
+        raise ValueError("Количество не может быть меньше нуля")
+    if price < 0:
+        raise ValueError("Цена не может быть меньше нуля")
+
     return quantity * price
 
 # ============================================================
@@ -162,8 +171,9 @@ def format_receipt(drink_name, quantity):
         f"Итого: {total} руб.\n"
     ) # Подсказка: для теста подойдет регулярное выражение
 
-print(get_price('latte'))
-print(calculate_order_total('latte', 5))
-print(get_most_expensive_drink())
-print(generate_wifi_password(8))
-print(format_receipt('latte', 1))
+if __name__ == "__main__":
+    print(get_price('latte'))
+    print(calculate_order_total(5, get_price("latte")))
+    print(get_most_expensive_drink())
+    print(generate_wifi_password(8))
+    print(format_receipt('latte', 1))
