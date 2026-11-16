@@ -1,0 +1,11 @@
+{
+  "phase": "after",
+  "tests": 53,
+  "passed": 53,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "failed_tests": [],
+  "error_tests": [],
+  "python": "3.12.14"
+}
