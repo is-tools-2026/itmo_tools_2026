@@ -55,6 +55,8 @@ def get_price(drink_name):
         
     Здесь всё честно: нет напитка — нет цены.
     """
+    if not isinstance(drink_name, str):
+        raise ValueError("Название напитка должно быть строкой")
     if drink_name not in MENU:
         raise ValueError(f"Напиток '{drink_name}' не найден в меню")
     return MENU[drink_name]
@@ -69,15 +71,26 @@ def calculate_order_total(quantity, price):
 
     Args:
         quantity (int): количество напитков
-        price (int): цена одного напитка
+        price (int или float): цена одного напитка
 
     Returns:
-        int: итоговая стоимость
+        int или float: итоговая стоимость
+
+    Raises:
+        ValueError: если количество или цена указаны неверно
     """
+    if type(quantity) != int:
+        raise ValueError("Количество должно быть целым числом")
+    if type(price) != int and type(price) != float:
+        raise ValueError("Цена должна быть числом")
+    if quantity < 0:
+        raise ValueError("Количество не может быть отрицательным")
+    if price < 0:
+        raise ValueError("Цена не может быть отрицательной")
     return quantity * price
 
 # ============================================================
-# ФУНКЦИЯ 2. Возвращает самый дорогой напиток в мен
+# ФУНКЦИЯ 2. Возвращает самый дорогой напиток в меню
 # ============================================================
 
 def get_most_expensive_drink():
@@ -87,7 +100,7 @@ def get_most_expensive_drink():
     Returns:
         tuple: (название, цена)
     """
-    name = min(MENU, key=MENU.get)
+    name = max(MENU, key=MENU.get)
     return name, MENU[name]
 
 # ============================================================
@@ -96,19 +109,23 @@ def get_most_expensive_drink():
 
 def generate_wifi_password(length=8):
     """
-    Генерирует пароль для Wi-Fi кофейни. Условие: длина 8 символов,
+    Генерирует пароль для Wi-Fi кофейни. Условие: длина не меньше 8 символов,
     может состоять только из латинских букв и цифр, 
     минимум одна заглавная буква, 
     минимум одна строчная буква, 
     минимум одна цифра.  
     
     Args:
-        lenght (int): длина пароля
+        length (int): длина пароля
     
     Returns:
         string: пароль от wifi
 
+    Raises:
+        ValueError: если длина не целое число или меньше 8
     """
+    if type(length) != int:
+        raise ValueError("Длина пароля должна быть целым числом")
     if length < 8:
         raise ValueError("Длина пароля должна быть не меньше 8 символов")
 
@@ -141,29 +158,36 @@ def format_receipt(drink_name, quantity):
     Args:
         drink_name (str): название напитка
         quantity (int): количество
-        total (int): итоговая сумма
 
     Returns:
         str: текст чека
+
+    Raises:
+        ValueError: если напитка нет в меню или количество указано неверно
     """
+    if not isinstance(drink_name, str):
+        raise ValueError("Название напитка должно быть строкой")
     if not drink_name:
         raise ValueError("Название напитка не может быть пустым")
     if drink_name not in MENU:
-            raise ValueError("Напитка нет в меню")
+        raise ValueError("Напитка нет в меню")
+    if type(quantity) != int:
+        raise ValueError("Количество должно быть целым числом")
     if quantity < 0:
         raise ValueError("Количество не может быть отрицательным")
     
     total = get_price(drink_name) * quantity
     
     return (
-        f"\n---Чек Coffee---\n"
+        "Чек CampusCoffee\n"
         f"Напиток: {drink_name}\n"
         f"Количество: {quantity}\n"
         f"Итого: {total} руб.\n"
     ) # Подсказка: для теста подойдет регулярное выражение
 
-print(get_price('latte'))
-print(calculate_order_total('latte', 5))
-print(get_most_expensive_drink())
-print(generate_wifi_password(8))
-print(format_receipt('latte', 1))
+if __name__ == "__main__":
+    print(get_price('latte'))
+    print(calculate_order_total(5, get_price('latte')))
+    print(get_most_expensive_drink())
+    print(generate_wifi_password(8))
+    print(format_receipt('latte', 1))
