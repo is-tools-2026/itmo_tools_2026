@@ -50,6 +50,14 @@ class CalculateOrderTotalTestCase(unittest.TestCase):
     def test_negative_price(self):
         with self.assertRaises(ValueError):
             calculate_order_total(2,-150)
+            
+    def test_fractional_quantity(self):
+        with self.assertRaises(TypeError):
+            calculate_order_total(1.5, 150)
+
+    def test_boolean_quantity(self):
+        with self.assertRaises(TypeError):
+            calculate_order_total(True, 150)
 
 class GetMostExpensiveDrinkTests(unittest.TestCase):
     def test_most_expensive_drink(self):
