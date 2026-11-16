@@ -74,6 +74,10 @@ def calculate_order_total(quantity, price):
     Returns:
         int: итоговая стоимость
     """
+    if quantity <0:
+        raise ValueError("Количество не может быть отрицательным")
+    if price < 0:
+        raise ValueError("Цена не может быть отрицательной")
     return quantity * price
 
 # ============================================================
@@ -87,7 +91,7 @@ def get_most_expensive_drink():
     Returns:
         tuple: (название, цена)
     """
-    name = min(MENU, key=MENU.get)
+    name = max(MENU, key=MENU.get)
     return name, MENU[name]
 
 # ============================================================
@@ -149,21 +153,22 @@ def format_receipt(drink_name, quantity):
     if not drink_name:
         raise ValueError("Название напитка не может быть пустым")
     if drink_name not in MENU:
-            raise ValueError("Напитка нет в меню")
+        raise ValueError("Напитка нет в меню")
     if quantity < 0:
         raise ValueError("Количество не может быть отрицательным")
     
-    total = get_price(drink_name) * quantity
+    total = calculate_order_total(quantity, get_price(drink_name))
     
     return (
-        f"\n---Чек Coffee---\n"
+        f"Чек CampusCoffee\n"
         f"Напиток: {drink_name}\n"
         f"Количество: {quantity}\n"
-        f"Итого: {total} руб.\n"
+        f"Итого: {total} руб."
     ) # Подсказка: для теста подойдет регулярное выражение
 
-print(get_price('latte'))
-print(calculate_order_total('latte', 5))
-print(get_most_expensive_drink())
-print(generate_wifi_password(8))
-print(format_receipt('latte', 1))
+if __name__ == "__main__":
+    print(get_price("latte"))
+    print(calculate_order_total(5, get_price("latte")))
+    print(get_most_expensive_drink())
+    print(generate_wifi_password(8))
+    print(format_receipt("latte", 1))
