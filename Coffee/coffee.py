@@ -1,21 +1,11 @@
 """
 Модуль вузовской кофейни.
-
-Содержит функции для работы с меню, заказами, скидками и бонусами.
-
-ВАЖНО: в одних функциях есть обработка ошибок, в других — нет.
-Твоя задача — написать тесты, которые это выявят.
-А потом — исправить то, что нашёл.
-
-Удачи! Она тебе понадобится. 🍀
 """
 
-# Меню кофейни: название -> цена
-# Любимый кофе лектора - Латте
 import random
 import string
 
-
+# Меню кофейни: название -> цена
 MENU = {
     "espresso": 150,
     "capuccino": 250,
@@ -26,8 +16,6 @@ MENU = {
 }
 
 # Скидки: код -> процент
-# Скидка для преподов больше, чем для студентов.
-# Это не баг, это мотивация хорошо учиться.
 DISCOUNTS = {
     "STUDENT10": 10,
     "TEACHER15": 15,
@@ -37,7 +25,7 @@ DISCOUNTS = {
 
 
 # ============================================================
-# ПРИМЕР. Цена напитка 
+# ПРИМЕР. Цена напитка
 # ============================================================
 
 def get_price(drink_name):
@@ -49,15 +37,22 @@ def get_price(drink_name):
 
     Returns:
         int: цена напитка
-  
+
     Raises:
-        ValueError: если напитка нет в меню
-        
-    Здесь всё честно: нет напитка — нет цены.
+        TypeError: если название напитка не является строкой
+        ValueError: если строка пустая или напитка нет в меню
     """
-    if drink_name not in MENU:
+    if not isinstance(drink_name, str):
+        raise TypeError("Название напитка должно быть строкой")
+
+    normalized_name = drink_name.strip().lower()
+    if not normalized_name:
+        raise ValueError("Название напитка не может быть пустым")
+    if normalized_name not in MENU:
         raise ValueError(f"Напиток '{drink_name}' не найден в меню")
-    return MENU[drink_name]
+
+    return MENU[normalized_name]
+
 
 # ============================================================
 # ФУНКЦИЯ 1. Вычисляет стоимость заказа
@@ -69,15 +64,27 @@ def calculate_order_total(quantity, price):
 
     Args:
         quantity (int): количество напитков
-        price (int): цена одного напитка
+        price (int | float): цена одного напитка
 
     Returns:
-        int: итоговая стоимость
+        int | float: итоговая стоимость
     """
-    return quantity * price
+    if (
+        isinstance(quantity, bool)
+        or isinstance(price, bool)
+        or not isinstance(quantity, int)
+        or not isinstance(price, (int, float))
+    ):
+        raise TypeError("Количество должно быть целым числом, а цена - числом")
+
+    if quantity <= 0 or price <= 0:
+        raise ValueError("Количество и цена должны быть больше нуля")
+
+    return round(quantity * price, 2)
+
 
 # ============================================================
-# ФУНКЦИЯ 2. Возвращает самый дорогой напиток в мен
+# ФУНКЦИЯ 2. Возвращает самый дорогой напиток в меню
 # ============================================================
 
 def get_most_expensive_drink():
@@ -87,8 +94,11 @@ def get_most_expensive_drink():
     Returns:
         tuple: (название, цена)
     """
-    name = min(MENU, key=MENU.get)
+    if not MENU:
+        raise ValueError("Меню кофейни пусто")
+    name = max(MENU, key=MENU.get)
     return name, MENU[name]
+
 
 # ============================================================
 # ФУНКЦИЯ 3. Генерация пароля от wifi
@@ -96,42 +106,41 @@ def get_most_expensive_drink():
 
 def generate_wifi_password(length=8):
     """
-    Генерирует пароль для Wi-Fi кофейни. Условие: длина 8 символов,
-    может состоять только из латинских букв и цифр, 
-    минимум одна заглавная буква, 
-    минимум одна строчная буква, 
-    минимум одна цифра.  
-    
-    Args:
-        lenght (int): длина пароля
-    
-    Returns:
-        string: пароль от wifi
+    Генерирует пароль для Wi-Fi кофейни.
+    Длина не менее 8 символов, латинские буквы и цифры,
+    минимум одна заглавная, одна строчная буква и одна цифра.
 
+    Args:
+        length (int): длина пароля
+
+    Returns:
+        str: пароль от wifi
     """
-    if length < 8:
-        raise ValueError("Длина пароля должна быть не меньше 8 символов")
+    if isinstance(length, bool) or not isinstance(length, int):
+        raise TypeError("Длина пароля должна быть целым числом")
+    if length < 8 or length > 64:
+        raise ValueError("Длина пароля должна быть от 8 до 64 символов")
 
     lowercase = random.choice(string.ascii_lowercase)
     uppercase = random.choice(string.ascii_uppercase)
     digit = random.choice(string.digits)
 
     all_chars = string.ascii_letters + string.digits
-    remaining = ''.join(random.choice(all_chars) for _ in range(length - 3))
+    remaining = "".join(random.choice(all_chars) for _ in range(length - 3))
 
-    password = lowercase + uppercase + digit + remaining
-    password_list = list(password)
+    password_list = list(lowercase + uppercase + digit + remaining)
     random.shuffle(password_list)
-    return ''.join(password_list)
+    return "".join(password_list)
+
 
 # ============================================================
-# ФУНКЦИЯ 4. Вывод чека 
+# ФУНКЦИЯ 4. Вывод чека
 # ============================================================
 
 def format_receipt(drink_name, quantity):
     """
     Формирует текст чека.
-    
+
     Формат:
         Чек CampusCoffee
         Напиток: <название>
@@ -141,29 +150,54 @@ def format_receipt(drink_name, quantity):
     Args:
         drink_name (str): название напитка
         quantity (int): количество
-        total (int): итоговая сумма
 
     Returns:
         str: текст чека
     """
-    if not drink_name:
-        raise ValueError("Название напитка не может быть пустым")
-    if drink_name not in MENU:
-            raise ValueError("Напитка нет в меню")
-    if quantity < 0:
-        raise ValueError("Количество не может быть отрицательным")
-    
-    total = get_price(drink_name) * quantity
-    
-    return (
-        f"\n---Чек Coffee---\n"
-        f"Напиток: {drink_name}\n"
-        f"Количество: {quantity}\n"
-        f"Итого: {total} руб.\n"
-    ) # Подсказка: для теста подойдет регулярное выражение
+    if not isinstance(drink_name, str):
+        raise TypeError("Название напитка должно быть строкой")
+    if isinstance(quantity, bool) or not isinstance(quantity, int):
+        raise TypeError("Количество должно быть целым числом")
+    if quantity <= 0:
+        raise ValueError("Количество должно быть больше нуля")
 
-print(get_price('latte'))
-print(calculate_order_total('latte', 5))
-print(get_most_expensive_drink())
-print(generate_wifi_password(8))
-print(format_receipt('latte', 1))
+    price = get_price(drink_name)
+    normalized_name = drink_name.strip().lower()
+    total = calculate_order_total(quantity, price)
+
+    return (
+        f"Чек CampusCoffee\n"
+        f"Напиток: {normalized_name}\n"
+        f"Количество: {quantity}\n"
+        f"Итого: {total} руб."
+    )
+
+
+# ============================================================
+# ФУНКЦИЯ 5. Применение промокода на скидку
+# ============================================================
+
+def apply_discount(total, discount_code):
+    """
+    Применяет процентную скидку из словаря DISCOUNTS к сумме заказа.
+
+    Args:
+        total (int | float): исходная сумма заказа
+        discount_code (str): промокод из словаря DISCOUNTS
+
+    Returns:
+        float: итоговая сумма со скидкой
+    """
+    if isinstance(total, bool) or not isinstance(total, (int, float)):
+        raise TypeError("Сумма заказа должна быть числом")
+    if not isinstance(discount_code, str):
+        raise TypeError("Промокод должен быть строкой")
+    if total <= 0:
+        raise ValueError("Сумма заказа должна быть больше нуля")
+
+    code = discount_code.strip().upper()
+    if code not in DISCOUNTS:
+        raise ValueError(f"Промокод '{discount_code}' недействителен")
+
+    discount_percent = DISCOUNTS[code]
+    return round(total * (1 - discount_percent / 100.0), 2)
