@@ -1,0 +1,39 @@
+get_price('latte')
+Ожидал: 280
+Получил: 280
+Результат: OK
+
+get_price('water')
+Ожидал: ValueError
+Получил: ValueError
+Результат: OK
+
+calculate_order_total(3, 280)
+Ожидал: 840
+Получил: 840
+Результат: OK
+
+calculate_order_total(0, 280)
+Ожидал: 0
+Получил: 0
+Результат: OK
+
+calculate_order_total(-1, 280)
+Ожидал: ValueError
+Получил: ValueError
+Результат: OK
+
+get_most_expensive_drink()
+Ожидал: ('latte', 280)
+Получил: ('latte', 280)
+Результат: OK
+
+generate_wifi_password(7)
+Ожидал: ValueError
+Получил: ValueError
+Результат: OK
+
+format_receipt('tea', 3)
+Ожидал: 'Чек CampusCoffee\nНапиток: tea\nКоличество: 3\nИтого: 360 руб.'
+Получил: 'Чек CampusCoffee\nНапиток: tea\nКоличество: 3\nИтого: 360 руб.'
+Результат: OK
