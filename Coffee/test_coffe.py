@@ -1,36 +1,58 @@
-"""
-Unit-тесты для модуля вузовской кофейни «CampusCoffee».
-"""
-
 import unittest
-
 from coffee import (
     get_price,
     calculate_order_total,
     get_most_expensive_drink,
     generate_wifi_password,
     format_receipt
-)   
+)
 
-# Пример
-class GetPriceTestCase(unittest.TestCase):
-    def test_espresso_price(self):
+class TestCoffee(unittest.TestCase):
+
+    # Тесты для get_price
+    def test_get_price_valid(self):
         self.assertEqual(get_price("espresso"), 150)
+        self.assertEqual(get_price("latte"), 280)
 
-    def test_capuccino_price(self):
-        self.assertEqual(get_price("capuccino"), 250)
-
-    def test_unknown_drink(self):
+    def test_get_price_invalid(self):
         with self.assertRaises(ValueError):
             get_price("unknown_drink")
 
-    def test_empty_name(self):
+    # Тесты для calculate_order_total
+    def test_calculate_order_total_valid(self):
+        self.assertEqual(calculate_order_total(3, 280), 840)
+
+    def test_calculate_order_total_invalid(self):
+        with self.assertRaises((ValueError, TypeError)):
+            calculate_order_total(-1, 200)
+        with self.assertRaises((ValueError, TypeError)):
+            calculate_order_total("3", 280)
+
+    # Тесты для get_most_expensive_drink
+    def test_get_most_expensive_drink(self):
+        name, price = get_most_expensive_drink()
+        self.assertEqual(name, "latte")
+        self.assertEqual(price, 280)
+
+    # Тесты для generate_wifi_password
+    def test_generate_wifi_password_valid(self):
+        pwd = generate_wifi_password(10)
+        self.assertEqual(len(pwd), 10)
+
+    def test_generate_wifi_password_invalid(self):
+        with self.assertRaises(TypeError):
+            generate_wifi_password("10")
+
+    # Тесты для format_receipt
+    def test_format_receipt_valid(self):
+        receipt = format_receipt("espresso", 2)
+        self.assertIn("espresso", receipt)
+
+    def test_format_receipt_invalid(self):
         with self.assertRaises(ValueError):
-            get_price("")
+            format_receipt("espresso", 0)
+        with self.assertRaises(ValueError):
+            format_receipt("espresso", -1)
 
-    def test_empty_name(self):
-       with self.assertRaises(ValueError):
-           get_price(5)
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()
