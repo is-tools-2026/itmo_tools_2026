@@ -88,3 +88,32 @@ class GenerateWifiPasswordTestCase(unittest.TestCase):
     def test_negative_length(self):
         with self.assertRaises(ValueError):
             generate_wifi_password(-1)
+
+class FormatReceiptTestCase(unittest.TestCase):
+    def test_receipt_format(self):
+        expected = (
+            "Чек CampusCoffee\n"
+            "Напиток: latte\n"
+            "Количество: 2\n"
+            "Итого: 560 руб."
+        )
+        self.assertEqual(format_receipt("latte", 2), expected)
+
+    def test_unknown_drink(self):
+        with self.assertRaises(ValueError):
+            format_receipt("unknown", 1)
+
+    def test_empty_name(self):
+        with self.assertRaises(ValueError):
+            format_receipt("", 1)
+
+    def test_negative_quantity(self):
+        with self.assertRaises(ValueError):
+            format_receipt("latte", -1)
+
+    def test_zero_quantity(self):
+        self.assertIn("Итого: 0 руб.", format_receipt("latte", 0))
+
+    def test_incorrect_quantity_type(self):
+        with self.assertRaises(ValueError):
+            format_receipt("latte", "2")
