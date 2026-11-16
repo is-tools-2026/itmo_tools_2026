@@ -11,6 +11,7 @@ jobs:
     outputs:
       report_ok: ${{ steps.report.outputs.ok }}
       report_text: ${{ steps.report.outputs.text }}
+      tests_ok: ${{ steps.pytest.outputs.tests_ok }}
 
     steps:
       - name: Checkout code
@@ -26,11 +27,21 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest pytest-cov coverage
 
-      - name: Run tests with coverage
+      - name: Run tests with coverage (do not fail job here)
+        id: pytest
         run: |
+          set +e
           coverage run --branch -m pytest Coffee/test_coffe.py -v
-          coverage report -m
-          coverage json -o coverage.json
+          PYTEST_EXIT=$?
+          coverage report -m || true
+          coverage json -o coverage.json || true
+          if [ "$PYTEST_EXIT" -eq 0 ]; then
+            echo "tests_ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "tests_ok=false" >> "$GITHUB_OUTPUT"
+          fi
+          echo "pytest exit code: $PYTEST_EXIT (job продолжается, статус уйдёт в отчёт)"
+          exit 0
 
       - name: Analyze coverage and tests (never fails)
         id: report
@@ -50,10 +61,12 @@ jobs:
               if alt:
                   test_file = alt[0]
               else:
-                  print(f"Файл с тестами не найден: {test_file}")
                   with open(os.environ["GITHUB_OUTPUT"], "a") as f:
                       f.write("ok=false\n")
-                      f.write("text=Файл с тестами test_coffe.py не найден\n")
+                      f.write("text<<REPORT_EOF\n")
+                      f.write("Файл с тестами test_coffe.py не найден\n")
+                      f.write("REPORT_EOF\n")
+                  print("Файл с тестами не найден")
                   sys.exit(0)
 
           source_text = test_file.read_text(encoding="utf-8")
@@ -70,16 +83,17 @@ jobs:
               if p.name != "test_coffe.py" and not p.name.startswith("test_")
           ]
           if not src_candidates:
-              print("Не найден исходный файл")
               with open(os.environ["GITHUB_OUTPUT"], "a") as f:
                   f.write("ok=false\n")
-                  f.write("text=Не найден исходный файл с кодом\n")
+                  f.write("text<<REPORT_EOF\n")
+                  f.write("Не найден исходный файл с кодом\n")
+                  f.write("REPORT_EOF\n")
+              print("Не найден исходный файл")
               sys.exit(0)
           source_file = src_candidates[0]
           src_tree = ast.parse(source_file.read_text(encoding="utf-8"))
           fn_names = [n.name for n in ast.walk(src_tree) if isinstance(n, ast.FunctionDef)]
 
-          # ---------- Отчёт ----------
           report = []
           problems = []
           warnings = []
@@ -90,6 +104,14 @@ jobs:
                   problems.append(f"{section}: {details}")
               elif status == "WARN":
                   warnings.append(f"{section}: {details}")
+
+          # 0. Результат pytest (из предыдущего шага)
+          tests_ok = os.environ.get("TESTS_OK", "") == "true"
+          if tests_ok:
+              add("Запуск pytest", "OK", "все тесты прошли")
+          else:
+              add("Запуск pytest", "FAIL",
+                  "есть падающие тесты (см. лог шага 'Run tests with coverage')")
 
           # 1. Позитивные / негативные
           def has_raises(node):
@@ -223,7 +245,7 @@ jobs:
                   "OK" if has_regex else "WARN",
                   "" if has_regex else "регулярные выражения не используются")
 
-          # 9. Покрытие (если coverage.json есть)
+          # 9. Покрытие
           try:
               with open("coverage.json") as f:
                   cov = json.load(f)
@@ -272,7 +294,6 @@ jobs:
                   print(f"  ! {w}")
           print("=" * 72)
 
-          # ---------- Запись в GITHUB_OUTPUT ----------
           report_text = "\\n".join(
               f"[{status}] {section}" + (f" — {details}" if details else "")
               for section, status, details in report
@@ -283,6 +304,8 @@ jobs:
               f.write(report_text + "\n")
               f.write("REPORT_EOF\n")
           EOF
+        env:
+          TESTS_OK: ${{ steps.pytest.outputs.tests_ok }}
 
   fail-if-report-not-ok:
     needs: analyze-tests
