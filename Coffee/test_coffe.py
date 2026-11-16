@@ -58,3 +58,33 @@ class CalculateOrderTotalTestCase(unittest.TestCase):
 class GetMostExpensiveDrinkTestCase(unittest.TestCase):
     def test_most_expensive_drink(self):
         self.assertEqual(get_most_expensive_drink(), ("latte", 280))
+
+class GenerateWifiPasswordTestCase(unittest.TestCase):
+    def test_default_length(self):
+        self.assertEqual(len(generate_wifi_password()), 8)
+
+    def test_custom_length(self):
+        self.assertEqual(len(generate_wifi_password(12)), 12)
+
+    def test_password_characters(self):
+        password = generate_wifi_password()
+        self.assertTrue(all(
+            char in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+            for char in password
+        ))
+        self.assertTrue(any(char.islower() for char in password))
+        self.assertTrue(any(char.isupper() for char in password))
+        self.assertTrue(any(char.isdigit() for char in password))
+        self.assertFalse(any(char.isspace() for char in password))
+
+    def test_short_length(self):
+        with self.assertRaises(ValueError):
+            generate_wifi_password(7)
+
+    def test_zero_length(self):
+        with self.assertRaises(ValueError):
+            generate_wifi_password(0)
+
+    def test_negative_length(self):
+        with self.assertRaises(ValueError):
+            generate_wifi_password(-1)
