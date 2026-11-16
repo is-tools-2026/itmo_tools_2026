@@ -48,19 +48,19 @@ class CalculateOrderTotalTestCase(unittest.TestCase):
             calculate_order_total(5, -120)
 
     def test_incorrect_quantity_type(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             calculate_order_total("latte", 120)
 
     def test_incorrect_price_type(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             calculate_order_total(5, "120")
 
     def test_fractional_quantity(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             calculate_order_total(1.5, 280)
 
     def test_bool_quantity(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             calculate_order_total(True, 280)
 
 class GetMostExpensiveDrinkTestCase(unittest.TestCase):
@@ -123,13 +123,13 @@ class FormatReceiptTestCase(unittest.TestCase):
         self.assertIn("Итого: 0 руб.", format_receipt("latte", 0))
 
     def test_incorrect_quantity_type(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             format_receipt("latte", "2")
 
     def test_fractional_quantity(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             format_receipt("latte", 1.5)
 
     def test_bool_quantity(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             format_receipt("latte", True)

@@ -75,9 +75,9 @@ def calculate_order_total(quantity, price):
         int: итоговая стоимость
     """
     if type(quantity) is not int:
-        raise ValueError("Количество должно быть целым числом")
+        raise TypeError("Количество должно быть целым числом")
     if type(price) is not int:
-        raise ValueError("Цена должна быть целым числом")
+        raise TypeError("Цена должна быть целым числом")
     if quantity < 0:
         raise ValueError("Количество не может быть меньше нуля")
     if price < 0:
