@@ -55,6 +55,14 @@ class CalculateOrderTotalTestCase(unittest.TestCase):
         with self.assertRaises(ValueError):
             calculate_order_total(5, "120")
 
+    def test_fractional_quantity(self):
+        with self.assertRaises(ValueError):
+            calculate_order_total(1.5, 280)
+
+    def test_bool_quantity(self):
+        with self.assertRaises(ValueError):
+            calculate_order_total(True, 280)
+
 class GetMostExpensiveDrinkTestCase(unittest.TestCase):
     def test_most_expensive_drink(self):
         self.assertEqual(get_most_expensive_drink(), ("latte", 280))
@@ -117,3 +125,11 @@ class FormatReceiptTestCase(unittest.TestCase):
     def test_incorrect_quantity_type(self):
         with self.assertRaises(ValueError):
             format_receipt("latte", "2")
+
+    def test_fractional_quantity(self):
+        with self.assertRaises(ValueError):
+            format_receipt("latte", 1.5)
+
+    def test_bool_quantity(self):
+        with self.assertRaises(ValueError):
+            format_receipt("latte", True)
