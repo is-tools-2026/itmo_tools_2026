@@ -1,0 +1,81 @@
+order-total (200 OK) - 20 ms
+Tests
+   ✓ Статус 200
+   ✓ Содержимое JSON
+02-order-zero (200 OK) - 4 ms
+Tests
+   ✓ Статус 200
+   ✓ Содержимое JSON
+03-order-decimal-price (200 OK) - 67 ms
+Tests
+   ✓ Статус 200
+   ✓ Содержимое JSON
+04-order-negative (400 BAD REQUEST) - 4 ms
+Tests
+   ✓ Статус 400
+   ✓ Содержимое JSON
+05-order-fractional (400 BAD REQUEST) - 4 ms
+Tests
+   ✓ Статус 400
+   ✓ Содержимое JSON
+06-order-missing-price (400 BAD REQUEST) - 4 ms
+Tests
+   ✓ Статус 400
+   ✓ Содержимое JSON
+07-order-array (400 BAD REQUEST) - 6 ms
+Tests
+   ✓ Статус 400
+   ✓ Содержимое JSON
+08-most-expensive (200 OK) - 5 ms
+Tests
+   ✓ Статус 200
+   ✓ Содержимое JSON
+09-wifi-default (200 OK) - 6 ms
+Tests
+   ✓ Статус 200
+   ✓ Содержимое JSON
+10-wifi-custom (200 OK) - 8 ms
+Tests
+   ✓ Статус 200
+   ✓ Содержимое JSON
+11-wifi-short (400 BAD REQUEST) - 6 ms
+Tests
+   ✓ Статус 400
+   ✓ Содержимое JSON
+12-wifi-invalid (400 BAD REQUEST) - 5 ms
+Tests
+   ✓ Статус 400
+   ✓ Содержимое JSON
+13-receipt (200 OK) - 3 ms
+Tests
+   ✓ Статус 200
+   ✓ Содержимое JSON
+14-receipt-unknown (400 BAD REQUEST) - 5 ms
+Tests
+   ✓ Статус 400
+   ✓ Содержимое JSON
+15-receipt-boolean (400 BAD REQUEST) - 4 ms
+Tests
+   ✓ Статус 400
+   ✓ Содержимое JSON
+16-receipt-invalid-body (400 BAD REQUEST) - 4 ms
+Tests
+   ✓ Статус 400
+   ✓ Содержимое JSON
+
+📊 Execution Summary
+┌───────────────┬────────────────┐
+│ Metric        │     Result     │
+├───────────────┼────────────────┤
+│ Status        │     ✓ PASS     │
+├───────────────┼────────────────┤
+│ Requests      │ 16 (16 Passed) │
+├───────────────┼────────────────┤
+│ Tests         │     32/32      │
+├───────────────┼────────────────┤
+│ Assertions    │      0/0       │
+├───────────────┼────────────────┤
+│ Duration (ms) │      2227      │
+└───────────────┴────────────────┘
+Wrote html results to C:\itmo\op\practise\lab4-testing\testing\reports\414791\after.html
+Wrote json results to C:\itmo\op\practise\lab4-testing\testing\reports\414791\after.json

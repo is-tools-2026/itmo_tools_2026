@@ -1,0 +1,18 @@
+{
+  "before": {
+    "requests": 16,
+    "requests_passed": 10,
+    "checks": 32,
+    "checks_passed": 21
+  },
+  "after": {
+    "requests": 16,
+    "requests_passed": 16,
+    "checks": 32,
+    "checks_passed": 32
+  },
+  "bruno": "4.3.0",
+  "python": "3.12.14",
+  "flask": "3.1.3",
+  "base_commit": "6cb8586"
+}

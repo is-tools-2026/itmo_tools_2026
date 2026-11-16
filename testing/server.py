@@ -32,6 +32,14 @@ from coffee import (  # noqa: E402
 app = Flask(__name__)
 
 
+def read_json_object():
+    """Принимает JSON-объект, остальные тела запроса отклоняет."""
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict):
+        raise ValueError("Тело запроса должно быть корректным JSON-объектом")
+    return data
+
+
 # ============================================================
 # Эндпоинт 1. Стоимость заказа -> calculate_order_total
 # ============================================================
@@ -47,14 +55,16 @@ def order_total():
     Ответ:
         {"quantity": 3, "price": 280, "total": 840}
     """
-    data = request.get_json(silent=True) or {}
     try:
-        quantity = int(data["quantity"])
-        price = int(data["price"])
-    except (KeyError, TypeError, ValueError):
-        return jsonify({"error": "quantity и price должны быть числами"}), 400
+        data = read_json_object()
+        quantity = data["quantity"]
+        price = data["price"]
+        total = calculate_order_total(quantity, price)
+    except KeyError:
+        return jsonify({"error": "Нужны поля quantity и price"}), 400
+    except ValueError as exc:
+        return jsonify({"error": str(exc)}), 400
 
-    total = calculate_order_total(quantity, price)
     return jsonify({"quantity": quantity, "price": price, "total": total})
 
 
@@ -70,7 +80,10 @@ def most_expensive():
     Ответ:
         {"drink": "latte", "price": 280}
     """
-    name, price = get_most_expensive_drink()
+    try:
+        name, price = get_most_expensive_drink()
+    except ValueError as exc:
+        return jsonify({"error": str(exc)}), 400
     return jsonify({"drink": name, "price": price})
 
 
@@ -89,7 +102,10 @@ def wifi_password():
     Ответ:
         {"length": 8, "password": "aB3kLm9x"}
     """
-    length = request.args.get("length", default=8, type=int)
+    try:
+        length = int(request.args.get("length", "8"))
+    except ValueError:
+        return jsonify({"error": "length должен быть целым числом"}), 400
     try:
         password = generate_wifi_password(length)
     except ValueError as exc:
@@ -110,17 +126,15 @@ def receipt():
         {"drink_name": "latte", "quantity": 2}
 
     Ответ:
-        {"receipt": "\\n---Чек Coffee---\\nНапиток: latte\\n..."}
+        {"receipt": "Чек CampusCoffee\\nНапиток: latte\\n..."}
     """
-    data = request.get_json(silent=True) or {}
-    drink_name = data.get("drink_name")
     try:
-        quantity = int(data["quantity"])
-    except (KeyError, TypeError, ValueError):
-        return jsonify({"error": "quantity должен быть числом"}), 400
-
-    try:
+        data = read_json_object()
+        drink_name = data["drink_name"]
+        quantity = data["quantity"]
         text = format_receipt(drink_name, quantity)
+    except KeyError:
+        return jsonify({"error": "Нужны поля drink_name и quantity"}), 400
     except ValueError as exc:
         return jsonify({"error": str(exc)}), 400
 
@@ -128,4 +142,4 @@ def receipt():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=8000)
+    app.run(host="127.0.0.1", port=8000)
