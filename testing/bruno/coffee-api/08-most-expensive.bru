@@ -1,0 +1,22 @@
+meta {
+  name: Самый дорогой напиток
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/api/most-expensive
+  body: none
+  auth: none
+}
+
+tests {
+  test("Статус 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("Содержимое JSON", function() {
+    expect(res.getHeader("content-type")).to.include("application/json");
+    const body = res.getBody();
+    expect(body).to.include({drink: "latte", price: 280});
+  });
+}

@@ -1,0 +1,22 @@
+meta {
+  name: Пароль по умолчанию
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/api/wifi-password
+  body: none
+  auth: none
+}
+
+tests {
+  test("Статус 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("Содержимое JSON", function() {
+    expect(res.getHeader("content-type")).to.include("application/json");
+    const body = res.getBody();
+    expect(body.length).to.equal(8); expect(body.password).to.have.lengthOf(8); expect(body.password).to.match(/^[A-Za-z0-9]+$/); expect(body.password).to.match(/[a-z]/); expect(body.password).to.match(/[A-Z]/); expect(body.password).to.match(/[0-9]/);
+  });
+}

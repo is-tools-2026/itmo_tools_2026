@@ -1,0 +1,29 @@
+meta {
+  name: Нулевой заказ
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/order-total
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "quantity": 0,
+    "price": 280
+  }
+}
+
+tests {
+  test("Статус 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("Содержимое JSON", function() {
+    expect(res.getHeader("content-type")).to.include("application/json");
+    const body = res.getBody();
+    expect(body.total).to.equal(0);
+  });
+}

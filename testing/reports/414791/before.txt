@@ -1,0 +1,91 @@
+order-total (200 OK) - 16 ms
+Tests
+   ✓ Статус 200
+   ✓ Содержимое JSON
+02-order-zero (200 OK) - 3 ms
+Tests
+   ✓ Статус 200
+   ✓ Содержимое JSON
+03-order-decimal-price (200 OK) - 3 ms
+Tests
+   ✕ Содержимое JSON
+      expected 10 to equal 10.1
+   ✓ Статус 200
+04-order-negative (500 INTERNAL SERVER ERROR) - 5 ms
+Tests
+   ✕ Статус 400
+      expected 500 to equal 400
+   ✕ Содержимое JSON
+      expected 'text/html; charset=utf-8' to include 'application/json'
+05-order-fractional (200 OK) - 6 ms
+Tests
+   ✕ Статус 400
+      expected 200 to equal 400
+   ✕ Содержимое JSON
+      expected undefined to be a string
+06-order-missing-price (400 BAD REQUEST) - 5 ms
+Tests
+   ✓ Статус 400
+   ✓ Содержимое JSON
+07-order-array (400 BAD REQUEST) - 3 ms
+Tests
+   ✓ Статус 400
+   ✓ Содержимое JSON
+08-most-expensive (200 OK) - 3 ms
+Tests
+   ✓ Статус 200
+   ✓ Содержимое JSON
+09-wifi-default (200 OK) - 3 ms
+Tests
+   ✓ Статус 200
+   ✓ Содержимое JSON
+10-wifi-custom (200 OK) - 3 ms
+Tests
+   ✓ Статус 200
+   ✓ Содержимое JSON
+11-wifi-short (400 BAD REQUEST) - 3 ms
+Tests
+   ✓ Статус 400
+   ✓ Содержимое JSON
+12-wifi-invalid (200 OK) - 3 ms
+Tests
+   ✕ Статус 400
+      expected 200 to equal 400
+   ✕ Содержимое JSON
+      expected undefined to be a string
+13-receipt (200 OK) - 2 ms
+Tests
+   ✓ Статус 200
+   ✓ Содержимое JSON
+14-receipt-unknown (400 BAD REQUEST) - 3 ms
+Tests
+   ✓ Статус 400
+   ✓ Содержимое JSON
+15-receipt-boolean (200 OK) - 4 ms
+Tests
+   ✕ Статус 400
+      expected 200 to equal 400
+   ✕ Содержимое JSON
+      expected undefined to be a string
+16-receipt-invalid-body (500 INTERNAL SERVER ERROR) - 4 ms
+Tests
+   ✕ Статус 400
+      expected 500 to equal 400
+   ✕ Содержимое JSON
+      expected 'text/html; charset=utf-8' to include 'application/json'
+
+📊 Execution Summary
+┌───────────────┬──────────────────────────┐
+│ Metric        │          Result          │
+├───────────────┼──────────────────────────┤
+│ Status        │          ✗ FAIL          │
+├───────────────┼──────────────────────────┤
+│ Requests      │ 16 (10 Passed, 6 Failed) │
+├───────────────┼──────────────────────────┤
+│ Tests         │          21/32           │
+├───────────────┼──────────────────────────┤
+│ Assertions    │           0/0            │
+├───────────────┼──────────────────────────┤
+│ Duration (ms) │           1343           │
+└───────────────┴──────────────────────────┘
+Wrote json results to C:\itmo\op\practise\lab4-testing\testing\reports\414791\before.json

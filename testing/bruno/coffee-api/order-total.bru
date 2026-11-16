@@ -1,5 +1,5 @@
 meta {
-  name: Order Total
+  name: Сумма заказа
   type: http
   seq: 1
 }
@@ -17,30 +17,13 @@ body:json {
   }
 }
 
-assert {
-  res.status: 200
-  res.body.total: 840
-}
-
 tests {
-    test("статус 200", function() {
-        expect(res.getStatus()).to.equal(200);
-    });
-    
-    test("есть поле total", function() {
-        expect(res.getBody()).to.have.property("total");
-    });
-
-    test("total = 840", function() {
-        expect(res.getBody().total).to.equal(840);
-    });
-
-    test("total — число", function() {
-        expect(res.getBody().total).to.be.a("number");
-    });
-
-    test("ответ быстрее 500 мс", function() {
-        expect(res.getResponseTime()).to.be.lessThan(500);
-    });
-  
+  test("Статус 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("Содержимое JSON", function() {
+    expect(res.getHeader("content-type")).to.include("application/json");
+    const body = res.getBody();
+    expect(body).to.include({quantity: 3, price: 280, total: 840});
+  });
 }

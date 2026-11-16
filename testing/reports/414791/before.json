@@ -1,0 +1,996 @@
+[
+  {
+    "iterationIndex": 0,
+    "results": [
+      {
+        "test": {
+          "filename": "order-total.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:8000/api/order-total",
+          "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "User-Agent": "bruno-runtime/4.3.0",
+            "Content-Length": "35",
+            "Accept-Encoding": "gzip, compress, deflate, br",
+            "Host": "localhost:8000",
+            "Connection": "keep-alive",
+            "content-type": "application/json"
+          },
+          "data": "{\n  \"quantity\": 3,\n  \"price\": 280\n}"
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "server": "Werkzeug/3.1.9 Python/3.12.14",
+            "date": "Mon, 16 Nov 2026 10:21:57 GMT",
+            "content-type": "application/json",
+            "content-length": "39",
+            "connection": "close"
+          },
+          "data": {
+            "price": 280,
+            "quantity": 3,
+            "total": 840
+          },
+          "url": "http://localhost/api/order-total",
+          "responseTime": 16,
+          "duration": 16,
+          "size": 39
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Статус 200",
+            "status": "pass",
+            "uid": "e87YBG--AuNKR3eMjo6Dk"
+          },
+          {
+            "description": "Содержимое JSON",
+            "status": "pass",
+            "uid": "5sXhprLC1DAlKqg786TOp"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.1776863,
+        "name": "Сумма заказа",
+        "suitename": "C:\\itmo\\op\\practise\\lab4-testing\\testing\\bruno\\coffee-api\\order-total",
+        "path": "order-total",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "02-order-zero.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:8000/api/order-total",
+          "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "User-Agent": "bruno-runtime/4.3.0",
+            "Content-Length": "35",
+            "Accept-Encoding": "gzip, compress, deflate, br",
+            "Host": "localhost:8000",
+            "Connection": "keep-alive",
+            "content-type": "application/json"
+          },
+          "data": "{\n  \"quantity\": 0,\n  \"price\": 280\n}"
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "server": "Werkzeug/3.1.9 Python/3.12.14",
+            "date": "Mon, 16 Nov 2026 10:21:57 GMT",
+            "content-type": "application/json",
+            "content-length": "37",
+            "connection": "close"
+          },
+          "data": {
+            "price": 280,
+            "quantity": 0,
+            "total": 0
+          },
+          "url": "http://localhost/api/order-total",
+          "responseTime": 3,
+          "duration": 3,
+          "size": 37
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Статус 200",
+            "status": "pass",
+            "uid": "8lZ-hQxpEZ5MJyCTAdHdK"
+          },
+          {
+            "description": "Содержимое JSON",
+            "status": "pass",
+            "uid": "y4gRwNM8XaRdhzaHTACu0"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.0771021,
+        "name": "Нулевой заказ",
+        "suitename": "C:\\itmo\\op\\practise\\lab4-testing\\testing\\bruno\\coffee-api\\02-order-zero",
+        "path": "02-order-zero",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "03-order-decimal-price.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:8000/api/order-total",
+          "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "User-Agent": "bruno-runtime/4.3.0",
+            "Content-Length": "36",
+            "Accept-Encoding": "gzip, compress, deflate, br",
+            "Host": "localhost:8000",
+            "Connection": "keep-alive",
+            "content-type": "application/json"
+          },
+          "data": "{\n  \"quantity\": 3,\n  \"price\": 10.1\n}"
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "server": "Werkzeug/3.1.9 Python/3.12.14",
+            "date": "Mon, 16 Nov 2026 10:21:57 GMT",
+            "content-type": "application/json",
+            "content-length": "37",
+            "connection": "close"
+          },
+          "data": {
+            "price": 10,
+            "quantity": 3,
+            "total": 30
+          },
+          "url": "http://localhost/api/order-total",
+          "responseTime": 3,
+          "duration": 3,
+          "size": 37
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Содержимое JSON",
+            "status": "fail",
+            "error": "expected 10 to equal 10.1",
+            "uid": "tQ8q1oCdadVhG-ryaQKiK"
+          },
+          {
+            "description": "Статус 200",
+            "status": "pass",
+            "uid": "Y9fu5bJ8O4cHkPVWhJaIk"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.0778403,
+        "name": "Цена с копейками",
+        "suitename": "C:\\itmo\\op\\practise\\lab4-testing\\testing\\bruno\\coffee-api\\03-order-decimal-price",
+        "path": "03-order-decimal-price",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "04-order-negative.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:8000/api/order-total",
+          "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "User-Agent": "bruno-runtime/4.3.0",
+            "Content-Length": "36",
+            "Accept-Encoding": "gzip, compress, deflate, br",
+            "Host": "localhost:8000",
+            "Connection": "keep-alive",
+            "content-type": "application/json"
+          },
+          "data": "{\n  \"quantity\": -1,\n  \"price\": 280\n}"
+        },
+        "response": {
+          "status": 500,
+          "statusText": "INTERNAL SERVER ERROR",
+          "headers": {
+            "server": "Werkzeug/3.1.9 Python/3.12.14",
+            "date": "Mon, 16 Nov 2026 10:21:57 GMT",
+            "content-type": "text/html; charset=utf-8",
+            "content-length": "265",
+            "connection": "close"
+          },
+          "data": "<!doctype html>\n<html lang=en>\n<title>500 Internal Server Error</title>\n<h1>Internal Server Error</h1>\n<p>The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.</p>\n",
+          "url": "http://localhost/api/order-total",
+          "responseTime": 5,
+          "duration": 5,
+          "size": 265
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Статус 400",
+            "status": "fail",
+            "error": "expected 500 to equal 400",
+            "uid": "DfcnbnmpaooZMcLwToVLI"
+          },
+          {
+            "description": "Содержимое JSON",
+            "status": "fail",
+            "error": "expected 'text/html; charset=utf-8' to include 'application/json'",
+            "uid": "RFx7GD7QYzd-O1uTsESp_"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.0918628,
+        "name": "Отрицательное количество",
+        "suitename": "C:\\itmo\\op\\practise\\lab4-testing\\testing\\bruno\\coffee-api\\04-order-negative",
+        "path": "04-order-negative",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "05-order-fractional.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:8000/api/order-total",
+          "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "User-Agent": "bruno-runtime/4.3.0",
+            "Content-Length": "37",
+            "Accept-Encoding": "gzip, compress, deflate, br",
+            "Host": "localhost:8000",
+            "Connection": "keep-alive",
+            "content-type": "application/json"
+          },
+          "data": "{\n  \"quantity\": 1.5,\n  \"price\": 280\n}"
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "server": "Werkzeug/3.1.9 Python/3.12.14",
+            "date": "Mon, 16 Nov 2026 10:21:57 GMT",
+            "content-type": "application/json",
+            "content-length": "39",
+            "connection": "close"
+          },
+          "data": {
+            "price": 280,
+            "quantity": 1,
+            "total": 280
+          },
+          "url": "http://localhost/api/order-total",
+          "responseTime": 6,
+          "duration": 6,
+          "size": 39
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Статус 400",
+            "status": "fail",
+            "error": "expected 200 to equal 400",
+            "uid": "GncffOym39VPdf-3KnnXW"
+          },
+          {
+            "description": "Содержимое JSON",
+            "status": "fail",
+            "error": "expected undefined to be a string",
+            "uid": "PXhhuQUq48hu3VeluRgWZ"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.080901,
+        "name": "Дробное количество",
+        "suitename": "C:\\itmo\\op\\practise\\lab4-testing\\testing\\bruno\\coffee-api\\05-order-fractional",
+        "path": "05-order-fractional",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "06-order-missing-price.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:8000/api/order-total",
+          "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "User-Agent": "bruno-runtime/4.3.0",
+            "Content-Length": "19",
+            "Accept-Encoding": "gzip, compress, deflate, br",
+            "Host": "localhost:8000",
+            "Connection": "keep-alive",
+            "content-type": "application/json"
+          },
+          "data": "{\n  \"quantity\": 3\n}"
+        },
+        "response": {
+          "status": 400,
+          "statusText": "BAD REQUEST",
+          "headers": {
+            "server": "Werkzeug/3.1.9 Python/3.12.14",
+            "date": "Mon, 16 Nov 2026 10:21:57 GMT",
+            "content-type": "application/json",
+            "content-length": "139",
+            "connection": "close"
+          },
+          "data": {
+            "error": "quantity и price должны быть числами"
+          },
+          "url": "http://localhost/api/order-total",
+          "responseTime": 5,
+          "duration": 5,
+          "size": 139
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Статус 400",
+            "status": "pass",
+            "uid": "e_FzyM1uIBS9AjWsOHpyC"
+          },
+          {
+            "description": "Содержимое JSON",
+            "status": "pass",
+            "uid": "T3lxDwBv95OYTlM2kNqOV"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.0912076,
+        "name": "Нет цены",
+        "suitename": "C:\\itmo\\op\\practise\\lab4-testing\\testing\\bruno\\coffee-api\\06-order-missing-price",
+        "path": "06-order-missing-price",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "07-order-array.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:8000/api/order-total",
+          "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "User-Agent": "bruno-runtime/4.3.0",
+            "Content-Length": "47",
+            "Accept-Encoding": "gzip, compress, deflate, br",
+            "Host": "localhost:8000",
+            "Connection": "keep-alive",
+            "content-type": "application/json"
+          },
+          "data": "[\n  {\n    \"quantity\": 3,\n    \"price\": 280\n  }\n]"
+        },
+        "response": {
+          "status": 400,
+          "statusText": "BAD REQUEST",
+          "headers": {
+            "server": "Werkzeug/3.1.9 Python/3.12.14",
+            "date": "Mon, 16 Nov 2026 10:21:58 GMT",
+            "content-type": "application/json",
+            "content-length": "139",
+            "connection": "close"
+          },
+          "data": {
+            "error": "quantity и price должны быть числами"
+          },
+          "url": "http://localhost/api/order-total",
+          "responseTime": 3,
+          "duration": 3,
+          "size": 139
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Статус 400",
+            "status": "pass",
+            "uid": "VenodUvaPPJYZlZY4OmmV"
+          },
+          {
+            "description": "Содержимое JSON",
+            "status": "pass",
+            "uid": "FJr7_G-qeHXr5Os2wZhvX"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.0773435,
+        "name": "Массив вместо объекта",
+        "suitename": "C:\\itmo\\op\\practise\\lab4-testing\\testing\\bruno\\coffee-api\\07-order-array",
+        "path": "07-order-array",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "08-most-expensive.bru"
+        },
+        "request": {
+          "method": "GET",
+          "url": "http://localhost:8000/api/most-expensive",
+          "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "User-Agent": "bruno-runtime/4.3.0",
+            "Accept-Encoding": "gzip, compress, deflate, br",
+            "Host": "localhost:8000",
+            "Connection": "keep-alive",
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "server": "Werkzeug/3.1.9 Python/3.12.14",
+            "date": "Mon, 16 Nov 2026 10:21:58 GMT",
+            "content-type": "application/json",
+            "content-length": "30",
+            "connection": "close"
+          },
+          "data": {
+            "drink": "latte",
+            "price": 280
+          },
+          "url": "http://localhost/api/most-expensive",
+          "responseTime": 3,
+          "duration": 3,
+          "size": 30
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Статус 200",
+            "status": "pass",
+            "uid": "pFwbh3Vwevd5syMWBKlec"
+          },
+          {
+            "description": "Содержимое JSON",
+            "status": "pass",
+            "uid": "S1yLJG6Uv_8QqCUV56hon"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.0770959,
+        "name": "Самый дорогой напиток",
+        "suitename": "C:\\itmo\\op\\practise\\lab4-testing\\testing\\bruno\\coffee-api\\08-most-expensive",
+        "path": "08-most-expensive",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "09-wifi-default.bru"
+        },
+        "request": {
+          "method": "GET",
+          "url": "http://localhost:8000/api/wifi-password",
+          "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "User-Agent": "bruno-runtime/4.3.0",
+            "Accept-Encoding": "gzip, compress, deflate, br",
+            "Host": "localhost:8000",
+            "Connection": "keep-alive",
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "server": "Werkzeug/3.1.9 Python/3.12.14",
+            "date": "Mon, 16 Nov 2026 10:21:58 GMT",
+            "content-type": "application/json",
+            "content-length": "35",
+            "connection": "close"
+          },
+          "data": {
+            "length": 8,
+            "password": "hl4DW9Ff"
+          },
+          "url": "http://localhost/api/wifi-password",
+          "responseTime": 3,
+          "duration": 3,
+          "size": 35
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Статус 200",
+            "status": "pass",
+            "uid": "0MKPDycelM-I7321WwZBs"
+          },
+          {
+            "description": "Содержимое JSON",
+            "status": "pass",
+            "uid": "4dibPRHFnoGlS1XvXw139"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.0754276,
+        "name": "Пароль по умолчанию",
+        "suitename": "C:\\itmo\\op\\practise\\lab4-testing\\testing\\bruno\\coffee-api\\09-wifi-default",
+        "path": "09-wifi-default",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "10-wifi-custom.bru"
+        },
+        "request": {
+          "method": "GET",
+          "url": "http://localhost:8000/api/wifi-password?length=12",
+          "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "User-Agent": "bruno-runtime/4.3.0",
+            "Accept-Encoding": "gzip, compress, deflate, br",
+            "Host": "localhost:8000",
+            "Connection": "keep-alive",
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "server": "Werkzeug/3.1.9 Python/3.12.14",
+            "date": "Mon, 16 Nov 2026 10:21:58 GMT",
+            "content-type": "application/json",
+            "content-length": "40",
+            "connection": "close"
+          },
+          "data": {
+            "length": 12,
+            "password": "dfn3hNpa5wyU"
+          },
+          "url": "http://localhost/api/wifi-password?length=12",
+          "responseTime": 3,
+          "duration": 3,
+          "size": 40
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Статус 200",
+            "status": "pass",
+            "uid": "EqtyD-iI-2DXq_cBG62wW"
+          },
+          {
+            "description": "Содержимое JSON",
+            "status": "pass",
+            "uid": "6EgscIH7xAKLB3Y94Ygho"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.0812743,
+        "name": "Пароль длиной 12",
+        "suitename": "C:\\itmo\\op\\practise\\lab4-testing\\testing\\bruno\\coffee-api\\10-wifi-custom",
+        "path": "10-wifi-custom",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "11-wifi-short.bru"
+        },
+        "request": {
+          "method": "GET",
+          "url": "http://localhost:8000/api/wifi-password?length=7",
+          "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "User-Agent": "bruno-runtime/4.3.0",
+            "Accept-Encoding": "gzip, compress, deflate, br",
+            "Host": "localhost:8000",
+            "Connection": "keep-alive",
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 400,
+          "statusText": "BAD REQUEST",
+          "headers": {
+            "server": "Werkzeug/3.1.9 Python/3.12.14",
+            "date": "Mon, 16 Nov 2026 10:21:58 GMT",
+            "content-type": "application/json",
+            "content-length": "262",
+            "connection": "close"
+          },
+          "data": {
+            "error": "Длина пароля должна быть целым числом не меньше 8"
+          },
+          "url": "http://localhost/api/wifi-password?length=7",
+          "responseTime": 3,
+          "duration": 3,
+          "size": 262
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Статус 400",
+            "status": "pass",
+            "uid": "a3ZcRVrV_6ivbOSTz4uxs"
+          },
+          {
+            "description": "Содержимое JSON",
+            "status": "pass",
+            "uid": "Uzmay-2JbyZOsupskEFGe"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.0768825,
+        "name": "Слишком короткий пароль",
+        "suitename": "C:\\itmo\\op\\practise\\lab4-testing\\testing\\bruno\\coffee-api\\11-wifi-short",
+        "path": "11-wifi-short",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "12-wifi-invalid.bru"
+        },
+        "request": {
+          "method": "GET",
+          "url": "http://localhost:8000/api/wifi-password?length=abc",
+          "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "User-Agent": "bruno-runtime/4.3.0",
+            "Accept-Encoding": "gzip, compress, deflate, br",
+            "Host": "localhost:8000",
+            "Connection": "keep-alive",
+            "content-type": null
+          }
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "server": "Werkzeug/3.1.9 Python/3.12.14",
+            "date": "Mon, 16 Nov 2026 10:21:58 GMT",
+            "content-type": "application/json",
+            "content-length": "35",
+            "connection": "close"
+          },
+          "data": {
+            "length": 8,
+            "password": "p7RnlE19"
+          },
+          "url": "http://localhost/api/wifi-password?length=abc",
+          "responseTime": 3,
+          "duration": 3,
+          "size": 35
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Статус 400",
+            "status": "fail",
+            "error": "expected 200 to equal 400",
+            "uid": "xcWtwtSnke_x7dH-qI8ya"
+          },
+          {
+            "description": "Содержимое JSON",
+            "status": "fail",
+            "error": "expected undefined to be a string",
+            "uid": "xhOflXn-PynuyXglKwBrc"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.0667625,
+        "name": "Длина пароля не число",
+        "suitename": "C:\\itmo\\op\\practise\\lab4-testing\\testing\\bruno\\coffee-api\\12-wifi-invalid",
+        "path": "12-wifi-invalid",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "13-receipt.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:8000/api/receipt",
+          "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "User-Agent": "bruno-runtime/4.3.0",
+            "Content-Length": "44",
+            "Accept-Encoding": "gzip, compress, deflate, br",
+            "Host": "localhost:8000",
+            "Connection": "keep-alive",
+            "content-type": "application/json"
+          },
+          "data": "{\n  \"drink_name\": \"latte\",\n  \"quantity\": 2\n}"
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "server": "Werkzeug/3.1.9 Python/3.12.14",
+            "date": "Mon, 16 Nov 2026 10:21:58 GMT",
+            "content-type": "application/json",
+            "content-length": "219",
+            "connection": "close"
+          },
+          "data": {
+            "receipt": "Чек CampusCoffee\nНапиток: latte\nКоличество: 2\nИтого: 560 руб."
+          },
+          "url": "http://localhost/api/receipt",
+          "responseTime": 2,
+          "duration": 2,
+          "size": 219
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Статус 200",
+            "status": "pass",
+            "uid": "1SdHm7dd5lfLy_K6GXOuS"
+          },
+          {
+            "description": "Содержимое JSON",
+            "status": "pass",
+            "uid": "GP7ikiFSopX6Hm7Ln_tZj"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.0729557,
+        "name": "Чек",
+        "suitename": "C:\\itmo\\op\\practise\\lab4-testing\\testing\\bruno\\coffee-api\\13-receipt",
+        "path": "13-receipt",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "14-receipt-unknown.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:8000/api/receipt",
+          "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "User-Agent": "bruno-runtime/4.3.0",
+            "Content-Length": "44",
+            "Accept-Encoding": "gzip, compress, deflate, br",
+            "Host": "localhost:8000",
+            "Connection": "keep-alive",
+            "content-type": "application/json"
+          },
+          "data": "{\n  \"drink_name\": \"water\",\n  \"quantity\": 1\n}"
+        },
+        "response": {
+          "status": 400,
+          "statusText": "BAD REQUEST",
+          "headers": {
+            "server": "Werkzeug/3.1.9 Python/3.12.14",
+            "date": "Mon, 16 Nov 2026 10:21:58 GMT",
+            "content-type": "application/json",
+            "content-length": "145",
+            "connection": "close"
+          },
+          "data": {
+            "error": "Напиток 'water' не найден в меню"
+          },
+          "url": "http://localhost/api/receipt",
+          "responseTime": 3,
+          "duration": 3,
+          "size": 145
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Статус 400",
+            "status": "pass",
+            "uid": "2LMftDT8H1hb5re10gXGk"
+          },
+          {
+            "description": "Содержимое JSON",
+            "status": "pass",
+            "uid": "FP4kX91pyFK3Yh8t7NFHz"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.0786982,
+        "name": "Неизвестный напиток",
+        "suitename": "C:\\itmo\\op\\practise\\lab4-testing\\testing\\bruno\\coffee-api\\14-receipt-unknown",
+        "path": "14-receipt-unknown",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "15-receipt-boolean.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:8000/api/receipt",
+          "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "User-Agent": "bruno-runtime/4.3.0",
+            "Content-Length": "47",
+            "Accept-Encoding": "gzip, compress, deflate, br",
+            "Host": "localhost:8000",
+            "Connection": "keep-alive",
+            "content-type": "application/json"
+          },
+          "data": "{\n  \"drink_name\": \"latte\",\n  \"quantity\": true\n}"
+        },
+        "response": {
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "server": "Werkzeug/3.1.9 Python/3.12.14",
+            "date": "Mon, 16 Nov 2026 10:21:58 GMT",
+            "content-type": "application/json",
+            "content-length": "219",
+            "connection": "close"
+          },
+          "data": {
+            "receipt": "Чек CampusCoffee\nНапиток: latte\nКоличество: 1\nИтого: 280 руб."
+          },
+          "url": "http://localhost/api/receipt",
+          "responseTime": 4,
+          "duration": 4,
+          "size": 219
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Статус 400",
+            "status": "fail",
+            "error": "expected 200 to equal 400",
+            "uid": "cFjANd6VpKM8I9tx4ScHl"
+          },
+          {
+            "description": "Содержимое JSON",
+            "status": "fail",
+            "error": "expected undefined to be a string",
+            "uid": "_VXlK0N7E2DGhCY5XaoEM"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.0652782,
+        "name": "Логическое значение вместо количества",
+        "suitename": "C:\\itmo\\op\\practise\\lab4-testing\\testing\\bruno\\coffee-api\\15-receipt-boolean",
+        "path": "15-receipt-boolean",
+        "iterationIndex": 0
+      },
+      {
+        "test": {
+          "filename": "16-receipt-invalid-body.bru"
+        },
+        "request": {
+          "method": "POST",
+          "url": "http://localhost:8000/api/receipt",
+          "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "User-Agent": "bruno-runtime/4.3.0",
+            "Content-Length": "7",
+            "Accept-Encoding": "gzip, compress, deflate, br",
+            "Host": "localhost:8000",
+            "Connection": "keep-alive",
+            "content-type": "application/json"
+          },
+          "data": "\"latte\""
+        },
+        "response": {
+          "status": 500,
+          "statusText": "INTERNAL SERVER ERROR",
+          "headers": {
+            "server": "Werkzeug/3.1.9 Python/3.12.14",
+            "date": "Mon, 16 Nov 2026 10:21:58 GMT",
+            "content-type": "text/html; charset=utf-8",
+            "content-length": "265",
+            "connection": "close"
+          },
+          "data": "<!doctype html>\n<html lang=en>\n<title>500 Internal Server Error</title>\n<h1>Internal Server Error</h1>\n<p>The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.</p>\n",
+          "url": "http://localhost/api/receipt",
+          "responseTime": 4,
+          "duration": 4,
+          "size": 265
+        },
+        "error": null,
+        "status": "pass",
+        "assertionResults": [],
+        "testResults": [
+          {
+            "description": "Статус 400",
+            "status": "fail",
+            "error": "expected 500 to equal 400",
+            "uid": "CJz_2oxYNumdOBzzo1PaX"
+          },
+          {
+            "description": "Содержимое JSON",
+            "status": "fail",
+            "error": "expected 'text/html; charset=utf-8' to include 'application/json'",
+            "uid": "GiSKEJm3LplYL5j4tnGhe"
+          }
+        ],
+        "preRequestTestResults": [],
+        "postResponseTestResults": [],
+        "shouldStopRunnerExecution": false,
+        "runDuration": 0.074634,
+        "name": "Строка вместо JSON-объекта",
+        "suitename": "C:\\itmo\\op\\practise\\lab4-testing\\testing\\bruno\\coffee-api\\16-receipt-invalid-body",
+        "path": "16-receipt-invalid-body",
+        "iterationIndex": 0
+      }
+    ],
+    "summary": {
+      "totalRequests": 16,
+      "passedRequests": 10,
+      "failedRequests": 6,
+      "errorRequests": 0,
+      "skippedRequests": 0,
+      "skippedByBail": 0,
+      "totalAssertions": 0,
+      "passedAssertions": 0,
+      "failedAssertions": 0,
+      "totalTests": 32,
+      "passedTests": 21,
+      "failedTests": 11,
+      "totalPreRequestTests": 0,
+      "passedPreRequestTests": 0,
+      "failedPreRequestTests": 0,
+      "totalPostResponseTests": 0,
+      "passedPostResponseTests": 0,
+      "failedPostResponseTests": 0
+    }
+  }
+]

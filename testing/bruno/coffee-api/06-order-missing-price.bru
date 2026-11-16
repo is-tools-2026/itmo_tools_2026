@@ -1,0 +1,28 @@
+meta {
+  name: Нет цены
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/order-total
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "quantity": 3
+  }
+}
+
+tests {
+  test("Статус 400", function() {
+    expect(res.getStatus()).to.equal(400);
+  });
+  test("Содержимое JSON", function() {
+    expect(res.getHeader("content-type")).to.include("application/json");
+    const body = res.getBody();
+    expect(body.error).to.be.a("string").and.not.empty;
+  });
+}

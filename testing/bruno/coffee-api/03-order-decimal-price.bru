@@ -1,0 +1,29 @@
+meta {
+  name: Цена с копейками
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/order-total
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "quantity": 3,
+    "price": 10.1
+  }
+}
+
+tests {
+  test("Статус 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("Содержимое JSON", function() {
+    expect(res.getHeader("content-type")).to.include("application/json");
+    const body = res.getBody();
+    expect(body.price).to.equal(10.1); expect(body.total).to.be.closeTo(30.3, 0.000001);
+  });
+}

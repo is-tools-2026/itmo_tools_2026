@@ -1,0 +1,29 @@
+meta {
+  name: Чек
+  type: http
+  seq: 13
+}
+
+post {
+  url: {{baseUrl}}/api/receipt
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "drink_name": "latte",
+    "quantity": 2
+  }
+}
+
+tests {
+  test("Статус 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("Содержимое JSON", function() {
+    expect(res.getHeader("content-type")).to.include("application/json");
+    const body = res.getBody();
+    expect(body.receipt).to.equal("Чек CampusCoffee\nНапиток: latte\nКоличество: 2\nИтого: 560 руб.");
+  });
+}

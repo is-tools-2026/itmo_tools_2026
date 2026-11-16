@@ -1,0 +1,29 @@
+meta {
+  name: Неизвестный напиток
+  type: http
+  seq: 14
+}
+
+post {
+  url: {{baseUrl}}/api/receipt
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "drink_name": "water",
+    "quantity": 1
+  }
+}
+
+tests {
+  test("Статус 400", function() {
+    expect(res.getStatus()).to.equal(400);
+  });
+  test("Содержимое JSON", function() {
+    expect(res.getHeader("content-type")).to.include("application/json");
+    const body = res.getBody();
+    expect(body.error).to.be.a("string").and.not.empty;
+  });
+}
