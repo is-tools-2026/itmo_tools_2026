@@ -1,0 +1,914 @@
+name: CI - Tests on Tag
+
+on:
+  push:
+    tags:
+      - '*'
+  workflow_dispatch:
+    inputs:
+      source_path:
+        description: "Путь к исходнику (файл или glob)"
+        required: false
+        default: "Coffee/coffee.py"
+      test_path:
+        description: "Путь к тестам (файл или glob)"
+        required: false
+        default: "Coffee/test_coffe.py"
+      min_tests_per_fn:
+        description: "Минимум тестов на функцию"
+        required: false
+        default: "3"
+      min_negative_tests:
+        description: "Минимум негативных тестов на функцию с raise/assert"
+        required: false
+        default: "1"
+      min_boundary_categories:
+        description: "Минимум категорий граничных значений"
+        required: false
+        default: "2"
+      required_markers:
+        description: "Обязательные pytest-маркеры (через запятую). Пусто = не проверять"
+        required: false
+        default: ""
+      min_marked_tests:
+        description: "Минимум тестов на каждый маркер"
+        required: false
+        default: "1"
+      marker_for_negative:
+        description: "Маркер для негативных тестов (пусто = не требовать)"
+        required: false
+        default: ""
+      strict_mode:
+        description: "Строгость: lenient | normal | strict"
+        type: choice
+        options:
+          - lenient
+          - normal
+          - strict
+        default: "normal"
+      strict_sections:
+        description: "Секции, где WARN валит (через запятую; пусто = все при strict)"
+        required: false
+        default: ""
+
+env:
+  SOURCE_PATH: ${{ github.event.inputs.source_path || 'Coffee/coffee.py' }}
+  TEST_PATH: ${{ github.event.inputs.test_path || 'Coffee/test_coffe.py' }}
+
+  ALLOWED_TEST_FILES: "test_coffe.py"
+  IGNORED_TEST_FILES: "test_server.py,test_legacy.py,test_draft.py"
+  ALLOWED_SOURCE_FILES: "coffee.py"
+  IGNORED_SOURCE_FILES: "test_server.py,main.py,geometry.py,test_coffe.py,conftest.py"
+
+  MIN_TESTS_PER_FN: ${{ github.event.inputs.min_tests_per_fn || '3' }}
+  MIN_NEGATIVE_TESTS: ${{ github.event.inputs.min_negative_tests || '1' }}
+  MIN_BOUNDARY_CATEGORIES: ${{ github.event.inputs.min_boundary_categories || '2' }}
+
+  REQUIRED_MARKERS: ${{ github.event.inputs.required_markers || '' }}
+  MIN_MARKED_TESTS: ${{ github.event.inputs.min_marked_tests || '1' }}
+  MARKER_FOR_NEGATIVE: ${{ github.event.inputs.marker_for_negative || '' }}
+
+  STRICT_MODE: ${{ github.event.inputs.strict_mode || 'normal' }}
+  STRICT_SECTIONS: ${{ github.event.inputs.strict_sections || '' }}
+  STRICT: ${{ github.event.inputs.strict_mode == 'strict' && 'true' || 'false' }}
+
+  RAISES_STYLES: "raises,assertRaises,assertRaisesRegex,assertRaisesRegexp,warns,assertWarns,assertWarnsRegex,fail,assertRaisesMessage"
+  TYPE_CHECK_STYLES: "isinstance,assertIsInstance,assertNotIsInstance,type"
+  RECEIPT_CHECK_STYLES: "regex,substring,snapshot,parametrize"
+
+  BASE_EXCEPTIONS: "TypeError,ValueError,KeyError,IndexError,AttributeError,ZeroDivisionError,AssertionError,StopIteration,OverflowError"
+  TYPE_EXCEPTIONS: "TypeError,ValueError"
+
+jobs:
+  analyze-tests:
+    runs-on: ubuntu-latest
+    outputs:
+      report_ok: ${{ steps.report.outputs.ok }}
+      report_text: ${{ steps.report.outputs.text }}
+      achievement: ${{ steps.report.outputs.achievement }}
+      tests_ok: ${{ steps.pytest.outputs.tests_ok }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pytest-cov coverage
+
+      - name: Debug env
+        run: |
+          echo "===== Настройки workflow ====="
+          for v in SOURCE_PATH TEST_PATH \
+                   ALLOWED_TEST_FILES IGNORED_TEST_FILES \
+                   ALLOWED_SOURCE_FILES IGNORED_SOURCE_FILES \
+                   MIN_TESTS_PER_FN MIN_NEGATIVE_TESTS MIN_BOUNDARY_CATEGORIES REQUIRED_MARKERS \
+                   MIN_MARKED_TESTS MARKER_FOR_NEGATIVE \
+                   RAISES_STYLES TYPE_CHECK_STYLES RECEIPT_CHECK_STYLES \
+                   BASE_EXCEPTIONS TYPE_EXCEPTIONS STRICT_MODE STRICT_SECTIONS STRICT; do
+            echo "$v=${!v}"
+          done
+
+      - name: Locate test file (only test_coffe.py)
+        id: locate_test
+        run: |
+          python - <<'EOF'
+          import os
+          from pathlib import Path
+
+          allowed = {n.strip() for n in os.environ.get("ALLOWED_TEST_FILES", "").split(",") if n.strip()}
+          ignored = {n.strip() for n in os.environ.get("IGNORED_TEST_FILES", "").split(",") if n.strip()}
+
+          configured = os.environ.get("TEST_PATH", "").strip()
+          found = None
+
+          if configured:
+              p = Path(configured)
+              if p.is_file():
+                  found = p
+              else:
+                  for c in Path(".").glob(configured):
+                      if c.is_file():
+                          found = c
+                          break
+
+          if found is None:
+              for c in Path(".").glob("**/test_coffe.py"):
+                  if ".venv" not in str(c) and "site-packages" not in str(c):
+                      found = c
+                      break
+
+          if found is None:
+              print("::error::Не найден файл test_coffe.py")
+              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                  f.write("test_files=\n")
+              raise SystemExit(0)
+
+          if allowed and found.name not in allowed:
+              print(f"::error::Файл {found.name} не разрешён (разрешены: {sorted(allowed)})")
+              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                  f.write("test_files=\n")
+              raise SystemExit(0)
+          if found.name in ignored:
+              print(f"::error::Файл {found.name} в списке исключений")
+              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                  f.write("test_files=\n")
+              raise SystemExit(0)
+
+          print(f"Тестовый файл: {found}")
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"test_files={found}\n")
+          EOF
+
+      - name: Locate source files
+        id: locate_source
+        run: |
+          python - <<'EOF'
+          import os
+          from pathlib import Path
+
+          configured = os.environ.get("SOURCE_PATH", "").strip()
+          allowed = {n.strip() for n in os.environ.get("ALLOWED_SOURCE_FILES", "").split(",") if n.strip()}
+          ignored = {n.strip() for n in os.environ.get("IGNORED_SOURCE_FILES", "").split(",") if n.strip()}
+          ignored_tests = {n.strip() for n in os.environ.get("IGNORED_TEST_FILES", "").split(",") if n.strip()}
+          allowed_tests = {n.strip() for n in os.environ.get("ALLOWED_TEST_FILES", "").split(",") if n.strip()}
+          test_files = set(os.environ.get("TEST_FILES", "").split())
+
+          candidates = []
+          if configured:
+              p = Path(configured)
+              if p.is_file():
+                  candidates.append(p)
+              elif p.is_dir():
+                  candidates += list(p.glob("*.py"))
+              else:
+                  candidates += list(Path(".").glob(configured))
+          else:
+              candidates += list(Path("Coffee").glob("*.py"))
+              candidates += list(Path(".").glob("*.py"))
+
+          result, seen = [], set()
+          for c in candidates:
+              if not c.is_file():
+                  continue
+              if str(c) in test_files:
+                  continue
+              if c.name in ignored_tests or c.name in allowed_tests:
+                  continue
+              if c.name.startswith("test_") or c.name.endswith("_test.py"):
+                  continue
+              if c.name == "conftest.py":
+                  continue
+              if allowed and c.name not in allowed:
+                  continue
+              if c.name in ignored:
+                  continue
+              if "site-packages" in str(c) or ".venv" in str(c):
+                  continue
+              r = c.resolve()
+              if r in seen:
+                  continue
+              seen.add(r)
+              result.append(c)
+
+          if not result:
+              print("::error::Не найден исходный файл")
+              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                  f.write("source_files=\n")
+              raise SystemExit(0)
+
+          print("Исходные файлы:")
+          for c in result:
+              print(f"  - {c}")
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write("source_files=" + " ".join(str(c) for c in result) + "\n")
+          EOF
+        env:
+          TEST_FILES: ${{ steps.locate_test.outputs.test_files }}
+
+      - name: Run tests with coverage (do not fail job here)
+        id: pytest
+        run: |
+          set +e
+          TESTS="${{ steps.locate_test.outputs.test_files }}"
+          if [ -z "$TESTS" ]; then
+            echo "Нет тестового файла — пропускаем"
+            echo "tests_ok=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          coverage run --branch -m pytest "$TESTS" -v
+          PYTEST_EXIT=$?
+          coverage report -m || true
+          coverage json -o coverage.json || true
+          if [ "$PYTEST_EXIT" -eq 0 ]; then
+            echo "tests_ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "tests_ok=false" >> "$GITHUB_OUTPUT"
+          fi
+          echo "pytest exit code: $PYTEST_EXIT"
+          exit 0
+
+      - name: Analyze coverage and tests (never fails)
+        id: report
+        run: |
+          python - <<'EOF'
+          import ast
+          import json
+          import os
+          import re
+          import sys
+          from pathlib import Path
+
+          # ---------- Настройки ----------
+          TEST_FILES = [Path(p) for p in os.environ.get("TEST_FILES", "").split() if p]
+          SOURCE_FILES = [Path(p) for p in os.environ.get("SOURCE_FILES", "").split() if p]
+
+          MIN_TESTS_PER_FN = int(os.environ.get("MIN_TESTS_PER_FN", "3"))
+          MIN_NEGATIVE_TESTS = int(os.environ.get("MIN_NEGATIVE_TESTS", "1"))
+          MIN_BOUNDARY_CATEGORIES = int(os.environ.get("MIN_BOUNDARY_CATEGORIES", "2"))
+          REQUIRED_MARKERS = [m.strip() for m in os.environ.get("REQUIRED_MARKERS", "").split(",") if m.strip()]
+          MIN_MARKED_TESTS = int(os.environ.get("MIN_MARKED_TESTS", "1"))
+          MARKER_FOR_NEGATIVE = os.environ.get("MARKER_FOR_NEGATIVE", "").strip()
+          STRICT = os.environ.get("STRICT", "false").lower() in ("true", "1", "yes")
+          TESTS_OK = os.environ.get("TESTS_OK", "") == "true"
+
+          RAISES_STYLES = set(os.environ.get("RAISES_STYLES", "").split(","))
+          TYPE_CHECK_STYLES = set(os.environ.get("TYPE_CHECK_STYLES", "").split(","))
+          BASE_EXCEPTIONS = set(os.environ.get("BASE_EXCEPTIONS", "").split(","))
+          TYPE_EXCEPTIONS = set(os.environ.get("TYPE_EXCEPTIONS", "TypeError,ValueError").split(","))
+          RECEIPT_CHECK_STYLES = set(os.environ.get("RECEIPT_CHECK_STYLES", "").split(","))
+          ALLOWED_TEST_FILES = set(os.environ.get("ALLOWED_TEST_FILES", "").split(","))
+          IGNORED_TEST_FILES = set(os.environ.get("IGNORED_TEST_FILES", "").split(","))
+          ALLOWED_SOURCE_FILES = set(os.environ.get("ALLOWED_SOURCE_FILES", "").split(","))
+          IGNORED_SOURCE_FILES = set(os.environ.get("IGNORED_SOURCE_FILES", "").split(","))
+
+          report = []
+          problems = []
+          warnings = []
+
+          def add(section, status, details=""):
+              report.append((section, status, details))
+              if status == "FAIL":
+                  problems.append(f"{section}: {details}")
+              elif status == "WARN":
+                  warnings.append(f"{section}: {details}")
+
+          def finish():
+              print()
+              print("=" * 72)
+              print(" ОТЧЁТ О ПРОВЕРКЕ ТЕСТОВ")
+              print("=" * 72)
+              print(f"  MIN_TESTS_PER_FN={MIN_TESTS_PER_FN}, "
+                    f"MIN_NEGATIVE_TESTS={MIN_NEGATIVE_TESTS}, "
+                    f"MIN_BOUNDARY_CATEGORIES={MIN_BOUNDARY_CATEGORIES}, "
+                    f"STRICT={STRICT}, REQUIRED_MARKERS={REQUIRED_MARKERS}")
+              print(f"  ALLOWED_TEST_FILES={sorted(ALLOWED_TEST_FILES)}")
+              print(f"  IGNORED_TEST_FILES={sorted(IGNORED_TEST_FILES)}")
+              print(f"  ALLOWED_SOURCE_FILES={sorted(ALLOWED_SOURCE_FILES)}")
+              print(f"  IGNORED_SOURCE_FILES={sorted(IGNORED_SOURCE_FILES)}")
+              print("-" * 72)
+              for s, st, d in report:
+                  line = f"  [{st:4}] {s}"
+                  if d:
+                      line += f" — {d}"
+                  print(line)
+              print("=" * 72)
+              if problems:
+                  print(f"РЕЗУЛЬТАТ: FAIL — проблем: {len(problems)}")
+                  for p in problems:
+                      print(f"  ✗ {p}")
+              else:
+                  print("РЕЗУЛЬТАТ: OK — все проверки пройдены")
+              if warnings:
+                  print(f"ПРЕДУПРЕЖДЕНИЯ ({len(warnings)}):")
+                  for w in warnings:
+                      print(f"  ! {w}")
+              print("=" * 72)
+              report_text = "\\n".join(
+                  f"[{st}] {s}" + (f" — {d}" if d else "")
+                  for s, st, d in report
+              )
+              ok = not problems
+              if STRICT and warnings:
+                  ok = False
+              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                  f.write(f"ok={'true' if ok else 'false'}\n")
+                  f.write("text<<REPORT_EOF\n")
+                  f.write(report_text + "\n")
+                  f.write("REPORT_EOF\n")
+
+          # ---------- Санитарная проверка ----------
+          if not TEST_FILES:
+              add("Поиск тестов", "FAIL", "test_coffe.py не найден")
+              finish()
+              sys.exit(0)
+
+          bad_tests = [str(p) for p in TEST_FILES if p.name in IGNORED_TEST_FILES]
+          if bad_tests:
+              add("Запрещённые тестовые файлы", "FAIL", f"найдены: {bad_tests}")
+          not_allowed = [str(p) for p in TEST_FILES
+                         if ALLOWED_TEST_FILES and p.name not in ALLOWED_TEST_FILES]
+          if not_allowed:
+              add("Недопустимые тестовые файлы", "FAIL",
+                  f"разрешено {sorted(ALLOWED_TEST_FILES)}, найдено: {not_allowed}")
+
+          if not SOURCE_FILES:
+              add("Поиск исходника", "FAIL", "исходные файлы не найдены")
+              finish()
+              sys.exit(0)
+
+          bad_src = [str(p) for p in SOURCE_FILES if p.name in IGNORED_SOURCE_FILES]
+          if bad_src:
+              add("Запрещённые исходные файлы", "FAIL", f"найдены: {bad_src}")
+          src_not_allowed = [str(p) for p in SOURCE_FILES
+                             if ALLOWED_SOURCE_FILES and p.name not in ALLOWED_SOURCE_FILES]
+          if src_not_allowed:
+              add("Недопустимые исходные файлы", "FAIL",
+                  f"разрешено {sorted(ALLOWED_SOURCE_FILES)}, найдено: {src_not_allowed}")
+
+          # ---------- Парсинг ----------
+          test_trees = {}
+          test_source_text = ""
+          for tf in TEST_FILES:
+              txt = tf.read_text(encoding="utf-8")
+              test_source_text += "\n" + txt
+              test_trees[tf] = ast.parse(txt)
+
+          src_trees = {}
+          for sf in SOURCE_FILES:
+              src_trees[sf] = ast.parse(sf.read_text(encoding="utf-8"))
+
+          test_functions = []
+          for tf, tree in test_trees.items():
+              test_functions += [
+                  n for n in ast.walk(tree)
+                  if isinstance(n, ast.FunctionDef) and n.name.startswith("test_")
+              ]
+
+          all_fn_nodes = []
+          for sf, tree in src_trees.items():
+              for n in ast.walk(tree):
+                  if isinstance(n, ast.FunctionDef):
+                      n._source_file = str(sf)
+                      all_fn_nodes.append(n)
+
+          fn_keys = []
+          for n in all_fn_nodes:
+              key = (n._source_file, n.name)
+              if key not in fn_keys:
+                  fn_keys.append(key)
+          fn_names = [name for _, name in fn_keys]
+
+          custom_exceptions = set()
+          for tree in src_trees.values():
+              for node in ast.walk(tree):
+                  if isinstance(node, ast.ClassDef):
+                      for base in node.bases:
+                          if isinstance(base, ast.Name) and base.id in ("Exception", "BaseException"):
+                              custom_exceptions.add(node.name)
+                          elif isinstance(base, ast.Attribute) and base.attr in ("Exception", "BaseException"):
+                              custom_exceptions.add(node.name)
+          ALL_EXCEPTIONS = BASE_EXCEPTIONS | custom_exceptions
+
+          # ---------- Помощники ----------
+          def _name(func):
+              if isinstance(func, ast.Name):
+                  return func.id
+              if isinstance(func, ast.Attribute):
+                  return func.attr
+              return None
+
+          def has_raises(node):
+              for sub in ast.walk(node):
+                  if isinstance(sub, ast.Call):
+                      n = _name(sub.func)
+                      if n in RAISES_STYLES:
+                          return True
+              return False
+
+          def raises_targets(node):
+              names = set()
+              for sub in ast.walk(node):
+                  if isinstance(sub, ast.Call):
+                      n = _name(sub.func)
+                      if n in RAISES_STYLES:
+                          for arg in sub.args:
+                              if isinstance(arg, ast.Name):
+                                  names.add(arg.id)
+                              elif isinstance(arg, ast.Tuple):
+                                  for el in arg.elts:
+                                      if isinstance(el, ast.Name):
+                                          names.add(el.id)
+              return names
+
+          def raises_checks_message(node):
+              for sub in ast.walk(node):
+                  if isinstance(sub, ast.Call):
+                      n = _name(sub.func)
+                      if n in ("raises", "assertRaises"):
+                          for kw in sub.keywords:
+                              if kw.arg in ("match", "regex"):
+                                  return True
+                      if n in ("assertRaisesRegex", "assertRaisesRegexp", "assertWarnsRegex", "assertRaisesMessage"):
+                          return True
+              return False
+
+          def has_type_check(node):
+              for sub in ast.walk(node):
+                  if isinstance(sub, ast.Call):
+                      n = _name(sub.func)
+                      if n in TYPE_CHECK_STYLES:
+                          return True
+                  if isinstance(sub, ast.Compare):
+                      left = sub.left
+                      if isinstance(left, ast.Call) and _name(left.func) == "type":
+                          ops = [type(op).__name__ for op in sub.ops]
+                          if any(op in ("Is", "IsNot", "Eq", "NotEq") for op in ops):
+                              return True
+              return False
+
+          def has_assert(node):
+              for sub in ast.walk(node):
+                  if isinstance(sub, ast.Assert):
+                      return True
+                  if isinstance(sub, ast.Call):
+                      n = _name(sub.func)
+                      if n and n.startswith("assert"):
+                          return True
+              return False
+
+          def is_positive(node):
+              return has_assert(node) or not has_raises(node)
+
+          def is_negative(node):
+              return has_raises(node)
+
+          def has_marker(node, marker_name):
+              for dec in node.decorator_list:
+                  if isinstance(dec, ast.Call):
+                      if _name(dec.func) == marker_name:
+                          return True
+                  elif isinstance(dec, ast.Attribute) and dec.attr == marker_name:
+                      return True
+                  elif isinstance(dec, ast.Name) and dec.id == marker_name:
+                      return True
+              return False
+
+          def annotated_return_kind(fn_node):
+              ret = fn_node.returns
+              if ret is None:
+                  return None
+              if isinstance(ret, ast.Name):
+                  return ret.id
+              if isinstance(ret, ast.Subscript):
+                  base = ret.value
+                  if isinstance(base, ast.Name):
+                      return base.id
+                  return "container"
+              if isinstance(ret, ast.Constant) and ret.value is None:
+                  return "None"
+              if isinstance(ret, ast.Attribute):
+                  return ret.attr
+              return "other"
+
+          # ---------- 0. pytest ----------
+          add("Запуск pytest",
+              "OK" if TESTS_OK else "FAIL",
+              "все тесты прошли" if TESTS_OK else "есть падающие тесты (см. лог)")
+
+          # ---------- 1. Позитив / негатив ----------
+          positive = [t.name for t in test_functions if is_positive(t)]
+          negative = [t.name for t in test_functions if is_negative(t)]
+
+          add("Позитивные тесты",
+              "OK" if positive else "FAIL",
+              f"{len(positive)} тестов" if positive else "нет позитивных тестов")
+          add("Негативные тесты (raises/warns/fail)",
+              "OK" if negative else "FAIL",
+              f"{len(negative)} тестов" if negative else
+              f"нет ни одного из: {sorted(RAISES_STYLES)}")
+
+          # ---------- 2. Проверки типов ----------
+          has_type_in_tests = any(
+              has_type_check(sub)
+              for tree in test_trees.values()
+              for sub in ast.walk(tree)
+          )
+          add("Проверки типов",
+              "OK" if has_type_in_tests else "FAIL",
+              f"стили: {sorted(TYPE_CHECK_STYLES)}" if has_type_in_tests
+              else f"не найдено ни одного из: {sorted(TYPE_CHECK_STYLES)}")
+
+          # ---------- 3. Негатив на типы ----------
+          found_type_errors = set()
+          for node in test_functions:
+              found_type_errors |= (raises_targets(node) & TYPE_EXCEPTIONS)
+          add("Негативные тесты на неверные типы",
+              "OK" if found_type_errors else "FAIL",
+              f"проверяются: {sorted(found_type_errors)}" if found_type_errors
+              else f"не найдено raises({sorted(TYPE_EXCEPTIONS)})")
+
+          # ---------- 4. Функции с raise -> тест на исключение ----------
+          raise_fns = {
+              (n._source_file, n.name) for n in all_fn_nodes
+              if any(isinstance(s, (ast.Raise, ast.Assert)) for s in ast.walk(n))
+          }
+
+          tested = set()
+          for node in test_functions:
+              if not has_raises(node):
+                  continue
+              for sub in ast.walk(node):
+                  if isinstance(sub, ast.Call):
+                      n = _name(sub.func)
+                      if n:
+                          for key in raise_fns:
+                              if key[1] == n:
+                                  tested.add(key)
+
+          not_tested = [f"{f}::{n}" for f, n in raise_fns if (f, n) not in tested]
+          add("Тесты на исключения для функций с raise/assert",
+              "OK" if not not_tested else "FAIL",
+              "" if not not_tested else f"не покрыты: {not_tested}")
+
+          # ---------- 5. Сценарии по функциям ----------
+          per_fn = {key: {"positive": 0, "negative": 0, "types": 0, "msg": 0} for key in fn_keys}
+          name_to_keys = {}
+          for key in fn_keys:
+              name_to_keys.setdefault(key[1], []).append(key)
+
+          for node in test_functions:
+              called_names = set()
+              for sub in ast.walk(node):
+                  if isinstance(sub, ast.Call):
+                      n = _name(sub.func)
+                      if n in name_to_keys:
+                          called_names.add(n)
+              for cname in called_names:
+                  for key in name_to_keys[cname]:
+                      if is_negative(node):
+                          per_fn[key]["negative"] += 1
+                          if raises_checks_message(node):
+                              per_fn[key]["msg"] += 1
+                      if is_positive(node):
+                          per_fn[key]["positive"] += 1
+                      if has_type_check(node):
+                          per_fn[key]["types"] += 1
+
+          annotated_fns = {(n._source_file, n.name) for n in all_fn_nodes
+                           if annotated_return_kind(n) is not None}
+
+          scenario_problems = []
+          for key, st in per_fn.items():
+              fname = key[1]
+              if st["positive"] == 0:
+                  scenario_problems.append(f"{fname}: нет позитивных тестов")
+              if key in raise_fns and st["negative"] < MIN_NEGATIVE_TESTS:
+                  scenario_problems.append(
+                      f"{fname}: нужно >= {MIN_NEGATIVE_TESTS} негативных, есть {st['negative']}")
+              if key in annotated_fns and st["types"] == 0:
+                  scenario_problems.append(f"{fname}: нет проверки типа возврата")
+
+          add("Сценарии по функциям",
+              "OK" if not scenario_problems else "FAIL",
+              "; ".join(scenario_problems))
+
+          # ---------- 6. Минимум тестов ----------
+          min_required = len(fn_names) * MIN_TESTS_PER_FN
+          add("Минимальное количество тестов",
+              "OK" if len(test_functions) >= min_required else "FAIL",
+              f"{len(test_functions)} тестов (требуется >= {min_required} = "
+              f"{len(fn_names)} функций × {MIN_TESTS_PER_FN})")
+
+          # ---------- 7. Граничные значения ----------
+          boundary_variants = {
+              "ноль": [r"\b0\b", r"\b0\.0\b"],
+              "отрицательные": [r"-\d+", r"\bnegative\b"],
+              "пустые строки": [r'""', r"''", r"str\(\s*\)"],
+              "None": [r"\bNone\b", r"\bnull\b"],
+              "большие числа": [r"\b10\s*\*\*\s*\d", r"\b\d{4,}\b", r"\bMAX", r"\bINF"],
+              "дробные": [r"\d+\.\d+"],
+              "юникод": [r"[^\x00-\x7F]"],
+          }
+          covered_categories = [
+              cat for cat, patterns in boundary_variants.items()
+              if any(re.search(p, test_source_text) for p in patterns)
+          ]
+          missing_categories = [
+              cat for cat in boundary_variants if cat not in covered_categories
+          ]
+          if len(covered_categories) >= MIN_BOUNDARY_CATEGORIES:
+              add("Граничные значения", "OK", f"категории: {covered_categories}")
+              if missing_categories:
+                  warnings.append(f"не покрыты категории: {missing_categories}")
+          else:
+              add("Граничные значения", "FAIL",
+                  f"покрыто {len(covered_categories)} из {MIN_BOUNDARY_CATEGORIES}; "
+                  f"есть: {covered_categories}, нет: {missing_categories}")
+
+          # ---------- 8. format_receipt ----------
+          if "format_receipt" in fn_names:
+              receipt_checks = {
+                  "regex": "re." in test_source_text or "import re" in test_source_text,
+                  "substring": any(s in test_source_text for s in
+                                   ('"Напиток:"', "'Напиток:'", '"Итого:"', "'Итого:'", '"Чек"', "'Чек'")),
+                  "snapshot": "==" in test_source_text and "format_receipt(" in test_source_text,
+                  "parametrize": "parametrize" in test_source_text,
+              }
+              found = [k for k, v in receipt_checks.items() if v]
+              if len(found) >= 2:
+                  add("Проверка формата чека", "OK", f"способы: {found}")
+              elif len(found) == 1:
+                  add("Проверка формата чека", "WARN", f"только: {found}")
+              else:
+                  add("Проверка формата чека", "FAIL",
+                      f"ни один из {sorted(RECEIPT_CHECK_STYLES)} не используется")
+
+          # ---------- 9. Текст исключений ----------
+          msg_tests = [t.name for t in test_functions if raises_checks_message(t)]
+          if negative:
+              if msg_tests:
+                  add("Проверка текста исключений (match/regex)", "OK", f"{len(msg_tests)} тестов")
+              else:
+                  warnings.append("ни один негативный тест не проверяет текст исключения")
+
+          # ---------- 10. Маркеры ----------
+          if REQUIRED_MARKERS:
+              missing_markers = []
+              for marker in REQUIRED_MARKERS:
+                  count = sum(1 for t in test_functions if has_marker(t, marker))
+                  if count < MIN_MARKED_TESTS:
+                      missing_markers.append(f"{marker} ({count} < {MIN_MARKED_TESTS})")
+                  else:
+                      add(f"Маркер @{marker}", "OK", f"{count} тестов (>= {MIN_MARKED_TESTS})")
+              if missing_markers:
+                  add("Обязательные маркеры", "FAIL",
+                      f"не хватает: {missing_markers}")
+
+          if MARKER_FOR_NEGATIVE:
+              unmarked_negative = [
+                  t.name for t in test_functions
+                  if is_negative(t) and not has_marker(t, MARKER_FOR_NEGATIVE)
+              ]
+              if unmarked_negative:
+                  add(f"Маркер @{MARKER_FOR_NEGATIVE} на негативных тестах", "FAIL",
+                      f"без маркера: {unmarked_negative[:10]}")
+              else:
+                  add(f"Маркер @{MARKER_FOR_NEGATIVE} на негативных тестах", "OK")
+
+          # ---------- 11. Покрытие ----------
+          try:
+              with open("coverage.json") as f:
+                  cov = json.load(f)
+
+              executed_by_file = {}
+              missing_by_file = {}
+              for fp, data in cov["files"].items():
+                  p = Path(fp)
+                  if p.name.startswith("test_") or p.name.endswith("_test.py") or p.name == "conftest.py":
+                      continue
+                  if p.name in IGNORED_TEST_FILES or p.name in ALLOWED_TEST_FILES:
+                      continue
+                  if ALLOWED_SOURCE_FILES and p.name not in ALLOWED_SOURCE_FILES:
+                      continue
+                  if p.name in IGNORED_SOURCE_FILES:
+                      continue
+                  executed_by_file[fp] = set(data["executed_lines"])
+                  missing_by_file[fp] = set(data["missing_lines"])
+
+              uncovered_fns = []
+              seen_uncovered = set()
+              for n in all_fn_nodes:
+                  sf = n._source_file
+                  executed = executed_by_file.get(sf, set())
+                  fn_lines = set(range(n.lineno, n.end_lineno + 1))
+                  if not (fn_lines & executed):
+                      key = (sf, n.name)
+                      if key not in seen_uncovered:
+                          seen_uncovered.add(key)
+                          uncovered_fns.append(f"{Path(sf).name}::{n.name}")
+
+              add("Покрытие функций тестами",
+                  "OK" if not uncovered_fns else "FAIL",
+                  "" if not uncovered_fns else f"не покрыты: {uncovered_fns}")
+
+              total_missing = []
+              for fp, lines in missing_by_file.items():
+                  for line in sorted(lines):
+                      total_missing.append(f"{Path(fp).name}:{line}")
+              if total_missing:
+                  add("Покрытие строк (все ветки)", "FAIL",
+                      f"непокрытые строки: {total_missing}")
+              else:
+                  add("Покрытие строк (все ветки)", "OK", "100% строк покрыто")
+          except FileNotFoundError:
+              add("Покрытие функций тестами", "WARN", "coverage.json не найден")
+
+          # ---------- 12. Забавные достижения ----------
+          def compute_achievement():
+              total_checks = len(report)
+              fails = len(problems)
+              warns = len(warnings)
+              passed = total_checks - fails - warns
+
+              has_positive = any(s == "Позитивные тесты" and st == "OK" for s, st, _ in report)
+              has_negative = any(s.startswith("Негативные тесты (") and st == "OK" for s, st, _ in report)
+              has_types = any(s == "Проверки типов" and st == "OK" for s, st, _ in report)
+              has_type_neg = any(s.startswith("Негативные тесты на неверные типы") and st == "OK"
+                                 for s, st, _ in report)
+              has_raises = any(s.startswith("Тесты на исключения") and st == "OK" for s, st, _ in report)
+              has_scenarios = any(s == "Сценарии по функциям" and st == "OK" for s, st, _ in report)
+              has_min = any(s == "Минимальное количество тестов" and st == "OK" for s, st, _ in report)
+              has_boundary = any(s == "Граничные значения" and st == "OK" for s, st, _ in report)
+              has_receipt = any(s == "Проверка формата чека" and st == "OK" for s, st, _ in report)
+              has_msg = any(s.startswith("Проверка текста исключений") and st == "OK"
+                            for s, st, _ in report)
+              coverage_ok = any(s.startswith("Покрытие") and st == "OK" for s, st, _ in report)
+
+              # Легендарные
+              if fails == 0 and warns == 0 and passed >= 10:
+                  return ("🏆 ЛЕГЕНДА КАМПУСА",
+                          "Ты прошёл все проверки без единого замечания. "
+                          "Преподаватель плачет от счастья, а латте в CampusCoffee — "
+                          "за счёт заведения. Ты готов писать тесты в Microsoft.")
+
+              if fails == 0 and warns <= 2 and passed >= 8:
+                  return ("🌟 ГУРУ ТЕСТИРОВАНИЯ",
+                          "Почти идеально. Пара мелочей — и ты станешь легендой. "
+                          "Держи бесплатный круассан и уважение потока.")
+
+              # Отличные
+              if fails <= 1 and passed >= 6:
+                  if has_negative and has_types and has_boundary:
+                      return ("🔥 СЕНЬОР-СТАЖЁР",
+                              "Позитив, негатив, типы, границы — всё на месте. "
+                              "Ты уже пишешь тесты лучше половины третьего курса. "
+                              "Кофе с собой бесплатно.")
+
+              if fails <= 2 and passed >= 5:
+                  if has_negative and has_raises:
+                      return ("🚀 ДЖУН ИНЖЕНЕР",
+                              "Ты понял главное: тест без проверки исключения — "
+                              "это не тест, а пожелание. Осталось дожать типы и границы.")
+
+              # Средние
+              if has_positive and has_negative:
+                  return ("☕ КОУЧ-СТАЖЁР",
+                          "Позитив и негатив есть — это уже 80% успеха. "
+                          "Добавь проверки типов и граничные значения, "
+                          "и тебя возьмут в стажёры в Яндекс.")
+
+              if has_positive and has_types:
+                  return ("📚 ПРИЛЕЖНЫЙ ПЕРВОКУРСНИК",
+                          "Тесты пишешь, типы проверяешь. Но забыл про негатив — "
+                          "а мир полон плохих входных данных. "
+                          "Прочитай главу про pytest.raises.")
+
+              if has_positive:
+                  return ("🐣 НАЧИНАЮЩИЙ ТЕСТЕР",
+                          "Первые тесты — это уже победа. Но код без негативных "
+                          "тестов — это дом без замка. Добавь негатив и исключения.")
+
+              # Слабые
+              if has_min:
+                  return ("🦆 УТЁНОК В СТАЕ",
+                          "Тестов вроде много, но они все про одно и то же. "
+                          "Количество не заменяет качество — добавь позитив/негатив/типы/границы.")
+
+              if any(s == "Запуск pytest" and st == "FAIL" for s, st, _ in report):
+                  return ("💀 КОД-ТЕРМИНАТОР",
+                          "Тесты падают. Возможно, ты тестируешь не тот код. "
+                          "Или нашёл баг в чужом коде и стесняешься сказать. "
+                          "Проверь логи и вернись.")
+
+              return ("🌱 РОСТОК",
+                      "Ты только в начале пути. Начни с одного теста на каждую функцию — "
+                      "и достижение не заставит себя ждать.")
+
+          achievement_title, achievement_text = compute_achievement()
+
+          # Считаем звёзды: passed / total
+          total_checks = len(report)
+          fails = len(problems)
+          warns = len(warnings)
+          passed = total_checks - fails - warns
+          stars = 0 if total_checks == 0 else min(5, max(1, round(5 * passed / total_checks)))
+          star_bar = "⭐" * stars + "☆" * (5 - stars)
+
+          print()
+          print("=" * 72)
+          print(f" ДОСТИЖЕНИЕ: {achievement_title}")
+          print("=" * 72)
+          print(f"  Рейтинг: {star_bar}  ({passed}/{total_checks} проверок пройдено)")
+          for line in achievement_text.split(". "):
+              line = line.strip()
+              if line:
+                  print(f"  {line}.")
+          print("=" * 72)
+          print()
+
+          report.append(("Достижение", "OK", achievement_title))
+
+          # ---------- Запись достижения в GITHUB_OUTPUT / STEP_SUMMARY ----------
+          # Достижение отдельным output, чтобы вывести в следующей job
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"achievement={achievement_title} — {star_bar}\n")
+
+          # Красивый summary
+          summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+          if summary_path:
+              with open(summary_path, "a", encoding="utf-8") as f:
+                  f.write(f"## Достижение: {achievement_title}\n\n")
+                  f.write(f"**Рейтинг:** {star_bar} ({passed}/{total_checks})\n\n")
+                  f.write(f"> {achievement_text}\n\n")
+                  f.write("### Сводка проверок\n\n")
+                  f.write("| Статус | Секция | Детали |\n")
+                  f.write("|---|---|---|\n")
+                  for s, st, d in report:
+                      emoji = "✅" if st == "OK" else ("⚠️" if st == "WARN" else "❌")
+                      f.write(f"| {emoji} {st} | {s} | {d or '—'} |\n")
+                  f.write("\n")
+
+          finish()
+          EOF
+        env:
+          TESTS_OK: ${{ steps.pytest.outputs.tests_ok }}
+          TEST_FILES: ${{ steps.locate_test.outputs.test_files }}
+          SOURCE_FILES: ${{ steps.locate_source.outputs.source_files }}
+
+  fail-if-report-not-ok:
+    needs: analyze-tests
+    runs-on: ubuntu-latest
+    if: needs.analyze-tests.outputs.report_ok != 'true'
+    steps:
+      - name: Show report and fail
+        run: |
+          echo "Отчёт анализа тестов:"
+          echo "--------------------------------------------------------------"
+          echo -e "${{ needs.analyze-tests.outputs.report_text }}"
+          echo "--------------------------------------------------------------"
+          echo "Достижение: ${{ needs.analyze-tests.outputs.achievement }}"
+          echo "--------------------------------------------------------------"
+          echo "::error::Анализ тестов не пройден — см. отчёт выше"
+          exit 1
+
+  success:
+    needs: analyze-tests
+    runs-on: ubuntu-latest
+    if: needs.analyze-tests.outputs.report_ok == 'true'
+    steps:
+      - name: Confirm success
+        run: |
+          echo "Отчёт анализа тестов:"
+          echo "--------------------------------------------------------------"
+          echo -e "${{ needs.analyze-tests.outputs.report_text }}"
+          echo "--------------------------------------------------------------"
+          echo "Достижение: ${{ needs.analyze-tests.outputs.achievement }}"
+          echo "--------------------------------------------------------------"
+          echo "Все проверки пройдены"

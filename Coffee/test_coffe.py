@@ -17,6 +17,9 @@ class TestCoffee(unittest.TestCase):
         self.assertEqual(get_price("espresso"), 150)
         self.assertEqual(get_price("latte"), 280)
 
+    def test_capuccino_price(self):
+        self.assertEqual(get_price("capuccino"), 250)
+
     def test_get_price_unknown(self):
         with self.assertRaises(ValueError):
             get_price("unknown_drink")
