@@ -7,7 +7,7 @@ from coffee import (
     get_most_expensive_drink,
     generate_wifi_password,
     format_receipt
-)
+)   
 
 
 class GetPriceTestCase(unittest.TestCase):
