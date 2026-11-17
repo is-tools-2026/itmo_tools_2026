@@ -158,10 +158,3 @@ def format_receipt(drink_name, quantity):
         f"Количество: {quantity}\n"
         f"Итого: {total} руб.\n"
     )
-
-if __name__ == "__main__":
-    print(get_price("latte"))
-    print(calculate_order_total(5, get_price("latte")))
-    print(get_most_expensive_drink())
-    print(generate_wifi_password(8))
-    print(format_receipt("latte", 1))

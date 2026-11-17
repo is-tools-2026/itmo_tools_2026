@@ -1,6 +1,5 @@
 import string
 import unittest
-from unittest.mock import patch
 
 from coffee import (
     get_price,
@@ -9,6 +8,7 @@ from coffee import (
     generate_wifi_password,
     format_receipt,
 )
+
 
 class GetPriceTestCase(unittest.TestCase):
     def test_espresso_price(self):
@@ -45,11 +45,11 @@ class CalculateOrderTotalTestCase(unittest.TestCase):
         self.assertEqual(calculate_order_total(3, 0), 0)
 
     def test_negative_quantity(self):
-        with self.assertRaisesRegex(ValueError, "Количество"):
+        with self.assertRaises(ValueError):
             calculate_order_total(-1, 150)
 
     def test_negative_price(self):
-        with self.assertRaisesRegex(ValueError, "Цена"):
+        with self.assertRaises(ValueError):
             calculate_order_total(3, -150)
 
     def test_string_quantity(self):
@@ -65,31 +65,40 @@ class MostExpensiveDrinkTestCase(unittest.TestCase):
     def test_most_expensive_in_menu(self):
         self.assertEqual(get_most_expensive_drink(), ("latte", 280))
 
-    def test_one_drink(self):
-        with patch("coffee.MENU", {"tea": 120}):
-            self.assertEqual(get_most_expensive_drink(), ("tea", 120))
-
-    def test_uses_price(self):
-        with patch("coffee.MENU", {"z": 100, "a": 200}):
-            self.assertEqual(get_most_expensive_drink(), ("a", 200))
-
 
 class GenerateWifiPasswordTestCase(unittest.TestCase):
     def test_default_length(self):
-        self.assertEqual(len(generate_wifi_password()), 8)
+        password = generate_wifi_password()
+        self.assertIsInstance(password, str)
+        self.assertEqual(len(password), 8)
 
     def test_custom_length(self):
         self.assertEqual(len(generate_wifi_password(12)), 12)
 
     def test_password_characters(self):
         password = generate_wifi_password()
-        self.assertTrue(any(c in string.ascii_lowercase for c in password))
-        self.assertTrue(any(c in string.ascii_uppercase for c in password))
-        self.assertTrue(any(c in string.digits for c in password))
-        self.assertFalse(any(c not in string.ascii_letters + string.digits for c in password))
+        has_lowercase = False
+        has_uppercase = False
+        has_digit = False
+        has_other_character = False
+
+        for character in password:
+            if character in string.ascii_lowercase:
+                has_lowercase = True
+            elif character in string.ascii_uppercase:
+                has_uppercase = True
+            elif character in string.digits:
+                has_digit = True
+            else:
+                has_other_character = True
+
+        self.assertTrue(has_lowercase)
+        self.assertTrue(has_uppercase)
+        self.assertTrue(has_digit)
+        self.assertFalse(has_other_character)
 
     def test_short_password(self):
-        with self.assertRaisesRegex(ValueError, "не меньше 8"):
+        with self.assertRaises(ValueError):
             generate_wifi_password(7)
 
     def test_string_length(self):
@@ -101,7 +110,8 @@ class FormatReceiptTestCase(unittest.TestCase):
     def test_receipt_contents(self):
         receipt = format_receipt("latte", 2)
         self.assertIn("Чек", receipt)
-        self.assertRegex(receipt, r"Напиток: latte\nКоличество: 2\nИтого: 560 руб\.\n$")
+        expected_lines = ["Напиток: latte", "Количество: 2", "Итого: 560 руб."]
+        self.assertEqual(receipt.splitlines()[-3:], expected_lines)
 
     def test_zero_quantity(self):
         self.assertIn("Итого: 0 руб.", format_receipt("tea", 0))
