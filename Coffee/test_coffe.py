@@ -8,10 +8,10 @@ import string
 from coffee import (
     get_price,
     calculate_order_total,
-    generate_wifi_password,
     get_most_expensive_drink,
-    format_receipt, 
-)
+    generate_wifi_password,
+    format_receipt
+)   
 
 # Пример
 class GetPriceTestCase(unittest.TestCase):
