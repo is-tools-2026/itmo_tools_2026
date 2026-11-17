@@ -38,5 +38,7 @@
 
 
 
-\- b39c1b3 — Добавлена документация и обновлены функции
+\- 9f177db (HEAD -> doc\_559010) docs: add lab 2 documentation for mysterious\_file.py
+
+
 
