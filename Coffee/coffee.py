@@ -197,7 +197,7 @@ def format_receipt(drink_name, quantity):
 
 # Демонстрация работы — только при запуске файла напрямую,
 # а не при импорте (иначе тесты печатают мусор или падают на импорте)
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     print(get_price('latte'))
     print(calculate_order_total(5, get_price('latte')))
     print(get_most_expensive_drink())
