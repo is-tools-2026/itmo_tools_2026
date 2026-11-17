@@ -63,7 +63,7 @@ def get_price(drink_name):
 # ФУНКЦИЯ 1. Вычисляет стоимость заказа
 # ============================================================
 
-def calculate_order_total(quantity, price):
+def calculate_order_total(item_name, quantity):
     """
     Вычисляет стоимость заказа.
 
@@ -74,6 +74,9 @@ def calculate_order_total(quantity, price):
     Returns:
         int: итоговая стоимость
     """
+    if quantity <= 0:
+        raise ValueError("Количество должно быть больше 0")
+    price = get_price(item_name)
     return quantity * price
 
 # ============================================================
@@ -87,7 +90,7 @@ def get_most_expensive_drink():
     Returns:
         tuple: (название, цена)
     """
-    name = min(MENU, key=MENU.get)
+    name = max(MENU, key=MENU.get)
     return name, MENU[name]
 
 # ============================================================
