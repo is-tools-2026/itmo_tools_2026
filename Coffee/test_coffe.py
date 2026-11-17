@@ -7,14 +7,10 @@ import unittest
 from coffee import (
     get_price,
     calculate_order_total,
-    apply_discount,
-    calculate_bonus,
-    use_bonus,
-    is_menu_item_available,
     get_most_expensive_drink,
-    get_cheapest_drink,
-    format_receipt,
-)
+    generate_wifi_password,
+    format_receipt
+)   
 
 # Пример
 class GetPriceTestCase(unittest.TestCase):
@@ -36,5 +32,5 @@ class GetPriceTestCase(unittest.TestCase):
        with self.assertRaises(ValueError):
            get_price(5)
 
-
-
+if __name__ == "__main__":
+    unittest.main()
