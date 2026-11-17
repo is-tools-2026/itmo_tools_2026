@@ -55,7 +55,7 @@ def get_price(drink_name):
         
     Здесь всё честно: нет напитка — нет цены.
     """
-    if drink_name not in MENU:
+    if not isinstance(drink_name, str) or drink_name not in MENU:
         raise ValueError(f"Напиток '{drink_name}' не найден в меню")
     return MENU[drink_name]
 
@@ -74,6 +74,10 @@ def calculate_order_total(quantity, price):
     Returns:
         int: итоговая стоимость
     """
+    if type(quantity) is not int or quantity < 0:
+        raise ValueError("Количество должно быть целым неотрицательным числом")
+    if type(price) is not int or price < 0:
+        raise ValueError("Цена должна быть целым неотрицательным числом")
     return quantity * price
 
 # ============================================================
@@ -87,7 +91,7 @@ def get_most_expensive_drink():
     Returns:
         tuple: (название, цена)
     """
-    name = min(MENU, key=MENU.get)
+    name = max(MENU, key=MENU.get)
     return name, MENU[name]
 
 # ============================================================
@@ -109,7 +113,7 @@ def generate_wifi_password(length=8):
         string: пароль от wifi
 
     """
-    if length < 8:
+    if type(length) is not int or length < 8:
         raise ValueError("Длина пароля должна быть не меньше 8 символов")
 
     lowercase = random.choice(string.ascii_lowercase)
@@ -146,24 +150,18 @@ def format_receipt(drink_name, quantity):
     Returns:
         str: текст чека
     """
-    if not drink_name:
-        raise ValueError("Название напитка не может быть пустым")
-    if drink_name not in MENU:
-            raise ValueError("Напитка нет в меню")
-    if quantity < 0:
-        raise ValueError("Количество не может быть отрицательным")
-    
-    total = get_price(drink_name) * quantity
+    total = calculate_order_total(quantity, get_price(drink_name))
     
     return (
         f"\n---Чек Coffee---\n"
         f"Напиток: {drink_name}\n"
         f"Количество: {quantity}\n"
         f"Итого: {total} руб.\n"
-    ) # Подсказка: для теста подойдет регулярное выражение
+    )
 
-print(get_price('latte'))
-print(calculate_order_total('latte', 5))
-print(get_most_expensive_drink())
-print(generate_wifi_password(8))
-print(format_receipt('latte', 1))
+if __name__ == "__main__":
+    print(get_price("latte"))
+    print(calculate_order_total(5, get_price("latte")))
+    print(get_most_expensive_drink())
+    print(generate_wifi_password(8))
+    print(format_receipt("latte", 1))
