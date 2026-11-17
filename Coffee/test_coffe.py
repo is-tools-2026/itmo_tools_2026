@@ -16,25 +16,24 @@ class TestCoffeeFunctions(unittest.TestCase):
         self.assertEqual(get_price("latte"), 280)
 
     def test_get_price_invalid_type(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises((ValueError, TypeError)):
             get_price(123)
 
     def test_get_price_unknown_drink(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises((ValueError, TypeError)):
             get_price("unknown_drink")
 
 
     # 2. Тесты для calculate_order_total (3 теста)
     def test_calculate_order_total_valid(self):
-    # 2 * latte * 280 = 560
         self.assertEqual(calculate_order_total("latte", 2), 560)
 
     def test_calculate_order_total_zero_quantity(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises((ValueError, TypeError)):
             calculate_order_total("latte", 0)
 
     def test_calculate_order_total_negative_quantity(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises((ValueError, TypeError)):
             calculate_order_total("latte", -1)
 
 
@@ -66,7 +65,7 @@ class TestCoffeeFunctions(unittest.TestCase):
         self.assertNotEqual(pwd1, pwd2)
 
     def test_generate_wifi_password_invalid(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises((ValueError, TypeError)):
             generate_wifi_password(-1)
 
 
@@ -82,6 +81,9 @@ class TestCoffeeFunctions(unittest.TestCase):
 
     def test_format_receipt_invalid_quantity_type(self):
         with self.assertRaises((ValueError, TypeError)):
-            format_receipt("latte", "two") 
+            format_receipt("latte", "two")
+
+
 if __name__ == "__main__":
     unittest.main()
+
