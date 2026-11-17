@@ -1,0 +1,23 @@
+test_average_price (test_coffee.CalculateOrderTotalTest.test_average_price) ... ok
+test_invalid_args (test_coffee.CalculateOrderTotalTest.test_invalid_args) ... ok
+test_normal (test_coffee.CalculateOrderTotalTest.test_normal) ... ok
+test_zeros (test_coffee.CalculateOrderTotalTest.test_zeros) ... ok
+test_exact_text (test_coffee.FormatReceiptTest.test_exact_text) ... ok
+test_invalid_args (test_coffee.FormatReceiptTest.test_invalid_args) ... ok
+test_regex_format (test_coffee.FormatReceiptTest.test_regex_format) ... ok
+test_zero_quantity (test_coffee.FormatReceiptTest.test_zero_quantity) ... ok
+test_has_required_classes (test_coffee.GenerateWifiPasswordTest.test_has_required_classes) ... ok
+test_invalid_length (test_coffee.GenerateWifiPasswordTest.test_invalid_length) ... ok
+test_length (test_coffee.GenerateWifiPasswordTest.test_length) ... ok
+test_only_latin_and_digits (test_coffee.GenerateWifiPasswordTest.test_only_latin_and_digits) ... ok
+test_passwords_differ (test_coffee.GenerateWifiPasswordTest.test_passwords_differ) ... ok
+test_price_is_max (test_coffee.GetMostExpensiveDrinkTest.test_price_is_max) ... ok
+test_returns_latte (test_coffee.GetMostExpensiveDrinkTest.test_returns_latte) ... ok
+test_all_menu_items (test_coffee.GetPriceTest.test_all_menu_items) ... ok
+test_invalid_names (test_coffee.GetPriceTest.test_invalid_names) ... ok
+test_price_positive (test_coffee.GetPriceTest.test_price_positive) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.001s
+
+OK

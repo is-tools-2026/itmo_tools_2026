@@ -1,0 +1,273 @@
+test_average_price (test_coffee.CalculateOrderTotalTest.test_average_price) ... ok
+test_invalid_args (test_coffee.CalculateOrderTotalTest.test_invalid_args) ... 
+  test_invalid_args (test_coffee.CalculateOrderTotalTest.test_invalid_args) (quantity=-1, price=280) ... FAIL
+  test_invalid_args (test_coffee.CalculateOrderTotalTest.test_invalid_args) (quantity=2, price=-280) ... FAIL
+  test_invalid_args (test_coffee.CalculateOrderTotalTest.test_invalid_args) (quantity='latte', price=5) ... FAIL
+  test_invalid_args (test_coffee.CalculateOrderTotalTest.test_invalid_args) (quantity=5, price='280') ... FAIL
+  test_invalid_args (test_coffee.CalculateOrderTotalTest.test_invalid_args) (quantity=None, price=280) ... ERROR
+  test_invalid_args (test_coffee.CalculateOrderTotalTest.test_invalid_args) (quantity=2, price=None) ... ERROR
+  test_invalid_args (test_coffee.CalculateOrderTotalTest.test_invalid_args) (quantity=1.5, price=280) ... FAIL
+  test_invalid_args (test_coffee.CalculateOrderTotalTest.test_invalid_args) (quantity=True, price=280) ... FAIL
+test_normal (test_coffee.CalculateOrderTotalTest.test_normal) ... ok
+test_zeros (test_coffee.CalculateOrderTotalTest.test_zeros) ... ok
+test_exact_text (test_coffee.FormatReceiptTest.test_exact_text) ... FAIL
+test_invalid_args (test_coffee.FormatReceiptTest.test_invalid_args) ... 
+  test_invalid_args (test_coffee.FormatReceiptTest.test_invalid_args) (name=['latte'], quantity=1) ... ERROR
+  test_invalid_args (test_coffee.FormatReceiptTest.test_invalid_args) (name='latte', quantity='2') ... ERROR
+  test_invalid_args (test_coffee.FormatReceiptTest.test_invalid_args) (name='latte', quantity=None) ... ERROR
+  test_invalid_args (test_coffee.FormatReceiptTest.test_invalid_args) (name='latte', quantity=1.5) ... FAIL
+test_regex_format (test_coffee.FormatReceiptTest.test_regex_format) ... FAIL
+test_zero_quantity (test_coffee.FormatReceiptTest.test_zero_quantity) ... ok
+test_has_required_classes (test_coffee.GenerateWifiPasswordTest.test_has_required_classes) ... ok
+test_invalid_length (test_coffee.GenerateWifiPasswordTest.test_invalid_length) ... 
+  test_invalid_length (test_coffee.GenerateWifiPasswordTest.test_invalid_length) (length='8') ... ERROR
+  test_invalid_length (test_coffee.GenerateWifiPasswordTest.test_invalid_length) (length=None) ... ERROR
+  test_invalid_length (test_coffee.GenerateWifiPasswordTest.test_invalid_length) (length=8.5) ... ERROR
+test_length (test_coffee.GenerateWifiPasswordTest.test_length) ... ok
+test_only_latin_and_digits (test_coffee.GenerateWifiPasswordTest.test_only_latin_and_digits) ... ok
+test_passwords_differ (test_coffee.GenerateWifiPasswordTest.test_passwords_differ) ... ok
+test_price_is_max (test_coffee.GetMostExpensiveDrinkTest.test_price_is_max) ... FAIL
+test_returns_latte (test_coffee.GetMostExpensiveDrinkTest.test_returns_latte) ... FAIL
+test_all_menu_items (test_coffee.GetPriceTest.test_all_menu_items) ... ok
+test_invalid_names (test_coffee.GetPriceTest.test_invalid_names) ... 
+  test_invalid_names (test_coffee.GetPriceTest.test_invalid_names) (name=['latte']) ... ERROR
+test_price_positive (test_coffee.GetPriceTest.test_price_positive) ... ok
+
+======================================================================
+ERROR: test_invalid_args (test_coffee.CalculateOrderTotalTest.test_invalid_args) (quantity=None, price=280)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/test_coffee.py", line 49, in test_invalid_args
+    calculate_order_total(quantity, price)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/coffee.py", line 77, in calculate_order_total
+    return quantity * price
+           ~~~~~~~~~^~~~~~~
+TypeError: unsupported operand type(s) for *: 'NoneType' and 'int'
+
+======================================================================
+ERROR: test_invalid_args (test_coffee.CalculateOrderTotalTest.test_invalid_args) (quantity=2, price=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/test_coffee.py", line 49, in test_invalid_args
+    calculate_order_total(quantity, price)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/coffee.py", line 77, in calculate_order_total
+    return quantity * price
+           ~~~~~~~~~^~~~~~~
+TypeError: unsupported operand type(s) for *: 'int' and 'NoneType'
+
+======================================================================
+ERROR: test_invalid_args (test_coffee.FormatReceiptTest.test_invalid_args) (name=['latte'], quantity=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/test_coffee.py", line 108, in test_invalid_args
+    format_receipt(name, quantity)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/coffee.py", line 151, in format_receipt
+    if drink_name not in MENU:
+       ^^^^^^^^^^^^^^^^^^^^^^
+TypeError: cannot use 'list' as a dict key (unhashable type: 'list')
+
+======================================================================
+ERROR: test_invalid_args (test_coffee.FormatReceiptTest.test_invalid_args) (name='latte', quantity='2')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/test_coffee.py", line 108, in test_invalid_args
+    format_receipt(name, quantity)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/coffee.py", line 153, in format_receipt
+    if quantity < 0:
+       ^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'str' and 'int'
+
+======================================================================
+ERROR: test_invalid_args (test_coffee.FormatReceiptTest.test_invalid_args) (name='latte', quantity=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/test_coffee.py", line 108, in test_invalid_args
+    format_receipt(name, quantity)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/coffee.py", line 153, in format_receipt
+    if quantity < 0:
+       ^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'NoneType' and 'int'
+
+======================================================================
+ERROR: test_invalid_length (test_coffee.GenerateWifiPasswordTest.test_invalid_length) (length='8')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/test_coffee.py", line 85, in test_invalid_length
+    generate_wifi_password(bad)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/coffee.py", line 112, in generate_wifi_password
+    if length < 8:
+       ^^^^^^^^^^
+TypeError: '<' not supported between instances of 'str' and 'int'
+
+======================================================================
+ERROR: test_invalid_length (test_coffee.GenerateWifiPasswordTest.test_invalid_length) (length=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/test_coffee.py", line 85, in test_invalid_length
+    generate_wifi_password(bad)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/coffee.py", line 112, in generate_wifi_password
+    if length < 8:
+       ^^^^^^^^^^
+TypeError: '<' not supported between instances of 'NoneType' and 'int'
+
+======================================================================
+ERROR: test_invalid_length (test_coffee.GenerateWifiPasswordTest.test_invalid_length) (length=8.5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/test_coffee.py", line 85, in test_invalid_length
+    generate_wifi_password(bad)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/coffee.py", line 120, in generate_wifi_password
+    remaining = ''.join(random.choice(all_chars) for _ in range(length - 3))
+                                                          ~~~~~^^^^^^^^^^^^
+TypeError: 'float' object cannot be interpreted as an integer
+
+======================================================================
+ERROR: test_invalid_names (test_coffee.GetPriceTest.test_invalid_names) (name=['latte'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/test_coffee.py", line 29, in test_invalid_names
+    get_price(bad)
+    ~~~~~~~~~^^^^^
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/coffee.py", line 58, in get_price
+    if drink_name not in MENU:
+       ^^^^^^^^^^^^^^^^^^^^^^
+TypeError: cannot use 'list' as a dict key (unhashable type: 'list')
+
+======================================================================
+FAIL: test_invalid_args (test_coffee.CalculateOrderTotalTest.test_invalid_args) (quantity=-1, price=280)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/test_coffee.py", line 48, in test_invalid_args
+    with self.assertRaises(ValueError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_invalid_args (test_coffee.CalculateOrderTotalTest.test_invalid_args) (quantity=2, price=-280)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/test_coffee.py", line 48, in test_invalid_args
+    with self.assertRaises(ValueError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_invalid_args (test_coffee.CalculateOrderTotalTest.test_invalid_args) (quantity='latte', price=5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/test_coffee.py", line 48, in test_invalid_args
+    with self.assertRaises(ValueError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_invalid_args (test_coffee.CalculateOrderTotalTest.test_invalid_args) (quantity=5, price='280')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/test_coffee.py", line 48, in test_invalid_args
+    with self.assertRaises(ValueError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_invalid_args (test_coffee.CalculateOrderTotalTest.test_invalid_args) (quantity=1.5, price=280)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/test_coffee.py", line 48, in test_invalid_args
+    with self.assertRaises(ValueError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_invalid_args (test_coffee.CalculateOrderTotalTest.test_invalid_args) (quantity=True, price=280)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/test_coffee.py", line 48, in test_invalid_args
+    with self.assertRaises(ValueError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_exact_text (test_coffee.FormatReceiptTest.test_exact_text)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/test_coffee.py", line 92, in test_exact_text
+    self.assertEqual(format_receipt("latte", 2).strip(), expected)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '---Чек Coffee---\nНапиток: latte\nКоличество: 2\nИтого: 560 руб.' != 'Чек CampusCoffee\nНапиток: latte\nКоличество: 2\nИтого: 560 руб.'
+- ---Чек Coffee---
++ Чек CampusCoffee
+  Напиток: latte
+  Количество: 2
+  Итого: 560 руб.
+
+
+======================================================================
+FAIL: test_invalid_args (test_coffee.FormatReceiptTest.test_invalid_args) (name='latte', quantity=1.5)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/test_coffee.py", line 107, in test_invalid_args
+    with self.assertRaises(ValueError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_regex_format (test_coffee.FormatReceiptTest.test_regex_format)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/test_coffee.py", line 97, in test_regex_format
+    self.assertRegex(format_receipt("espresso", 3), pattern)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Regex didn't match: 'Чек CampusCoffee\\s+Напиток: espresso\\s+Количество: 3\\s+Итого: 450 руб\\.' not found in '\n---Чек Coffee---\nНапиток: espresso\nКоличество: 3\nИтого: 450 руб.\n'
+
+======================================================================
+FAIL: test_price_is_max (test_coffee.GetMostExpensiveDrinkTest.test_price_is_max)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/test_coffee.py", line 57, in test_price_is_max
+    self.assertTrue(get_most_expensive_drink()[1] == max(MENU.values()))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_returns_latte (test_coffee.GetMostExpensiveDrinkTest.test_returns_latte)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/vlad/PycharmProjects/ISRPO__1/itmo_tools_2026/Coffee/test_coffee.py", line 54, in test_returns_latte
+    self.assertEqual(get_most_expensive_drink(), ("latte", 280))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: ('tea', 120) != ('latte', 280)
+
+First differing element 0:
+'tea'
+'latte'
+
+- ('tea', 120)
+?     -   -
+
++ ('latte', 280)
+?   +++      +
+
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (failures=11, errors=9)
+280
+lattelattelattelattelatte
+('tea', 120)
+TdY4FWHd
+
+---Чек Coffee---
+Напиток: latte
+Количество: 1
+Итого: 280 руб.
+
