@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+=======
+"""
+Unit-тесты для модуля вузовской кофейни «CampusCoffee».
+"""
+>>>>>>> 3bcf942d47ba8d29494a77c899dfc8b711129530
 
 import unittest
 
@@ -7,11 +13,18 @@ from coffee import (
     get_most_expensive_drink,
     generate_wifi_password,
     format_receipt
+<<<<<<< HEAD
 )
 
 
 class GetPriceTestCase(unittest.TestCase):
 
+=======
+)   
+
+# Пример
+class GetPriceTestCase(unittest.TestCase):
+>>>>>>> 3bcf942d47ba8d29494a77c899dfc8b711129530
     def test_espresso_price(self):
         self.assertEqual(get_price("espresso"), 150)
 
@@ -26,6 +39,7 @@ class GetPriceTestCase(unittest.TestCase):
         with self.assertRaises(ValueError):
             get_price("")
 
+<<<<<<< HEAD
     def test_wrong_type(self):
         with self.assertRaises(ValueError):
             get_price(5)
@@ -125,3 +139,11 @@ class FormatReceiptTestCase(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+=======
+    def test_empty_name(self):
+       with self.assertRaises(ValueError):
+           get_price(5)
+
+if __name__ == "__main__":
+    unittest.main()
+>>>>>>> 3bcf942d47ba8d29494a77c899dfc8b711129530
