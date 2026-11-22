@@ -74,6 +74,10 @@ def calculate_order_total(quantity, price):
     Returns:
         int: итоговая стоимость
     """
+    if not isinstance(quantity, (int, float)) or not isinstance(price, (int, float)):
+        raise ValueError("Количество и цена должны быть числами")
+    if quantity < 0 or price < 0:
+        raise ValueError("Количество и цена не могут быть отрицательными")
     return quantity * price
 
 # ============================================================
@@ -87,7 +91,7 @@ def get_most_expensive_drink():
     Returns:
         tuple: (название, цена)
     """
-    name = min(MENU, key=MENU.get)
+    name = max(MENU, key=MENU.get)
     return name, MENU[name]
 
 # ============================================================
@@ -109,6 +113,8 @@ def generate_wifi_password(length=8):
         string: пароль от wifi
 
     """
+    if not isinstance(length, int): 
+        raise ValueError("Длина должна быть целым числом")
     if length < 8:
         raise ValueError("Длина пароля должна быть не меньше 8 символов")
 
@@ -146,6 +152,8 @@ def format_receipt(drink_name, quantity):
     Returns:
         str: текст чека
     """
+    if not isinstance(quantity, int): 
+        raise ValueError("Количество должно быть целым числом")
     if not drink_name:
         raise ValueError("Название напитка не может быть пустым")
     if drink_name not in MENU:
@@ -162,8 +170,8 @@ def format_receipt(drink_name, quantity):
         f"Итого: {total} руб.\n"
     ) # Подсказка: для теста подойдет регулярное выражение
 
-print(get_price('latte'))
-print(calculate_order_total('latte', 5))
-print(get_most_expensive_drink())
-print(generate_wifi_password(8))
-print(format_receipt('latte', 1))
+# print(get_price('latte'))
+# print(calculate_order_total('latte', 5))
+# print(get_most_expensive_drink())
+# print(generate_wifi_password(8))
+# print(format_receipt('latte', 1))
