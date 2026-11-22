@@ -1,0 +1,23 @@
+name: cofeeshop tests
+on: push
+
+jobs:
+    test:
+        strategy:
+            matrix:
+                os: [ubuntu-latest, windows-latest]
+        runs-on: ${{ matrix.os }}
+
+        steps:
+        - name: get project files
+          uses: actions/checkout@v7
+        
+        - name: configure Python
+          uses: actions/setup-python@v7
+          with:
+            python-version: "3.13"
+
+        - name: run cofeeshop tests
+          working-directory : Coffee
+
+          run: python -X utf8 -m unittest -v test_coffe.py
