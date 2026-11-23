@@ -4,6 +4,10 @@ name: Lab 5 - CI/CD Tests
 on:
   push:
 
+env:
+  PYTHONIOENCODING: "utf-8"
+  PYTHONUTF8: "1"
+
 jobs:
   tests:
     name: Tests on ${{ matrix.os }}
@@ -71,6 +75,7 @@ jobs:
             Push-Location "testing/bruno/coffee-api"
             try {
               bru run
+
               if ($LASTEXITCODE -ne 0) {
                 throw "Bruno tests failed"
               }
