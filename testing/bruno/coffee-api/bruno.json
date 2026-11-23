@@ -1,0 +1,25 @@
+{
+  "name": "Coffee API",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ],
+  "size": 0.000804901123046875,
+  "filesCount": 1,
+  "proxy": {
+    "inherit": false,
+    "config": {
+      "protocol": "http",
+      "hostname": "",
+      "port": "",
+      "auth": {
+        "username": "",
+        "password": ""
+      },
+      "bypassProxy": ""
+    },
+    "disabled": true
+  },
+  "version": "1"
+}

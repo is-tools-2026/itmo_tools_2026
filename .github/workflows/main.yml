@@ -1,0 +1,85 @@
+
+name: Lab 5 - CI/CD Tests
+
+on:
+  push:
+
+jobs:
+  tests:
+    name: Tests on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Python dependencies
+        run: python -m pip install -r testing/requirements.txt
+
+      - name: Install Bruno CLI
+        run: npm install -g @usebruno/cli
+
+      - name: Run API unit tests
+        run: python -m unittest discover -s testing -p "test*.py" -v
+
+      - name: Start API and run Bruno tests
+        shell: pwsh
+        run: |
+          $server = Start-Process -FilePath python `
+            -ArgumentList "testing/server.py" `
+            -PassThru -NoNewWindow
+
+          try {
+            $ready = $false
+
+            for ($i = 0; $i -lt 30; $i++) {
+              try {
+                $response = Invoke-WebRequest `
+                  -Uri "http://127.0.0.1:5055/api/most-expensive" `
+                  -UseBasicParsing `
+                  -TimeoutSec 2
+
+                if ($response.StatusCode -eq 200) {
+                  $ready = $true
+                  break
+                }
+              }
+              catch {
+                Start-Sleep -Seconds 1
+              }
+            }
+
+            if (-not $ready) {
+              throw "API server failed to start"
+            }
+
+            Push-Location "testing/bruno/coffee-api"
+            try {
+              bru run
+              if ($LASTEXITCODE -ne 0) {
+                throw "Bruno tests failed"
+              }
+            }
+            finally {
+              Pop-Location
+            }
+          }
+          finally {
+            Stop-Process -Id $server.Id -Force `
+              -ErrorAction SilentlyContinue
+          }

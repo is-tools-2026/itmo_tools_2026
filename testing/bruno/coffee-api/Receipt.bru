@@ -1,0 +1,45 @@
+
+meta {
+  name: Receipt
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://127.0.0.1:5055/api/receipt
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "drink_name": "latte",
+    "quantity": 2
+  }
+}
+
+tests {
+  test("Status code is 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("Response contains receipt", function () {
+    expect(res.getBody()).to.have.property("receipt");
+  });
+
+  test("Receipt is a string", function () {
+    expect(res.getBody().receipt).to.be.a("string");
+  });
+
+  test("Receipt contains drink name", function () {
+    expect(res.getBody().receipt).to.include("latte");
+  });
+
+  test("Receipt contains quantity", function () {
+    expect(res.getBody().receipt).to.include("Количество: 2");
+  });
+
+  test("Receipt contains correct total", function () {
+    expect(res.getBody().receipt).to.include("Итого: 560 руб.");
+  });
+}
