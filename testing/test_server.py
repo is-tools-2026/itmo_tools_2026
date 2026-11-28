@@ -16,10 +16,9 @@ import sys
 import unittest
 from pathlib import Path
 
-# Добавляем папку testing в sys.path, чтобы импортировать server.py
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from server import app  # noqa: E402
+from server import app
 
 
 class OrderTotalTestCase(unittest.TestCase):
@@ -67,6 +66,23 @@ class OrderTotalTestCase(unittest.TestCase):
     def test_order_total_empty_body(self):
         """Пустое тело запроса -> 400."""
         response = self.client.post("/api/order-total", json={})
+        self.assertEqual(response.status_code, 400)
+
+    def test_order_total_negative_quantity(self):
+        """Отрицательное количество -> 400, а не 500."""
+        response = self.client.post(
+            "/api/order-total",
+            json={"quantity": -3, "price": 280},
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("error", response.get_json())
+
+    def test_order_total_zero_price(self):
+        """Нулевая цена -> 400."""
+        response = self.client.post(
+            "/api/order-total",
+            json={"quantity": 3, "price": 0},
+        )
         self.assertEqual(response.status_code, 400)
 
 
