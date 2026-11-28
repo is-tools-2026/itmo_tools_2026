@@ -54,7 +54,10 @@ def order_total():
     except (KeyError, TypeError, ValueError):
         return jsonify({"error": "quantity и price должны быть числами"}), 400
 
-    total = calculate_order_total(quantity, price)
+    try:
+        total = calculate_order_total(quantity, price)
+    except (TypeError, ValueError) as exc:
+        return jsonify({"error": str(exc)}), 400
     return jsonify({"quantity": quantity, "price": price, "total": total})
 
 
